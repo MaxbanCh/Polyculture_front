@@ -213,6 +213,8 @@ router.get("/", (ctx) => {
     }
   };
 
+  ws.buzzer
+
   ws.onclose = () => {
     const index = connections.indexOf(ws);
     if (index !== -1) {
@@ -221,8 +223,6 @@ router.get("/", (ctx) => {
     console.log(`- websocket disconnected (${connections.length})`);
   };
 });
-
-
 
 
 app.use(async (ctx, next) => {

@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import Header from './Header.vue'
-import Question from './Game/Question.vue'
+//import Question from './Game/Question.vue'
+import ws from '../utils/websocket.ts'
 import Buzzer from './Game/Buzzer/Buzzer.vue'
-import Login from './Connexion/Login.vue'
-
-const ws = new WebSocket(`ws://localhost:3000`);
 
 ws.onopen = function(event) {
     console.log('WebSocket connection established.');
@@ -12,8 +9,8 @@ ws.onopen = function(event) {
 </script>
 
 <template>
-  <Header />
-  <Question />
+  <h1>PolyCulture</h1>
+  
   <buzzer />
 </template>
 

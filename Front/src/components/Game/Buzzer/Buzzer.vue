@@ -1,10 +1,15 @@
 <script setup lang="ts">
-console.log("Hello !")
-
-defineProps<{ ques : JSON }>()
+import ws from '../../../utils/websocket.ts'
 
 function pressBuzzer(){
-    console.log("oui");
+    console.log("Buzz");
+    ws.send(JSON.stringify({
+        type: "buzz",
+        data: {
+            id: 1,
+            name: "Buzzer"
+        }
+    }));
     return;
 }
 

@@ -6,9 +6,9 @@ import Login from './Connexion/Login.vue'
     <header>
         <nav>
             <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Une question</a></li>
-                <li><a href="">Login</a></li>
+                <li><RouterLink to="/">Accueil</RouterLink></li>
+                <li><a href="#">Une question surprise !</a></li>
+                <li><RouterLink to="/login">Login</RouterLink></li>
             </ul>
         </nav>
     </header>
