@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ws from '../../../utils/websocket.ts'
+
 console.log("Hello from Login!")
 
 async function login() {
@@ -21,7 +23,7 @@ async function login() {
 
             console.log(data);
             localStorage.setItem('auth_token', data.auth_token);
-            window.location.href = '/chat/index.html'
+            window.location.href = '/'
         }
         // throw new Error("Network response was not ok.");
         else {
@@ -45,5 +47,5 @@ async function login() {
     Password:
     <input type="password" name="Password" id="password">
 
-    <button id="login" onclick="login()">Login</button>
+    <button id="login" @click="login()">Login</button>
 </template>

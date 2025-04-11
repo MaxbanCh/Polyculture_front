@@ -9,7 +9,7 @@ const app = new Application();
 
 app.use(
   oakCors({
-    origin: "*", // Allow requests from this origin
+    origin: "http://localhost:5173", // Allow requests from this origin
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Specify allowed methods
     allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
     credentials: true, // Allow credentials like cookies
@@ -18,7 +18,7 @@ app.use(
 
 
 app.use(async (ctx, next) => {
-  ctx.response.headers.set("Access-Control-Allow-Origin", "*");
+  ctx.response.headers.set("Access-Control-Allow-Origin", "http://localhost:5173");
   ctx.response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   ctx.response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
   ctx.response.headers.set("Access-Control-Allow-Credentials", "true");
@@ -138,6 +138,7 @@ const users = [
   { id: '4', username: 'Bugs_Bunny', password_hash: await get_hash('Bugs_Bunny'), last_action_date: 0 },
   { id: '5', username: 'Batman', password_hash: await get_hash('Batman'), last_action_date: 0 },
   { id: '6', username: 'Dorothy_Gale', password_hash: await get_hash('Dorothy_Gale'), last_action_date: 0 },
+  { id: '0', username: 'Maxban ', password_hash: await get_hash('Maxban'), last_action_date: 0 },
 ];
 
 
