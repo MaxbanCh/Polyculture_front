@@ -174,46 +174,21 @@ router.get("/", (ctx) => {
 
   ws.onmessage = async (event) => {
     const data = JSON.parse(event.data);
+    console.log(data);
+    console.log(data.type)
 
-    if (!("auth_token" in data && await is_authorized(data.auth_token))) {
-      ws.send(JSON.stringify({ go_to_login: true }));
-      return;
-    }
-    const owner = tokens[data.auth_token];
-    const user = users.find((u) => u.username === owner);
 
-    console.log(user)
-
-    if (!user) {
-      console.log("? user in token doesn't exist");
-      ws.close();
-      return;
-    }
-
-    if ("message" in data) {
-      const msg = data.message
-      console.log(`- message received: ${msg}`);
-      if (msg.length > 255) {
-          ws.send(JSON.stringify({ to_long: 255 }));
-          return
-      }
-      if (msg.length == 0) {
-          return
-      }
-      notifyAllUsers({ message: msg, owner: user.username});
-      return
-    }
-
-    if ("answer" in data) {
-        return
-    }
-
-    if ("question" in data) {
+    if (data.type == "buzz") {
+        // if (user.last_action_date + 1000 > Date.now()) {
+        //     ws.send(JSON.stringify({ too_early: true }));
+        //     return
+        // }
+        console.log(`- buzzer pressed by ${data.data.name}`);
+        // user.last_action_date = Date.now();
+        notifyAllUsers({ type: "buzz", owner: data.data.name });
         return
     }
   };
-
-  ws.buzzer
 
   ws.onclose = () => {
     const index = connections.indexOf(ws);
