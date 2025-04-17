@@ -1,13 +1,15 @@
 <script setup lang="ts">
 console.log("Hello !")
 import TextAns from './TextAns.vue';
+import ChoiceAns from './ChoiceAns.vue';
+import ws from '../../utils/websocket.ts'
 
-defineProps<{ ques : JSON }>()
 
 </script>
 
 <template>
     <h2> - Theme - </h2>
     <h1> - Question - </h1>
-    <TextAns />
+
+    <div id="answer"></div>
 </template>

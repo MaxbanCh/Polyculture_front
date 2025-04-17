@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import ws from '../../../utils/websocket.ts'
-
+import ws from '../../utils/websocket.ts'
 console.log("Hello from Login!")
+
+import { useRouter } from 'vue-router'; // Importer useRouter
+const router = useRouter(); // Initialiser le routeur
+
 
 async function login() {
     let username = document.getElementById("username").value;
@@ -23,11 +26,11 @@ async function login() {
 
             console.log(data);
             localStorage.setItem('auth_token', data.auth_token);
-            window.location.href = '/'
+            router.push("/");
         }
         // throw new Error("Network response was not ok.");
         else {
-            console.log("Login failed");
+            
         }
     })
     .then((data) => {

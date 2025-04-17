@@ -138,7 +138,7 @@ const users = [
   { id: '4', username: 'Bugs_Bunny', password_hash: await get_hash('Bugs_Bunny'), last_action_date: 0 },
   { id: '5', username: 'Batman', password_hash: await get_hash('Batman'), last_action_date: 0 },
   { id: '6', username: 'Dorothy_Gale', password_hash: await get_hash('Dorothy_Gale'), last_action_date: 0 },
-  { id: '0', username: 'Maxban ', password_hash: await get_hash('Maxban'), last_action_date: 0 },
+  { id: '0', username: 'Maxban', password_hash: await get_hash('Maxban'), last_action_date: 0 },
 ];
 
 
