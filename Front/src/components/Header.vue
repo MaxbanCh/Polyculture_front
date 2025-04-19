@@ -27,7 +27,7 @@ function logout() {
         <li><RouterLink to="/Defi">Defi</RouterLink></li>
         <li v-if="isLoggedIn">
           <RouterLink to="/profile">Profil</RouterLink>
-          <button @click="logout">Déconnexion</button>
+          <!-- <button @click="logout">Déconnexion</button> -->
         </li>
         <li v-else>
           <RouterLink to="/login">Login</RouterLink>

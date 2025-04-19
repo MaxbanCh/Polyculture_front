@@ -26,7 +26,9 @@ async function login() {
 
             console.log(data);
             localStorage.setItem('auth_token', data.auth_token);
-            router.push("/");
+
+            window.location.href = '/'; // Rediriger vers la page d'accueil
+            // router.push('/'); // Utiliser le routeur pour rediriger vers la page d'accueil
         }
         // throw new Error("Network response was not ok.");
         else {

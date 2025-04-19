@@ -2,6 +2,7 @@ import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { create, verify } from "https://deno.land/x/djwt/mod.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
+import { Client } from "https://deno.land/x/postgres/mod.ts";
 
 
 const router = new Router();
@@ -25,6 +26,26 @@ app.use(async (ctx, next) => {
   await next();
 });
 
+
+
+const client = new Client({
+  user: "postgres",
+  database: "postgres",
+  hostname: "localhost",
+  port: 5432,
+  password: "admin", // Ajoutez votre mot de passe ici
+});
+
+await client.connect();
+
+try {
+  const result = await client.queryArray(`SELECT * FROM votre_table`);
+  console.log(result.rows);
+} catch (err) {
+  console.error("Erreur lors de l'exécution de la requête", err);
+} finally {
+  await client.end();
+}
 
 
 // WebSockets -----
@@ -155,6 +176,15 @@ function notifyAllUsers(json: any) {
   });
 }
 
+function questionThemed(data : any) {
+  
+}
+
+
+function challengeSolo(data : any) {
+  
+}
+
 router.get("/", (ctx) => {
   if (!ctx.isUpgradable) {
     ctx.throw(501);
@@ -172,7 +202,6 @@ router.get("/", (ctx) => {
     console.log(`- websocket error`);
   };
 
-
   ws.onmessage = async (event) => {
     const data = JSON.parse(event.data);
     console.log(data);
@@ -187,6 +216,18 @@ router.get("/", (ctx) => {
         console.log(`- buzzer pressed by ${data.data.name}`);
         // user.last_action_date = Date.now();
         notifyAllUsers({ type: "buzz", owner: data.data.name });
+        return
+    }
+
+    if (data.type == "question") {
+        console.log(`- question asked by ${data.data.name}`);
+        notifyAllUsers({ type: "question", owner: data.data.name, question: data.data.question });
+        return
+    }
+
+    if (data.type == "answer") {
+        console.log(`- answer sent by ${data.data.name}`);
+        notifyAllUsers({ type: "answer", owner: data.data.name, answer: data.data.answer });
         return
     }
   };
