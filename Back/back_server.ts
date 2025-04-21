@@ -5,6 +5,16 @@ import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 import { Client } from "https://deno.land/x/postgres/mod.ts";
 
 
+let questions: any[] = [];
+try {
+  const data = await Deno.readTextFile("./questions_with_ids.json");
+  questions = JSON.parse(data);
+  console.log("Questions loaded successfully!");
+} catch (error) {
+  console.error("Error loading questions:", error);
+}
+
+
 const router = new Router();
 const app = new Application();
 
@@ -177,11 +187,35 @@ function notifyAllUsers(json: any) {
 
 ////////////////////// Functions for the game ///////////////////////
 router.get("/question", (ctx) => {
-  const body = ctx.request.body().value;
-  console.log(body);
+  const theme = ctx.request.url.searchParams.get("theme");
 
+  // Filtrer les questions par thème si un thème est fourni
+  let filteredQuestions = questions;
+  if (theme) {
+    filteredQuestions = questions.filter((q) =>
+      q.theme.toLowerCase().includes(theme.toLowerCase())
+    );
+  }
+
+  // Si aucune question ne correspond, retourner une erreur
+  if (filteredQuestions.length === 0) {
+    ctx.response.status = 404;
+    ctx.response.body = { error: "No questions found for the given theme." };
+    return;
+  }
+
+  // Sélectionner une question aléatoire
+  const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
+
+  // Retourner la question
   ctx.response.status = 200;
-  ctx.response.body = "Miam les cookies !";
+  ctx.response.body = {
+    id: question.id,
+    question: question.question,
+    theme: question.theme,
+    subtheme: question.subtheme,
+    type: question.type,
+  };
 });
 
 
