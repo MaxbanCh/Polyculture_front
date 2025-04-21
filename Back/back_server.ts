@@ -15,6 +15,14 @@ try {
 }
 
 
+
+let themes: String[] = [];
+questions.forEach((question) => {
+  if (question.theme && !themes.includes(question.theme)) {
+    themes.push(question.theme);
+  }
+});
+
 const router = new Router();
 const app = new Application();
 
@@ -169,13 +177,6 @@ const users = [
   { id: '6', username: 'Dorothy_Gale', password_hash: await get_hash('Dorothy_Gale'), last_action_date: 0 },
   { id: '0', username: 'Maxban', password_hash: await get_hash('Maxban'), last_action_date: 0 },
 ];
-
-
-const questions = [
-    { id: '1', question: 'Combien de planetes dans le systeme solaire ?', answer: '8' },
-    { id: '2', question: 'Dans la mythologie grecque, quel est le dieu associe au vin ?', answer: 'Dionysos' },
-    { id: '3', question: 'Combien y a-t-il de pays membre de l Union Européenne ?', answer: '27' },
-]
 ///////////////////////////////////////////////////////
 
 function notifyAllUsers(json: any) {
@@ -186,6 +187,13 @@ function notifyAllUsers(json: any) {
 
 
 ////////////////////// Functions for the game ///////////////////////
+router.get("/themes", (ctx) => {
+  ctx.response.status = 200;
+  ctx.response.body = {
+    themes,
+  };
+});
+
 router.get("/question", (ctx) => {
   const theme = ctx.request.url.searchParams.get("theme");
 

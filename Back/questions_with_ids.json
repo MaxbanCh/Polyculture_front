@@ -226,7 +226,7 @@
     {
         "question": "Quel était l'ancien nom de Tik Tok ?",
         "answer": "Musical.ly",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "0834f97d-f8d2-49e5-a2e0-1a1260d4bb69",
 "type": "text"
@@ -234,7 +234,7 @@
     {
         "question": "Qui est l'auteur de la citation \"On ne naît pas femme on le devient\" ?",
         "answer": "Simone de Beauvoir",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "cf8a0102-2e64-45f3-876c-b5c3e237e059",
 "type": "text"
@@ -386,7 +386,7 @@
     {
         "question": "Quel est le nom de l'actuel premier ministre ?",
         "answer": "Dépendant de la situation",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "212640bd-b914-497a-823f-80e4f01c02f2",
 "type": "text"
@@ -394,7 +394,7 @@
     {
         "question": "Qui est le fondateur d'Apple ?",
         "answer": "Steve Jobs",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "ebc90273-f6c5-4e11-9073-dfde16252f56",
 "type": "text"
@@ -402,7 +402,7 @@
     {
         "question": "Que signifie l'acronyme GAFAM ?",
         "answer": "Google, Apple, Facebook, Amazon, Microsoft",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "85a88599-e0cf-4b4f-851f-b850f4b34432",
 "type": "text"
@@ -410,7 +410,7 @@
     {
         "question": "En quelle année la monnaie Euro est-elle mise en circulation ?",
         "answer": "2002",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "8b62a15c-d296-44e3-b862-385157f2bade",
 "type": "text"
@@ -418,7 +418,7 @@
     {
         "question": "Donner 2 musiques interprétée par Britney Spears",
         "answer": "Toxic, Baby One More Time, Womanizer, Circus, etc...",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "a3f31668-ea15-4abb-acdf-3ed70e7b3392",
 "type": "text"
@@ -434,7 +434,7 @@
     {
         "question": "Quel était l'ancien nom de la ville de Paris ?",
         "answer": "Lutèce",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "17c4adf0-17bb-4e9c-8c72-a7094289ced9",
 "type": "text"
@@ -450,7 +450,7 @@
     {
         "question": "En japonais que veut dire Konnichiwa ?",
         "answer": "Bonjour",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "63c9e59d-a4ee-4019-a041-344136f9664d",
 "type": "text"
@@ -458,7 +458,7 @@
     {
         "question": "Dans quel château peut-on visiter la Galerie des Glaces ?",
         "answer": "Château de Versailles",
-        "theme": " ",
+        "theme": "",
         "subtheme": " ",
         "id": "ea9f9dc4-f262-42f6-a3f9-82cb210f2381",
 "type": "text"
@@ -482,7 +482,7 @@
     {
         "question": "Citer un présentateur de Question Pour Un Champion.",
         "answer": "Samuel Etienne, Julien Lepers",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "46823203-d7f7-4c7f-b256-857bea9265c4",
 "type": "text"
@@ -490,7 +490,7 @@
     {
         "question": "Citer 3 musiques de France Gall.",
         "answer": "Ella, elle l'a, Résiste, Poupée de cire, poupée de son, etc...",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "0c13f957-639e-4269-9e47-11777baa5c4a",
 "type": "text"
@@ -498,7 +498,7 @@
     {
         "question": "Quelle est la principauté située entre le Sud Est de la France et l'Italie ?",
         "answer": "Monaco",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "8925bd4d-cb9f-4791-bccd-f1c65d04231c",
 "type": "text"
@@ -506,7 +506,7 @@
     {
         "question": "Citer deux catégories de produits dont il est interdit de faire la publicité en France. \\\\",
         "answer": "Tabac, Alcool, Drogue, etc...",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "54d55943-fa93-42e4-8163-d5e2c06d7398",
 "type": "text"
@@ -514,7 +514,7 @@
     {
         "question": "De quelle famille d'instruments fait partie le piano ?",
         "answer": "Cordes",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "63592efd-807a-4e7c-8e79-97cf8914a18c",
 "type": "text"
@@ -522,7 +522,7 @@
     {
         "question": "Quel est le premier groupe d'opposition à l'Assemblée nationale ?",
         "answer": "Groupe Rassemblement National",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "a1710ac5-8189-4b08-8319-3c58169ef9f2",
 "type": "text"
@@ -880,7 +880,7 @@
 "type": "text"
     },
     {
-        "question": "Citer 3 départements d'outre-mer français.\\\\",
+        "question": "Citer 3 départements d'outre-mer français.",
         "answer": "Guadeloupe, Martinique, Guyane, Réunion, Mayotte, etc...",
         "theme": " ",
         "subtheme": " ",
@@ -888,9 +888,9 @@
 "type": "text"
     },
     {
-        "question": "Dans la mythologie grecque, qui est Hermès ? \\\\",
+        "question": "Dans la mythologie grecque, qui est Hermès ? ",
         "answer": "Messager des Dieux, dieu du commerce, des voleurs, des voyageurs, etc...",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "1ca5d247-8ad9-4d24-9ef1-6c5563876c68",
 "type": "text"
@@ -914,7 +914,7 @@
     {
         "question": "Dans quelle ville se situe des vestiges d'arènes gallo romaines ou encore la maison carrée ?",
         "answer": "Nîmes",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "a1e73eba-a9ac-49fd-9690-78435588289d",
 "type": "text"
@@ -946,7 +946,7 @@
     {
         "question": "De quel film provient la citation : \"La vie c'est comme une boite de chocolat, on ne sait jamais sur quoi on va tomber\" ?",
         "answer": "Forrest Gump",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "5d2f8407-62e0-478d-9b38-ca3b21388ec2",
 "type": "text"
@@ -954,7 +954,7 @@
     {
         "question": "La série \"Ne montre jamais ça a personne\" retrace l'histoire de quel rappeur français ?",
         "answer": "Orelsan",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "27c25979-22f1-433e-a74d-0366a94ba2f9",
 "type": "text"
@@ -962,7 +962,7 @@
     {
         "question": "Quel est l'équivalent du prix Nobel en mathématiques ?",
         "answer": "Médaille Fields",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "0fbc30e9-fc08-4aab-8cdd-e5b2d881e726",
 "type": "text"
@@ -970,7 +970,7 @@
     {
         "question": "Expliquer simplement comment on calcule le bénéfice d'une entreprise.",
         "answer": "Recette - Dépense",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "9f30bbb1-b8e2-4892-b082-4a3261ddaddf",
 "type": "text"
@@ -978,7 +978,7 @@
     {
         "question": "En quelle année a été sacré Charlemagne ?",
         "answer": "800",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "8e01be6a-4048-4ac0-81a7-332ac732ca70",
 "type": "text"
@@ -994,7 +994,7 @@
     {
         "question": "Qui a peint le plafond de la chapelle Sixtine ?",
         "answer": "Michel-Ange",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "56c6c331-5ad8-4b7e-ae25-1d3d25e84922",
 "type": "text"
@@ -2994,7 +2994,7 @@
     {
         "question": "Quel est l’homme politique et général membre du deuxième triumvirat avec Marc Antoine et Octave. Il devient maître de l'Afrique après la bataille de Philippes ?",
         "answer": "Lépide",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "8aa64f81-a3b8-47ef-95fd-9761cfbd5e1c",
 "type": "text"
@@ -3002,7 +3002,7 @@
     {
         "question": "Quelle est la valeur de x dans l’équation : x² = 9 ?",
         "answer": "3 ou -3",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "6f25f7f9-f283-45c4-9737-99999edf4e75",
 "type": "text"
@@ -3010,7 +3010,7 @@
     {
         "question": "Quel est le prénom du Douanier Rousseau ?",
         "answer": "Henri",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "e3524523-2f04-4c14-8560-69fff40ca188",
 "type": "text"
@@ -3018,7 +3018,7 @@
     {
         "question": "Qui a peint le Radeau de la Méduse ?",
         "answer": "Théodore Géricault",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "8718fe5d-a24d-44a5-bd01-50362ac34d80",
 "type": "text"
@@ -3026,7 +3026,7 @@
     {
         "question": "Qui a peint la série de deux tableaux Les tournesols en 1887 et 1889 ?",
         "answer": "Vincent Van Gogh",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "de308bb5-ad7a-4546-bbb8-18175db98b55",
 "type": "text"
@@ -3034,7 +3034,7 @@
     {
         "question": "Quel réalisateur a réalisé les films Empire of Light, Elephant Man, ou encore Mulholland Drive ?",
         "answer": "David Lynch",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "193293fa-f0a7-43ac-8131-18a1850c1ec8",
 "type": "text"
@@ -3042,7 +3042,7 @@
     {
         "question": "Quel film, se déroulant dans les États-Unis, durant les années 1930. C'est la Grande Dépression, suite au krach boursier de 1929. Un couple d'amants criminels sillonne le pays en braquant des banques. Bientôt, l'Amérique ne parle plus que de ces hors-la-loi inexpérimentés.",
         "answer": "Bonnie and Clyde",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "f1b4dc82-38e3-4b83-9476-57fdc80d9379",
 "type": "text"
@@ -3050,7 +3050,7 @@
     {
         "question": "Quelle planète naine, c'est le plus gros objet de la ceinture d'astéroïdes entre Mars et Jupiter. Lancée en 2007, la sonde spatiale Dawn de la NASA est entrée en orbite autour de cette planète.",
         "answer": "Cérès",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "81525ec8-9dfd-4783-baf1-8b4f78634785",
 "type": "text"
@@ -3058,7 +3058,7 @@
     {
         "question": "Quels aviateurs français disparus lors de leur tentative de traversée de l'Atlantique le 8 mai 1927, à bord de l'Oiseau blanc, deux semaines avant la réussite de Lindbergh ?",
         "answer": "Charles Nungesser et François Coli",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "99752d23-8f57-4a1f-8717-a70fabe40167",
 "type": "text"
@@ -3066,7 +3066,7 @@
     {
         "question": "Comment se nomme le conduit reliant le rein à la vessie ?",
         "answer": "Uretère",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "5aa06461-e22f-4237-8796-0a82e2caa17e",
 "type": "text"
@@ -3074,7 +3074,7 @@
     {
         "question": "Quel est le tableau, commandé le 6 juin 1562 par le bénédictin Paul à Venise auprès du peintre Paul Véronèse, est terminé en 1563, actuellement exposé au musée du Louvre, représente notamment plus d'une centaine de personnages ?",
         "answer": "Les Noces de Cana",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "c76fee1a-21be-4bdd-8ea8-b411b42f504e",
 "type": "text"
@@ -3082,7 +3082,7 @@
     {
         "question": "Qui a peint entre 1805 et 1807 Le Sacre de Napoléon ?",
         "answer": "Jacques-Louis David",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "45849b19-5a71-42c9-bdea-6827b2f0f8d5",
 "type": "text"
@@ -3106,7 +3106,7 @@
     {
         "question": "Comment appelle-t-on une découverte faite par hasard, qui peut s'avérer utile ?",
         "answer": "Sérendipité",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "0a9fe906-31bf-4c2e-b561-1da3e7054603",
 "type": "text"
@@ -3114,7 +3114,7 @@
     {
         "question": "Quel médecin et chirurgien français a réalisé en 1968 la première transplantation cardiaque en Europe ?",
         "answer": "Christian Cabrol",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "4210f9c2-d5d3-4776-8772-75193b6b6988",
 "type": "text"
@@ -3130,7 +3130,7 @@
     {
         "question": "Comment se nomme la couche transparente qui s'applique sur l'ongle après la pose de la couleur ?",
         "answer": "Top Coat",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "bf482c7a-3217-42a3-a912-04aa3ed8c510",
 "type": "text"
@@ -3138,7 +3138,7 @@
     {
         "question": "Quelle monnaie romaine d'argent valait 10 as ?",
         "answer": "Denier",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "4f258100-d57c-4b7d-bf78-a708658387d7",
 "type": "text"
@@ -3178,7 +3178,7 @@
     {
         "question": "Comment se nomme le chanteur du groupe U2 ?",
         "answer": "Bono",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "da304a42-aae0-42c7-a507-ffd1f2a4507c",
 "type": "text"
@@ -3186,7 +3186,7 @@
     {
         "question": "De quel groupe Dan Reynolds est-il le chanteur ?",
         "answer": "Imagine Dragons",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "038dfbd0-36df-4582-96c4-a2af3a4b5721",
 "type": "text"
@@ -3194,7 +3194,7 @@
     {
         "question": "Quel compositeur russe du XXème siècle, naturalisé français puis américain, est notamment connu pour l'oiseau de feu, Petrouchka, ou encore le sacre du printemps ?",
         "answer": "Igor Stravinsky",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "fb6fd458-87d6-48f3-92e0-6b4b2e1c100f",
 "type": "text"
@@ -3202,7 +3202,7 @@
     {
         "question": "Dans les Sims, combien de Simflouz rapporte la commande \"Motherlode\" ?",
         "answer": "50 000",
-        "theme": " ",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "b03c0962-1a7f-4e72-9a22-affa1b0ca185",
 "type": "text"
@@ -3210,7 +3210,7 @@
     {
         "question": "Dans League of Legends, à partir de quel niveau le R (son ulti) est dévérouillable ?",
         "answer": "Niveau 6",
-        "theme": " ",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "0b4be94e-25dd-4140-832d-6ba88559f529",
 "type": "text"
@@ -3218,7 +3218,7 @@
     {
         "question": "Quelle pièce de théâtre, écrite par Eugène Ionesco, dépeint une épidémie imaginaire qui effraie tous les habitants d'une ville et les métamorphose bientôt en un animal à cornes ?",
         "answer": "Rhinocéros",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "01b219f4-4d78-4a99-8aa0-ad2f3a9392b5",
 "type": "text"
@@ -3250,7 +3250,7 @@
     {
         "question": "Quelle est la capitale politique du Sri Lanka ?",
         "answer": "Sri Jayawardenapura Kotte",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "81292d39-4a6a-4f6d-b95f-7a9513e47839",
 "type": "text"
@@ -3258,7 +3258,7 @@
     {
         "question": "Dans la langue française, quel est le seul nom de pays qui contient toutes les voyelles ?",
         "answer": "Le Royaume-Uni",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "c5ab2d7f-dfc6-4cc9-9a37-47a797130817",
 "type": "text"
@@ -3266,7 +3266,7 @@
     {
         "question": "Quel musicien électronique français, a remporte un succès international en 1976 avec son album Oxygene ?",
         "answer": "Jean-Michel Jarre",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "e9f3675d-e830-4f02-b901-ec121e143000",
 "type": "text"
@@ -3274,7 +3274,7 @@
     {
         "question": "Quel réalisateur japonais, a commence sa carrière en tant que dessinateur de manga, est notamment connu pour Mon voisin Totoro ou encore Le Voyage de Ghibli ?",
         "answer": "Hayao Miyazaki",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "8f4200eb-589d-4f87-934e-f6984dc64a43",
 "type": "text"
@@ -3282,7 +3282,7 @@
     {
         "question": "Quel compositeur Italien ne a Venise a la fin du XVIIeme siècle, a notamment compose Les Quatre saison ?",
         "answer": "Antonio Vivaldi",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "d62779aa-d185-4217-9415-aa1c062287fb",
 "type": "text"
@@ -3290,7 +3290,7 @@
     {
         "question": "Quelle marque de voiture créée en 1810, célèbre avant d'en construire pour ses moulins a poivre et café, appartenant au groupe PSA, ayant pour identité visuelle un lion ?",
         "answer": "Peugeot",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "aff1f8be-c5e1-484e-a5c7-d59cc7afe40d",
 "type": "text"
@@ -3298,7 +3298,7 @@
     {
         "question": "Quel epice originaire du Moyen-Orient, surnomme Or Rouge, extrite de la fleur de Crocus Sativus et a longtemps ete consideree comme l'epice la plus chere du monde ?",
         "answer": "Safran",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "ceaa830e-1bd7-4376-b0e2-6df96ea3c4f0",
 "type": "text"
@@ -3306,7 +3306,7 @@
     {
         "question": "Au Trivial Pursuit, quelle est la couleur du theme Sciences et Nature ?",
         "answer": "Vert",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "c073b753-3426-4b61-a802-9e8530d9f85d",
 "type": "text"
@@ -3314,7 +3314,7 @@
     {
         "question": "Au Scrabble, combien de points sont associes aux lettres J et Q ?",
         "answer": "8",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "1ca81afc-e66a-4422-a80f-7981b50d15a0",
 "type": "text"
@@ -3322,7 +3322,7 @@
     {
         "question": "A la maniere d'un centenaire, quel nom est donne a une personne qui a 110 ans ?",
         "answer": "Supercentenaire",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "169b9035-01c3-407d-9800-0898af553684",
 "type": "text"
@@ -3330,7 +3330,7 @@
     {
         "question": "Quel cycliste slovène, né le 21 septembre 1998, ayant notemment remporté le Tour de France en 2020, 2021 et 2024, est actuellement considéré comme le meilleur cycliste mondial ?",
         "answer": "Tadej Pogacar",
-        "theme": " ",
+        "theme": "Sport",
         "subtheme": " ",
         "id": "53ea1bd7-0c69-43c5-9f78-78fb5c1f3183",
 "type": "text"
@@ -3338,7 +3338,7 @@
     {
         "question": "A quels artistes francais de musique electro doit on les titres One more time, Get Lucky ou encore Veridis Quo ?",
         "answer": "Daft Punk",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "0a3ef567-2b20-43c7-949a-9b885202de0d",
 "type": "text"
@@ -3346,7 +3346,7 @@
     {
         "question": "Dans la mythologie romaine, qui est la deesse de la paix et de l'harmonie, fille de Jupiter et Themis ? [Equivalent grecque : Homonoia]",
         "answer": "Concorde",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "c7bb8534-e55d-4a14-aa7e-b207243ed195",
 "type": "text"
@@ -3354,7 +3354,7 @@
     {
         "question": "Entres quels pays du massif des Alpes se situe le Lac Majeur ?",
         "answer": "Italie et Suisse",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "ad9c9933-7477-4404-b6b6-d9a0a2d255f5",
 "type": "text"
@@ -3362,7 +3362,7 @@
     {
         "question": "En quelle annee Les Traites de Westphalie ont ete signes ?",
         "answer": "1648",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "9711b7e0-87b9-4aeb-bca7-25db91967b8c",
 "type": "text"
@@ -3370,7 +3370,7 @@
     {
         "question": "Qui Roi de France fut l'epoux d'Elisabeth d'Autriche au XVIeme Siecle ?",
         "answer": "Charles IX",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "e70d9884-c2fe-4e31-8a36-2e5ba10bb16f",
 "type": "text"
@@ -3378,7 +3378,7 @@
     {
         "question": "Quel physicien et mathématicien italien du XVIIeme siecle est notamment connu pour avoir invente le barometre ?",
         "answer": "Torricelli",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "d44b1aca-1e78-4d9c-87e5-8483c0c8df19",
 "type": "text"
@@ -3386,7 +3386,7 @@
     {
         "question": "En France, quel est l'âge minimum pour exercer la fonction de sénateur ?",
         "answer": "24 ans",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "0a7fab0c-3e35-4cdf-9724-3c4330f86500",
 "type": "text"
@@ -3402,7 +3402,7 @@
     {
         "question": "Quel saint patron est associe au metier de vignerons ?",
         "answer": "Saint Vincent",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "be581d58-921b-45aa-8e01-6add41b4ca88",
 "type": "text"
@@ -3410,7 +3410,7 @@
     {
         "question": "A la plage que signifie le drapeau noir et blanc ?",
         "answer": "Zone de pratique aqutique et nautique",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "44ec9809-62b3-4742-8a2e-e28e9e4d6b61",
 "type": "text"
@@ -3418,7 +3418,7 @@
     {
         "question": "En quelle annee Charles de Gaulle est-il decede ?",
         "answer": "1970",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "d300c573-78e1-4ae2-92f2-5d3de68306dd",
 "type": "text"
@@ -3426,7 +3426,7 @@
     {
         "question": "Comment se nomme la coalition avec laquelle il devient chef du gouvernement français en juin 1936 ?",
         "answer": "Front Populaire",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "d1c446cf-b47a-4f57-9d9e-e953f2dd6347",
 "type": "text"
@@ -3434,15 +3434,15 @@
     {
         "question": "Quelle monument a été construit sur ordre de Napoléon Ier suite à la victoire d'Austerlitz ? [ce monument donne sur l'avenue des Champs-Élysées]",
         "answer": "Arc de Triomphe",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "d0617c18-81ec-4529-963c-8d971d6074f5",
 "type": "text"
     },
     {
-        "question": "Selon les auteurs antiques, quelle est la cause de la mort de Cleopatre ? \\\\",
+        "question": "Selon les auteurs antiques, quelle est la cause de la mort de Cleopatre ?",
         "answer": "Suicide par Morsure de serpent",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "95b577fb-f1ab-4a3f-a7b9-2b7b53e19711",
 "type": "text"
@@ -3450,7 +3450,7 @@
     {
         "question": "Quel jeu Nintendo a le plus de copies vendues ?",
         "answer": "Wii Sport - 85 Millions de copies",
-        "theme": " ",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "5aaa370f-1287-4ba5-b316-f58a4bfa3e02",
 "type": "text"
@@ -3458,7 +3458,7 @@
     {
         "question": "En quelle année a eu lieu la bataille de Cressy ?",
         "answer": "1346",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "d0889f2c-ecb7-44d3-9709-5d60cf970135",
 "type": "text"
@@ -3466,7 +3466,7 @@
     {
         "question": "En musique, quel tempo est plus rapide que presto ?",
         "answer": "Prestissimo",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "3fedc06d-7118-4d55-9e44-b229c7b3fa22",
 "type": "text"
@@ -3474,7 +3474,7 @@
     {
         "question": "Sous quel nom est plus connu le chanteur Peter Hernandez, ayant notamment interprété avec Rose de Blackpink le titre APT en 2024, ou encore 24K magic ?",
         "answer": "Bruno Mars",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "d4771dd9-ae06-475a-8689-64b0ce20f79b",
 "type": "text"
@@ -3482,7 +3482,7 @@
     {
         "question": "Quel fusee, ayant décollé le 4 juin 1996, est tristement connue pour avoir explosé seulement 36 secondes après son décollage ?",
         "answer": "Ariane 5",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "4f65bc34-6684-4f77-ad18-c86d8605b698",
 "type": "text"
@@ -3490,7 +3490,7 @@
     {
         "question": "Quel mathématicien brittanique, né en 1937 et mort en 2020, est notamment connu pour le Jeu de la vie ?",
         "answer": "John Conway",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "3ca2bbd3-e3eb-49aa-8b37-9dc032f38edf",
 "type": "text"
@@ -3498,7 +3498,7 @@
     {
         "question": "Qui est le premier president des Etats-Unis ?",
         "answer": "George Washington",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "d7e3f525-a5e2-4738-ac8d-642e24c84440",
 "type": "text"
@@ -3506,7 +3506,7 @@
     {
         "question": "Dans quel pays se trouve la ville de Oulan-Bator ?",
         "answer": "Mongolie",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "3b71d030-7875-4bc1-a169-76d3b8257313",
 "type": "text"
@@ -3514,7 +3514,7 @@
     {
         "question": "Quel romancier, né en 1783 à Grenoble et mort en 1842 a Paris, de son vrai nom Henri Beyle, est notamment connu pour La Chartreuse de Parme ou encore Le Rouge et le Noir ?",
         "answer": "Stendhal",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "708769b8-ff2f-4e7e-8870-7b7b738e5b50",
 "type": "text"
@@ -3522,7 +3522,7 @@
     {
         "question": "En quelle année les accords de Munich ont-ils été signés ?",
         "answer": "1938",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "7080abe1-a3af-43b5-bab4-0657cdfd93a2",
 "type": "text"
@@ -3530,7 +3530,7 @@
     {
         "question": "Dans Leaugue of Legends, combien de puissance donne l'item Tome d'Amplification ?",
         "answer": "20",
-        "theme": " ",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "ccda026a-91ef-4ec3-93cb-407cd765a995",
 "type": "text"
@@ -3538,7 +3538,7 @@
     {
         "question": "Dans The Legends of Zelda, quel est le nom du cheval de Link ?",
         "answer": "Epona",
-        "theme": " ",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "8c6d6bfa-2aff-4334-a189-8e61acd9ef60",
 "type": "text"
@@ -3546,7 +3546,7 @@
     {
         "question": "Quel est le prenom de la fille que Francois Mitterrand a longtemps cachée ?",
         "answer": "Mazarine",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "5b2b3ef5-af9f-4125-8eeb-7c18cc1dcf77",
 "type": "text"
@@ -3554,7 +3554,7 @@
     {
         "question": "Quel groupe de Kpop proviennent Soyeon et Miyeon qui, au cote de Madison Beer et Jaira Burns, ont interprete le titre Pop/Stars au sein du groupe K/DA pour les Worlds 2018 ?",
         "answer": "(G)I-dle",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "aabbffe5-ff0f-45ce-9783-4c286c25ae08",
 "type": "text"
@@ -3562,7 +3562,7 @@
     {
         "question": "Dans quel arrondissement de Paris se trouve la Tour Eiffel ?",
         "answer": "7eme",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "97c9ac7f-90f4-447e-bf45-492ecab32c2b",
 "type": "text"
@@ -3570,7 +3570,7 @@
     {
         "question": "A quel monument parisien est associé ses architectes Liberal Bruent et Jules Hardouin-Mansart ?",
         "answer": "Hôtel des Invalides",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "76ad48e1-0471-4aba-a819-38073c4aaf45",
 "type": "text"
@@ -3578,7 +3578,7 @@
     {
         "question": "Quel oiseau fut l'objet d'une guerre visant à reduire sa population dans les années 1930 en Australie ?",
         "answer": "Émeu",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "afca3066-10b2-4fac-8003-5b8ba22c5f24",
 "type": "text"
@@ -3586,7 +3586,7 @@
     {
         "question": "Quel est le gentile des habitant.e.s de Garardmer ?",
         "answer": "Gérômois",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "e9b89700-4a39-4477-af88-f5de2509d0c6",
 "type": "text"
@@ -3594,7 +3594,7 @@
     {
         "question": "Quel coureur automobile, est notamment connu pour avoir été 3 fois champion du monde de F1 en 1988, 1990 et 1991, ainsi que pour son passage chez McLaren aux côtés de Alain Prost, est décédé en 1994 lors du grand prix de Saint-Marin ?",
         "answer": "Ayrton Senna",
-        "theme": " ",
+        "theme": "Sport",
         "subtheme": " ",
         "id": "63a69b7e-3e47-492e-816a-65949264e61f",
 "type": "text"
@@ -3602,7 +3602,7 @@
     {
         "question": "Comment appelle-t-on un cheval de bataille, qui est notemment tenu par la main droite lorsqu'il est non-monte par son cavalier ?",
         "answer": "Destrier",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "d7e91cb6-c406-440b-9607-fe66f4297495",
 "type": "text"
@@ -3610,7 +3610,7 @@
     {
         "question": "Quel est le seul département francais, ou aucun train ne s'arrête pour prendre des passagers ?",
         "answer": "Ardêche",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "e077750c-7c8c-44c1-a538-11fab329c23d",
 "type": "text"
@@ -3618,7 +3618,7 @@
     {
         "question": "Quel terme scientifique designe l'étude des pollens ?",
         "answer": "Palynologie",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "b3dcbf4c-a3d8-400f-b063-4b07e50a263b",
 "type": "text"
@@ -3626,7 +3626,7 @@
     {
         "question": "Comment se nomme la famille de toute les productions epidermiques apparentes ? [Poils, cheveux, ongles...]",
         "answer": "Phanères",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "8912fd55-859f-45ae-a397-f16fda403c76",
 "type": "text"
@@ -3634,7 +3634,7 @@
     {
         "question": "Quel est le vrai nom du chanteur Sting ?",
         "answer": "Gordon Sumner",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "7e88d4f2-d8c4-45b2-99cf-f382105ea1e1",
 "type": "text"
@@ -3642,7 +3642,7 @@
     {
         "question": "Dans quelle ville fuit Emile Zola, 1 an apres sa condamtion concernant son implication dans l'affaire Dreyfus ?",
         "answer": "Londres",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "d416d95b-62ab-4a24-99d0-315a3320fb47",
 "type": "text"
@@ -3650,7 +3650,7 @@
     {
         "question": "Au golf, quel nom d'oiseau donne son nom au coup realise en 5 coup en moins par rapport au Par ? [à savoir que ce coup n'a jamais été réalisé en compétition]",
         "answer": "Autruche",
-        "theme": " ",
+        "theme": "Sport",
         "subtheme": " ",
         "id": "3032186c-6581-4683-b8d4-f8753796046b",
 "type": "text"
@@ -3658,15 +3658,15 @@
     {
         "question": "Quelle loi, promulguee en 1791, interdit tout groupement professionnel, coalitions de metier ainsi que les greves ?",
         "answer": "Loi Le Chapelier",
-        "theme": " ",
-        "subtheme": " ",
+        "theme": "Histoire",
+        "subtheme": "Polytech",
         "id": "976ae912-611e-4fa2-a60e-9bc83725790f",
 "type": "text"
     },
     {
         "question": "Quel est le gentile des habitant.e.s de Brive-la-Gaillarde ?",
         "answer": "Briviste",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "d95d421e-6847-4e39-b59d-b413b8718b0c",
 "type": "text"
@@ -3674,7 +3674,7 @@
     {
         "question": "Quelle est la capitale du Qatar ?",
         "answer": "Doha",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "821e20ba-305d-4a0b-9479-a26338aa64e1",
 "type": "text"
@@ -3682,7 +3682,7 @@
     {
         "question": "Quel homme politique, ne en 1846, est notemment nomme ministre de l'interieur en 1906, ce qui lui vaudra d'avoir comme surnoms 'Le Tigre' ou encore 'Le premier flic de France' ?",
         "answer": "Georges Clemenceau",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "764e9f66-aa78-4abe-9e98-a4782d17729e",
 "type": "text"
@@ -3690,7 +3690,7 @@
     {
         "question": "En quelle année s'est déroulée la bataille de Soisson ?",
         "answer": "486",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "710fdd22-b36f-4b10-83f1-126f02441863",
 "type": "text"
@@ -3698,7 +3698,7 @@
     {
         "question": "Quel était le surnom de Phillipe IV ?",
         "answer": "Le Bel",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "38078a70-615e-4dfa-acbb-6be1874c6236",
 "type": "text"
@@ -3706,7 +3706,7 @@
     {
         "question": "En maquillage, comment se nomme un fard à joue applicables en poudre ou en crème ?",
         "answer": "Blush",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "6cf53283-eb36-4f4e-b23e-dbe330f2eb0f",
 "type": "text"
@@ -3714,7 +3714,7 @@
     {
         "question": "Dans League of Legends, quel est le rôle de Faker dans l'équipe T1 ?",
         "answer": "Midlaner",
-        "theme": " ",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "99da133f-808c-46a3-bc74-77d5ba50dafe",
 "type": "text"
@@ -3722,7 +3722,7 @@
     {
         "question": "Sur quelle île est situé la cathédrale Notre-Dame de Paris ?",
         "answer": "Île de la Cité",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "8d278f48-5b4c-4519-969f-74611bf7e7a2",
 "type": "text"
@@ -3730,7 +3730,7 @@
     {
         "question": "Quelle hormone est sécrétée par le pancréas ?",
         "answer": "Insuline",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "c0b4983a-b751-4151-b240-db24cd640074",
 "type": "text"
@@ -3738,7 +3738,7 @@
     {
         "question": "En solfège, quel dispositif de 5 lignes horizontales et 4 interlignes permet de noter la musique ?",
         "answer": "Une portée",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "440cff2a-e02e-40a9-828b-979efd4c0fb5",
 "type": "text"
@@ -3754,7 +3754,7 @@
     {
         "question": "Quelle est la date des premiers pas de l'Homme sur la Lune [horaire GMT] ?",
         "answer": "21 juillet 1969 à 2h56",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "f6b135dd-f17a-4e71-8350-529adf67bc50",
 "type": "text"
@@ -3762,7 +3762,7 @@
     {
         "question": "Quel os de la cuisse, est le plus long et le plus solide du corps humain ?",
         "answer": "Fémur",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "3c699613-0c93-4cef-a018-8e2deea2d476",
 "type": "text"
@@ -3778,7 +3778,7 @@
     {
         "question": "Quel fête religieuse musulmane marque la fin du jeune du ramadan ? [1er jour du mois de Shawal, 10ème mois du calendrier musulman]",
         "answer": "Aïd el-Fitr",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "d772db08-2271-443b-9a1a-96b2557cccc6",
 "type": "text"
@@ -3786,7 +3786,7 @@
     {
         "question": "Quel est le nom de la maison de Maurice Ravel à Montfort-l'Amaury dans les Yvelines, transformée en musée ?",
         "answer": "Le Belvédère",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "fcd6cb4e-d226-42e2-970c-69da8aaeb2fc",
 "type": "text"
@@ -3794,7 +3794,7 @@
     {
         "question": "Qu'est-ce que collectionne un glacophile ?",
         "answer": "Les pots de yaourt",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "6f03f21f-1167-45c7-8707-f5aab445def9",
 "type": "text"
@@ -3802,7 +3802,7 @@
     {
         "question": "Comment traduit-on repos en latin ?",
         "answer": "Requiem",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "29b1706a-e9fd-4cfa-a6a3-523a5755326c",
 "type": "text"
@@ -3810,7 +3810,7 @@
     {
         "question": "Quelle fleuve traverse la ville de Washington ?",
         "answer": "Potomac",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "a8376e42-316e-4f73-86e7-658fc1fbfa62",
 "type": "text"
@@ -3826,7 +3826,7 @@
     {
         "question": "Dans l'alphabet phonétique de l'OTAN, quel mot est associé à la lettre N ?",
         "answer": "November",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "8f9b029c-c596-4c5a-aeeb-fcd41cd3f726",
 "type": "text"
@@ -3834,7 +3834,7 @@
     {
         "question": "Quel entrepreneur chinois est associé à l'entreprise Alibaba ?",
         "answer": "Jack Ma",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "46a635b6-9ea6-4c62-84c1-ac607a5ceebe",
 "type": "text"
@@ -3842,7 +3842,7 @@
     {
         "question": "Quelle militante anarchiste, institutrice aux idées féministes, est l'une des figures majeures de la Commune de Paris ?",
         "answer": "Louise Michel",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "ca6e48ee-3697-443a-a1d8-427d5759e0ff",
 "type": "text"
@@ -3850,7 +3850,7 @@
     {
         "question": "Quelle est la capitale de Singapour ?",
         "answer": "Singapour",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "0ebd1f12-4375-4d54-b7c7-eb43470f8bf7",
 "type": "text"
@@ -3858,7 +3858,7 @@
     {
         "question": "Qui est l'épouse du roi Henri IV, et reine de France et de Navarre de 1600 à 1610, ainsi que régente du royaume de France de 1610 à 1614 au nom de son fils Louis XIII?",
         "answer": "Marie de Médicis",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "27f06e92-ba9b-415b-b2ab-2b1feb2e8983",
 "type": "text"
@@ -3866,7 +3866,7 @@
     {
         "question": "En quelle année a eu lieu la bataille de France ?",
         "answer": "10 mai - 25 juin 1940",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "4dc328e0-d7e6-42e7-a5c3-68b868dd1979",
 "type": "text"
@@ -3874,7 +3874,7 @@
     {
         "question": "En quelle année le Front national accède la première fois au second tour de l'élection présidentielle ?",
         "answer": "1er mai 2002",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "4c42bd5b-093c-4aa6-8bbf-404ba9f1f482",
 "type": "text"
@@ -3882,7 +3882,7 @@
     {
         "question": "Quel était le surnom de Louis IX ?",
         "answer": "Saint Louis",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "40930ae1-4044-4e29-8237-e414fa2f8535",
 "type": "text"
@@ -3890,7 +3890,7 @@
     {
         "question": "En quelle année Adolf Hitler accède-t-il au poste de chancelier ?",
         "answer": "1933",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "2a76663f-fee9-405d-92f1-d71390c48922",
 "type": "text"
@@ -3898,7 +3898,7 @@
     {
         "question": "A quelle pathologie est associée une coloration anormale bleutée de la peau, due à l'oxygénation insuffisante du sang ?",
         "answer": "Cyanose",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "fec019e7-f99d-4652-82ef-02ee3304fa7c",
 "type": "text"
@@ -3906,7 +3906,7 @@
     {
         "question": "Comment se nomme la tache blanche située à la base de l'ongle ?",
         "answer": "Lunule",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "138415eb-b65c-420c-9934-990ccc1bcfce",
 "type": "text"
@@ -3914,7 +3914,7 @@
     {
         "question": "Comment se nomme la spécialité médicale concernant les pathologies et les soins aux vaisseaux sanguins ?",
         "answer": "Angiologie",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "3973c47e-006a-4446-a34e-88ae648b8a69",
 "type": "text"

@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 console.log("Hello from Defi !")
 import Question from '../Question.vue';
 // import ws from '../../../utils/websocket.ts'
 
+const questionData = ref(null);
+
+
 function askQuestion() {
-    console.log(document.getElementById("theme").value);
+    // console.log(document.getElementById("theme").value);
     const theme = (document.getElementById("theme") as HTMLInputElement)?.value ?? "";
     const url = new URL("http://83.195.188.17:3000/question");
     if (theme) {
@@ -21,22 +26,29 @@ function askQuestion() {
     })
 
     .then(async (response) => {
+        // if (response.ok) {
+        //     console.log("Question asked successfully");
+        //     const data = await response.json();
+        //     console.log(data);
+
+        //     const question = new Question(data);
+        //     const questionDiv = document.getElementById("question");
+        //     if (questionDiv) {
+        //         questionDiv.innerHTML = "";
+        //         questionDiv.appendChild(question);
+        //     } else {
+        //         console.error("Element not found");
+        //     }
+
+        // }
+        // // throw new Error("Network response was not ok.");
+        // else {
+        //     console.error("Error asking question");
+        // }
         if (response.ok) {
             console.log("Question asked successfully");
-            const data = await response.json();
-            console.log(data);
-
-            const question = new Question(data);
-            const questionDiv = document.getElementById("question");
-            if (questionDiv) {
-                questionDiv.innerHTML = "";
-                questionDiv.appendChild(question);
-            } else {
-                console.error("Element not found");
-            }
-        }
-        // throw new Error("Network response was not ok.");
-        else {
+            questionData.value = await response.json(); // Store the question data
+        } else {
             console.error("Error asking question");
         }
     })
@@ -62,6 +74,8 @@ function answerQuestion(event : any) {
     <h1>Defi</h1>
     <input type="text" id="theme" placeholder="Theme" />
     <button id="askQuestion" @click="askQuestion()">Ask Question</button>
+    
     <div id="question">
+        <Question v-if="questionData" :question="questionData" />
     </div>
 </template>
