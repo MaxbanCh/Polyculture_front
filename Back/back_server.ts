@@ -176,9 +176,12 @@ function notifyAllUsers(json: any) {
 
 
 ////////////////////// Functions for the game ///////////////////////
-router.get("/question", async (ctx) => {
-  const body = await ctx.request.body().value;
+router.get("/question", (ctx) => {
+  const body = ctx.request.body().value;
   console.log(body);
+
+  ctx.response.status = 200;
+  ctx.response.body = "Miam les cookies !";
 });
 
 

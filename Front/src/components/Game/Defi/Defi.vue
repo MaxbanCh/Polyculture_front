@@ -4,6 +4,7 @@ import Question from '../Question.vue';
 // import ws from '../../../utils/websocket.ts'
 
 function askQuestion() {
+    console.log(document.getElementById("theme").value);
     fetch("http://83.195.188.17:3000/question", {
         method: "POST",
         mode : "cors",
@@ -12,7 +13,7 @@ function askQuestion() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            theme: (document.getElementById("theme") as HTMLInputElement)?.value ?? "",
+            theme: ((document.getElementById("theme") as HTMLInputElement)?.value ?? ""),
         })
         })
 
