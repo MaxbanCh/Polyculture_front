@@ -10,7 +10,7 @@ const app = new Application();
 
 app.use(
   oakCors({
-    origin: "http://localhost:5173", // Allow requests from this origin
+    origin: "83.195.188.17", // Allow requests from this origin
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Specify allowed methods
     allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
     credentials: true, // Allow credentials like cookies
@@ -19,7 +19,7 @@ app.use(
 
 
 app.use(async (ctx, next) => {
-  ctx.response.headers.set("Access-Control-Allow-Origin", "http://localhost:5173");
+  ctx.response.headers.set("Access-Control-Allow-Origin", "83.195.188.17");
   ctx.response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   ctx.response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
   ctx.response.headers.set("Access-Control-Allow-Credentials", "true");
