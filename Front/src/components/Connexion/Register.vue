@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import ws from '../../utils/websocket.ts'
+// import ws from '../../utils/websocket.ts'
 
 console.log("Hello from Register!")
 
 async function register() {
-    let username = document.getElementById("username").value;
-    let mail = document.getElementById("mail").value;
-    let password = document.getElementById("password").value;
+    let username = ((document.getElementById("username") as HTMLInputElement)?.value ?? "");
+    let mail = ((document.getElementById("mail") as HTMLInputElement)?.value ?? "");
+    let password = (document.getElementById("password") as HTMLInputElement)?.value ?? "";
 
     fetch("http://localhost:3000/register", {
         method: "POST",

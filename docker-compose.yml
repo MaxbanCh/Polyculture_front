@@ -11,13 +11,27 @@ services:
     environment:
       - DENO_ENV=production
 
-  frontend:
+  # frontend:
+  #   build:
+  #     context: ./Front
+  #   ports:
+  #     - "5173:80"
+  #   volumes:
+  #     - ./Front:/app
+
+  frontend-dev:
     build:
       context: ./Front
+      dockerfile: Dockerfile.dev # Utiliser le Dockerfile pour le développement
     ports:
-      - "5173:80"
+      - "5173:5173" # Exposer le port de Vite
     volumes:
-      - ./Front:/app
+      - ./Front:/app # Monter le dossier local pour permettre le hot-reloading
+      - /app/node_modules # Éviter les conflits avec les dépendances locales
+    environment:
+      - NODE_ENV=development
+    command: ["npm", "run", "dev", "--", "--host"]
+
 
   database:
     image: postgres:17

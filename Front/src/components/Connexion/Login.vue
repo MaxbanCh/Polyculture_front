@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import ws from '../../utils/websocket.ts'
+// import ws from '../../utils/websocket.ts'
 console.log("Hello from Login!")
 
 import { useRouter } from 'vue-router'; // Importer useRouter
-const router = useRouter(); // Initialiser le routeur
+// const router = useRouter(); // Initialiser le routeur
 
 
 async function login() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let usernameElement = document.getElementById("username");
+    let username = usernameElement ? (usernameElement as HTMLInputElement).value : '';
+
+    let passwordElement = document.getElementById("password") as HTMLInputElement;
+    let password = passwordElement ? passwordElement.value : '';
 
     fetch("http://localhost:3000/login", {
         method: "POST",
