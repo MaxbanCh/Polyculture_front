@@ -26,26 +26,24 @@ app.use(async (ctx, next) => {
   await next();
 });
 
+// const client = new Client({
+//   user: "postgres",
+//   database: "postgres",
+//   hostname: "localhost",
+//   port: 5432,
+//   password: "admin", // Ajoutez votre mot de passe ici
+// });
 
+// await client.connect();
 
-const client = new Client({
-  user: "postgres",
-  database: "postgres",
-  hostname: "localhost",
-  port: 5432,
-  password: "admin", // Ajoutez votre mot de passe ici
-});
-
-await client.connect();
-
-try {
-  const result = await client.queryArray(`SELECT * FROM votre_table`);
-  console.log(result.rows);
-} catch (err) {
-  console.error("Erreur lors de l'exécution de la requête", err);
-} finally {
-  await client.end();
-}
+// try {
+//   const result = await client.queryArray(`SELECT * FROM votre_table`);
+//   console.log(result.rows);
+// } catch (err) {
+//   console.error("Erreur lors de l'exécution de la requête", err);
+// } finally {
+//   await client.end();
+// }
 
 
 // WebSockets -----

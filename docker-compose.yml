@@ -22,7 +22,7 @@ services:
   frontend-dev:
     build:
       context: ./Front
-      dockerfile: Dockerfile.dev # Utiliser le Dockerfile pour le développement
+      dockerfile: dockerfile.dev # Utiliser le Dockerfile pour le développement
     ports:
       - "5173:5173" # Exposer le port de Vite
     volumes:
