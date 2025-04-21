@@ -8,7 +8,7 @@ async function register() {
     let mail = ((document.getElementById("mail") as HTMLInputElement)?.value ?? "");
     let password = (document.getElementById("password") as HTMLInputElement)?.value ?? "";
 
-    fetch("http://localhost:3000/register", {
+    fetch("http://93.195.188.17:3000/register", {
         method: "POST",
         mode : "cors",
         credentials: "include",

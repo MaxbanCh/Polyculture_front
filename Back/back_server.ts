@@ -175,7 +175,9 @@ function notifyAllUsers(json: any) {
 }
 
 function questionThemed(data : any) {
+  const question = questions[Math.floor(Math.random() * questions.length)];
   
+  return
 }
 
 

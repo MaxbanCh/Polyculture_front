@@ -5,7 +5,6 @@ function pressBuzzer(){
     console.log((document.getElementById("pseudo") as HTMLInputElement).value);
     if ((document.getElementById("pseudo") as HTMLInputElement).value === "Ketien") {
         alert("Bouh ! Je t'ai eu hihi !");
-        return;
     }
     ws.send(JSON.stringify({
         type: "buzz",

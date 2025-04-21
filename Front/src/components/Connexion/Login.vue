@@ -2,7 +2,7 @@
 // import ws from '../../utils/websocket.ts'
 console.log("Hello from Login!")
 
-import { useRouter } from 'vue-router'; // Importer useRouter
+// import { useRouter } from 'vue-router'; // Importer useRouter
 // const router = useRouter(); // Initialiser le routeur
 
 
@@ -13,7 +13,7 @@ async function login() {
     let passwordElement = document.getElementById("password") as HTMLInputElement;
     let password = passwordElement ? passwordElement.value : '';
 
-    fetch("http://localhost:3000/login", {
+    fetch("http://83.195.188.17:3000/login", {
         method: "POST",
         mode : "cors",
         credentials: "include",

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 console.log("Hello from TextAnswer!")
 
-
-
 </script>
 
 <template>
