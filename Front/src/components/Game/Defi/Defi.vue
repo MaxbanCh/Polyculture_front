@@ -5,17 +5,20 @@ import Question from '../Question.vue';
 
 function askQuestion() {
     console.log(document.getElementById("theme").value);
-    fetch("http://83.195.188.17:3000/question", {
-        method: "POST",
-        mode : "cors",
+    const theme = (document.getElementById("theme") as HTMLInputElement)?.value ?? "";
+    const url = new URL("http://83.195.188.17:3000/question");
+    if (theme) {
+        url.searchParams.append("theme", theme);
+    }
+
+    fetch(url.toString(), {
+        method: "GET",
+        mode: "cors",
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            theme: ((document.getElementById("theme") as HTMLInputElement)?.value ?? ""),
-        })
-        })
+    })
 
     .then(async (response) => {
         if (response.ok) {
