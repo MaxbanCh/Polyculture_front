@@ -26,7 +26,10 @@ async function logout() {
         console.error("There has been a problem with your fetch operation:", error);
     });
 }
+</script>
 
-
-
-<\script setup>
+<template>
+    <h1>Profil</h1>
+    <button id="logout" @click="logout()">Logout</button>
+    <button id="delete" @click="deleteAccount()">Delete Account</button>
+</template>
