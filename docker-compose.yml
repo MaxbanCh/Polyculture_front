@@ -10,6 +10,8 @@ services:
       - ./Back:/app
     environment:
       - DENO_ENV=production
+    depends_on:
+      - database
 
   # frontend:
   #   build:

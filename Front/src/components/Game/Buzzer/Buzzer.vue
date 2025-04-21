@@ -34,6 +34,12 @@ function priority(event){
     return ;
 }
 
+document.addEventListener("keydown", (event) => {
+    if (event.code === "Space") {
+        pressBuzzer();
+    }
+});
+
 ws.onmessage = function(event) {
     const buzz = JSON.parse(event.data);
     if (buzz.type === "buzz") {
