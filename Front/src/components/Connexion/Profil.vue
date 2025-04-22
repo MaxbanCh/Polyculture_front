@@ -5,7 +5,10 @@
 // import { useRouter } from 'vue-router'; // Importer useRouter
 // // const router = useRouter(); // Initialiser le routeur
 
-// async function logout() {
+async function logout() {
+    console.log("Logout successful");
+    localStorage.removeItem('auth_token');
+    window.location.href = '/'; // Rediriger vers la page d'accueil
 //     fetch("http://localhost:3000/logout", {
 //         method: "POST",
 //         mode : "cors",
@@ -19,17 +22,15 @@
 //             console.log("Logout successful");
 //             localStorage.removeItem('auth_token');
 //             window.location.href = '/'; // Rediriger vers la page d'accueil
-//             // router.push('/'); // Utiliser le routeur pour rediriger vers la page d'accueil
-//         }
+// ]        }
 //     })
 //     .catch((error) => {
 //         console.error("There has been a problem with your fetch operation:", error);
 //     });
-// }
-// </script>
+}
+</script>
 
-// <template>
-//     <h1>Profil</h1>
-//     <button id="logout" @click="logout()">Logout</button>
-//     <button id="delete" @click="deleteAccount()">Delete Account</button>
-// </template>
+<template>
+    <h1>Profil</h1>
+    <button id="logout" @click="logout()">Logout</button>
+</template>

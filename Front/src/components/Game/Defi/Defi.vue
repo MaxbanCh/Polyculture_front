@@ -102,7 +102,7 @@ onMounted(() => {
 <template>
     <h1>Defi</h1>
     <label for="theme-select">Choisissez un thème :</label>
-    <select id="theme-select" multiple v-model="selectedTheme">
+    <select id="theme-select" v-model="selectedTheme">
         <option value="" disabled>-- Sélectionnez un thème --</option>
         <option v-for="theme in themes" :key="theme" :value="theme">
             {{ theme }}

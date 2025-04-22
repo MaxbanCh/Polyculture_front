@@ -4,6 +4,7 @@ import Home from "../components/Home.vue"
 import Login from "../components/Connexion/Login.vue"
 import Lobby from "../components/Game/Lobby.vue"
 import Defi from "../components/Game/Defi/Defi.vue"
+import Profil from "../components/Connexion/Profil.vue"
 
 export default createRouter({
 	history : createWebHistory("/"),
@@ -28,6 +29,11 @@ export default createRouter({
 			path: "/defi",
 			name: "Defi",
 			component: Defi,
+		},
+		{
+			path: "/profil",
+			name: "Profil",
+			component: Profil,
 		}
 	],
 });

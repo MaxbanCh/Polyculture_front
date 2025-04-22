@@ -26,8 +26,7 @@ function logout() {
         <li><RouterLink to="/lobby">Multijoueur</RouterLink></li>
         <li><RouterLink to="/Defi">Defi</RouterLink></li>
         <li v-if="isLoggedIn">
-          <RouterLink to="/profile">Profil</RouterLink>
-          <!-- <button @click="logout">Déconnexion</button> -->
+          <RouterLink to="/profil">Profil</RouterLink>
         </li>
         <li v-else>
           <RouterLink to="/login">Login</RouterLink>

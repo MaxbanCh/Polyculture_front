@@ -2,8 +2,9 @@ import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { create, verify } from "https://deno.land/x/djwt/mod.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
-import { Client } from "https://deno.land/x/postgres/mod.ts";
+// import { Client } from "https://deno.land/x/postgres/mod.ts";
 
+import client, { connectToDatabase, disconnectFromDatabase } from "./database/client.ts";
 
 let questions: any[] = [];
 try {
@@ -44,25 +45,39 @@ app.use(async (ctx, next) => {
   await next();
 });
 
-// const client = new Client({
-//   user: "postgres",
-//   database: "postgres",
-//   hostname: "localhost",
-//   port: 5432,
-//   password: "admin", // Ajoutez votre mot de passe ici
-// });
 
-// await client.connect();
-
-// try {
-//   const result = await client.queryArray(`SELECT * FROM votre_table`);
-//   console.log(result.rows);
-// } catch (err) {
-//   console.error("Erreur lors de l'exécution de la requête", err);
-// } finally {
-//   await client.end();
+// async function connectWithRetry(client: Client) {
+//   let retries = 5;
+//   while (retries > 0) {
+//     try {
+//       await client.connect();
+//       console.log("Connected to the database!");
+//       return;
+//     } catch (err) {
+//       console.error("Database connection failed. Retrying in 5 seconds...");
+//       retries--;
+//       await new Promise((res) => setTimeout(res, 5000));
+//     }
+//   }
+//   throw new Error("Could not connect to the database after multiple attempts.");
 // }
 
+
+// const client = new Client({
+//   hostname: "database", // Matches the service name in docker-compose.yml
+//   port: 5432,
+//   user: "postgres",
+//   password: "admin",
+//   database: "polyculture",
+// });
+// await connectWithRetry(client);
+
+// await connectToDatabase();
+
+// const result = await client.queryObject("SELECT * FROM users;");
+// console.log(result.rows);
+
+// await disconnectFromDatabase();
 
 // WebSockets -----
 const is_authorized = async (auth_token: string) => {
