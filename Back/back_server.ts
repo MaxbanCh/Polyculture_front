@@ -196,6 +196,7 @@ router.get("/themes", (ctx) => {
 
 router.get("/question", (ctx) => {
   const theme = ctx.request.url.searchParams.get("theme");
+  console.log("theme", theme);
 
   // Filtrer les questions par thème si un thème est fourni
   let filteredQuestions = questions;
@@ -226,6 +227,25 @@ router.get("/question", (ctx) => {
   };
 });
 
+router.post("/answer", async (ctx) => {
+  const body = await ctx.request.body().value;
+  const { questionId, answer } = body;
+  const question = questions.find((q) => q.id === questionId);
+  if (!question) {
+    ctx.response.status = 404;
+    ctx.response.body = { error: "Question not found" };
+    return;
+  }
+  if (question.answer.toLowerCase() === answer.toLowerCase()) {
+    ctx.response.status = 200;
+    ctx.response.body = { correct: true };
+  }
+  else {
+    ctx.response.status = 200;
+    ctx.response.body = { correct: false };
+  }
+
+});
 
 
 function questionThemed(data : any) {
