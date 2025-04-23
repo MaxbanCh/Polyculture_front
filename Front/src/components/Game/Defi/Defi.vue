@@ -34,7 +34,7 @@ async function fetchThemes() {
 
 function askQuestion() {
     // console.log(document.getElementById("theme").value);
-    const theme = (document.getElementById("theme") as HTMLInputElement)?.value ?? "";
+    const theme = selectedTheme.value; // Récupérer le thème sélectionné
     const url = new URL("http://83.195.188.17:3000/question");
     if (theme) {
         url.searchParams.append("theme", theme);
@@ -77,7 +77,7 @@ function submitAnswer(answer: string) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            questionId: questionData.value.id,
+            questionId: questionData.value?.id ?? null,
             answer: answer,
         }),
     })

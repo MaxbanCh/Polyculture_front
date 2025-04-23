@@ -18,3 +18,22 @@ EXPOSE 5173
 
 # Commande pour démarrer le serveur de développement
 CMD ["npm", "run", "dev", "--", "--host"]
+
+
+# # Utiliser une image Deno officielle
+# FROM denoland/deno:1.33.4
+
+# # Définir le répertoire de travail
+# WORKDIR /app
+
+# # Copier les fichiers nécessaires dans le conteneur
+# COPY . .
+
+# # Exposer le port utilisé par Deno
+# EXPOSE 5173
+
+# # Définir les permissions nécessaires pour Deno
+# # --allow-net : Permet les connexions réseau
+# # --allow-read : Permet la lecture des fichiers locaux
+# CMD ["run", "--allow-net", "--allow-read", "--watch", "src/main.ts"]
+
