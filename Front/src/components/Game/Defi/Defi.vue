@@ -81,16 +81,22 @@ function submitAnswer(answer: string) {
             answer: answer,
         }),
     })
-        .then(async (response) => {
-            if (response.ok) {
-                console.log("Answer submitted successfully");
+    .then(async (response) => {
+        if (response.ok) {
+            console.log("Answer submitted successfully");
+            const data = await response.json();
+            if (data.correct) {
+                console.log("Correct answer!");
             } else {
-                console.error("Error submitting answer");
+                console.log("Incorrect answer.");
             }
-        })
-        .catch((error) => {
-            console.error("There has been a problem with your fetch operation:", error);
-        });
+        } else {
+            console.error("Error submitting answer");
+        }
+    })
+    .catch((error) => {
+        console.error("There has been a problem with your fetch operation:", error);
+    });
 }
 onMounted(() => {
     fetchThemes();

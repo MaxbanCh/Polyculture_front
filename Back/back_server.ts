@@ -46,39 +46,6 @@ app.use(async (ctx, next) => {
 });
 
 
-// async function connectWithRetry(client: Client) {
-//   let retries = 5;
-//   while (retries > 0) {
-//     try {
-//       await client.connect();
-//       console.log("Connected to the database!");
-//       return;
-//     } catch (err) {
-//       console.error("Database connection failed. Retrying in 5 seconds...");
-//       retries--;
-//       await new Promise((res) => setTimeout(res, 5000));
-//     }
-//   }
-//   throw new Error("Could not connect to the database after multiple attempts.");
-// }
-
-
-// const client = new Client({
-//   hostname: "database", // Matches the service name in docker-compose.yml
-//   port: 5432,
-//   user: "postgres",
-//   password: "admin",
-//   database: "polyculture",
-// });
-// await connectWithRetry(client);
-
-// await connectToDatabase();
-
-// const result = await client.queryObject("SELECT * FROM users;");
-// console.log(result.rows);
-
-// await disconnectFromDatabase();
-
 // WebSockets -----
 const is_authorized = async (auth_token: string) => {
   if (!auth_token) {
@@ -339,6 +306,4 @@ app.use(async (ctx, next) => {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.use(router.routes());
-app.use(router.allowedMethods());
 await app.listen(options);

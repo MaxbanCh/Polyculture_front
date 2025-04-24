@@ -22,4 +22,8 @@ function handleAnswer(answer: string) {
         <ChoiceAns v-else-if="question.type === 'choice'" />
         <p v-else>Unknown question type: {{ question.type }}</p>
     </div>
+    <div id="response">
+        <p id="responseText">Réponse : {{ question.response }}</p>
+        <p id="responseText">Réponse correcte : {{ question.correctAnswer }}</p>
+    </div>
 </template>
