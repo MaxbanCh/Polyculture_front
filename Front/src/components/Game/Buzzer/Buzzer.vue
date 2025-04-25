@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import ws from '../../../utils/websocket.ts'
+import { onMounted, onUnmounted } from 'vue';
+import ws from '../../../utils/websocket'
 
 function pressBuzzer(){
     console.log((document.getElementById("pseudo") as HTMLInputElement).value);
-    if ((document.getElementById("pseudo") as HTMLInputElement).value === "Ketien") {
-        alert("Bouh ! Je t'ai eu hihi !");
-    }
     ws.send(JSON.stringify({
         type: "buzz",
         data: {
@@ -34,10 +32,18 @@ function priority(event){
     return ;
 }
 
-document.addEventListener("keydown", (event) => {
-    if (event.code === "Space") {
-        pressBuzzer();
-    }
+onMounted(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.code === "Space") {
+            pressBuzzer();
+        }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    onUnmounted(() => {
+        document.removeEventListener("keydown", handleKeyDown);
+    });
 });
 
 ws.onmessage = function(event) {

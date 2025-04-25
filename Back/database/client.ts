@@ -1,28 +1,28 @@
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
 const client = new Client({
-    hostname: "database", // Matches the service name in docker-compose.yml
-    port: 5432,
-    user: "postgres",
-    password: "admin",
-    database: "polyculture",
-  });
+  hostname: "database", // Matches the service name in docker-compose.yml
+  port: 5432,
+  user: "postgres",
+  password: "admin",
+  database: "polyculture",
+});
 
 let isConnected = false;
 
 export async function connectToDatabase() {
-    if (isConnected) {
-      console.log("Database is already connected.");
-      return;
-    }
-    
-    let retries = 5;
+  if (isConnected) {
+    console.log("Database is already connected.");
+    return;
+  }
+
+  let retries = 5;
   while (retries > 0) {
     try {
       await client.connect();
       isConnected = true;
       console.log("Connected to the database!");
-      return ;
+      return;
     } catch (err) {
       console.error("Database connection failed. Retrying in 5 seconds...");
       retries--;
@@ -33,40 +33,40 @@ export async function connectToDatabase() {
 }
 
 export async function disconnectFromDatabase() {
-    if (!isConnected) {
-      console.log("Database is not connected.");
-      return;
-    }
-  
-    try {
-      await client.end();
-      isConnected = false;
-      console.log("Disconnected from the database.");
-    } catch (err) {
-      console.error("Error while disconnecting from the database:", err);
-    }
+  if (!isConnected) {
+    console.log("Database is not connected.");
+    return;
   }
 
-  export async function executeQuery(query, params) {
-    if (!isConnected) await connectToDatabase();
-    try {
-      return await client.queryObject(query, params);
-    } catch (error) {
-      // Gestion appropriée des erreurs
-    }
+  try {
+    await client.end();
+    isConnected = false;
+    console.log("Disconnected from the database.");
+  } catch (err) {
+    console.error("Error while disconnecting from the database:", err);
   }
+}
 
-  export async function withTransaction(callback) {
-    if (!isConnected) await connectToDatabase();
-    try {
-      await client.queryObject("BEGIN");
-      const result = await callback(client);
-      await client.queryObject("COMMIT");
-      return result;
-    } catch (error) {
-      await client.queryObject("ROLLBACK");
-      throw error;
-    }
+export async function executeQuery(query, params) {
+  if (!isConnected) await connectToDatabase();
+  try {
+    return await client.queryObject(query, params);
+  } catch (error) {
+    // Gestion appropriée des erreurs
   }
+}
 
-export default client ;
+export async function withTransaction(callback) {
+  if (!isConnected) await connectToDatabase();
+  try {
+    await client.queryObject("BEGIN");
+    const result = await callback(client);
+    await client.queryObject("COMMIT");
+    return result;
+  } catch (error) {
+    await client.queryObject("ROLLBACK");
+    throw error;
+  }
+}
+
+export default client;

@@ -3,6 +3,7 @@ import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { create, verify } from "https://deno.land/x/djwt/mod.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 // import { Client } from "https://deno.land/x/postgres/mod.ts";
+import router from "./utils/router.ts";
 
 import client, { connectToDatabase, disconnectFromDatabase } from "./database/client.ts";
 
@@ -24,7 +25,6 @@ questions.forEach((question) => {
   }
 });
 
-const router = new Router();
 const app = new Application();
 
 app.use(
@@ -92,7 +92,7 @@ const secretKey = await crypto.subtle.generateKey(
 router.get("/get_cookies", (ctx) => {
   ctx.response.status = 200;
   ctx.response.body = "Miam les cookies !";
-}); 
+});
 
 
 router.post("/login", async (ctx) => {
@@ -230,15 +230,10 @@ router.post("/answer", async (ctx) => {
 });
 
 
-function questionThemed(data : any) {
+function questionThemed(data: any) {
   const question = questions[Math.floor(Math.random() * questions.length)];
 
   return
-}
-
-
-function challengeSolo(data : any) {
-  
 }
 
 router.get("/", (ctx) => {
@@ -265,26 +260,26 @@ router.get("/", (ctx) => {
 
 
     if (data.type == "buzz") {
-        // if (user.last_action_date + 1000 > Date.now()) {
-        //     ws.send(JSON.stringify({ too_early: true }));
-        //     return
-        // }
-        console.log(`- buzzer pressed by ${data.data.name}`);
-        // user.last_action_date = Date.now();
-        notifyAllUsers({ type: "buzz", owner: data.data.name });
-        return
+      // if (user.last_action_date + 1000 > Date.now()) {
+      //     ws.send(JSON.stringify({ too_early: true }));
+      //     return
+      // }
+      console.log(`- buzzer pressed by ${data.data.name}`);
+      // user.last_action_date = Date.now();
+      notifyAllUsers({ type: "buzz", owner: data.data.name });
+      return
     }
 
     if (data.type == "question") {
-        console.log(`- question asked by ${data.data.name}`);
-        notifyAllUsers({ type: "question", owner: data.data.name, question: data.data.question });
-        return
+      console.log(`- question asked by ${data.data.name}`);
+      notifyAllUsers({ type: "question", owner: data.data.name, question: data.data.question });
+      return
     }
 
     if (data.type == "answer") {
-        console.log(`- answer sent by ${data.data.name}`);
-        notifyAllUsers({ type: "answer", owner: data.data.name, answer: data.data.answer });
-        return
+      console.log(`- answer sent by ${data.data.name}`);
+      notifyAllUsers({ type: "answer", owner: data.data.name, answer: data.data.answer });
+      return
     }
   };
 

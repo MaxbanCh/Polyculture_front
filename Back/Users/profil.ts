@@ -1,3 +1,7 @@
+import { client } from "../database/client.ts";
+import router from "../utils/router.ts";
+
+
 router.post("/login", async (ctx) => {
   const body = await ctx.request.body().value;
   const { username, password } = body;
@@ -71,4 +75,29 @@ router.get("/profil", async (ctx) => {
 
   ctx.response.status = 200;
   ctx.response.body = { userName: decodedToken.userName };
+});
+
+router.get("/admin", async (ctx) => {
+  const authHeader = ctx.request.headers.get("Authorization");
+  if (!authHeader) {
+      ctx.response.status = 401;
+      ctx.response.body = { error: "Unauthorized" };
+      return;
+  }
+
+  const token = authHeader.split(" ")[1];
+  try {
+      const payload = await verify(token, secretKey);
+      if (payload.role !== "admin") {
+          ctx.response.status = 403;
+          ctx.response.body = { error: "Forbidden" };
+          return;
+      }
+
+      ctx.response.status = 200;
+      ctx.response.body = { isAdmin: true };
+  } catch {
+      ctx.response.status = 401;
+      ctx.response.body = { error: "Invalid token" };
+  }
 });

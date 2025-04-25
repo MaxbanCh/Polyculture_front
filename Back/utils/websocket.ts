@@ -1,7 +1,8 @@
 import { Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
+import router from "./router.ts";
 
 const connections: WebSocket[] = [];
-const router = new Router();
+
 
 router.get("/", (ctx) => {
   if (!ctx.isUpgradable) {

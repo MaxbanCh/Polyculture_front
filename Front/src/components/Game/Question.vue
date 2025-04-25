@@ -23,7 +23,7 @@ function handleAnswer(answer: string) {
         <p v-else>Unknown question type: {{ question.type }}</p>
     </div>
     <div id="response">
-        <p id="responseText">Réponse : {{ question.response }}</p>
+        <p id="responseText">Réponse Utilisateur : {{ question.response }}</p>
         <p id="responseText">Réponse correcte : {{ question.correctAnswer }}</p>
     </div>
 </template>
