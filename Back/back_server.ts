@@ -4,26 +4,10 @@ import { create, verify } from "https://deno.land/x/djwt/mod.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 // import { Client } from "https://deno.land/x/postgres/mod.ts";
 import router from "./utils/router.ts";
+import questionsRouter from "./Game/questions.ts";
+import profilRouter from "./Users/profil.ts";
 
 import client, { connectToDatabase, disconnectFromDatabase } from "./database/client.ts";
-
-let questions: any[] = [];
-try {
-  const data = await Deno.readTextFile("./questions_with_ids.json");
-  questions = JSON.parse(data);
-  console.log("Questions loaded successfully!");
-} catch (error) {
-  console.error("Error loading questions:", error);
-}
-
-
-
-let themes: String[] = [];
-questions.forEach((question) => {
-  if (question.theme && !themes.includes(question.theme)) {
-    themes.push(question.theme);
-  }
-});
 
 const app = new Application();
 
@@ -94,35 +78,6 @@ router.get("/get_cookies", (ctx) => {
   ctx.response.body = "Miam les cookies !";
 });
 
-
-router.post("/login", async (ctx) => {
-  const body = await ctx.request.body().value;
-  const { username, password } = body;
-  const user = users.find((u) => u.username === username);
-
-  if (!user) {
-    ctx.response.status = 401;
-    ctx.response.body = { error: "Invalid username or password" };
-    return;
-  }
-
-  const result = await bcrypt.compare(password, user.password_hash);
-  if (!result) {
-    ctx.response.status = 401;
-    ctx.response.body = { error: "Invalid username or password" };
-    return;
-  }
-
-  const token = await create({ alg: "HS512", typ: "JWT" }, { userName: username }, secretKey);
-  ctx.response.headers.set("Set-Cookie", `auth_token=${token}; HttpOnly; Max-Age=3600; SameSite=Strict; `);
-
-  removeTokenByUser(username);
-  tokens[token] = username;
-
-  ctx.response.status = 200;
-  ctx.response.body = { auth_token: token };
-});
-
 if (Deno.args.length < 1) {
   console.log(
     `Usage: $ deno run --allow-net server.ts PORT [CERT_PATH KEY_PATH]`,
@@ -149,91 +104,12 @@ async function get_hash(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(saltRounds);  // Generate the salt manually
   return await bcrypt.hash(password, salt);  // Pass the salt to the hash function
 }
-
-const users = [
-  { id: '1', username: 'Superman', password_hash: await get_hash('Superman'), last_action_date: 0 },
-  { id: '2', username: 'Mickey_Mouse', password_hash: await get_hash('Mickey_Mouse'), last_action_date: 0 },
-  { id: '3', username: 'James_Bond', password_hash: await get_hash('James_Bond'), last_action_date: 0 },
-  { id: '4', username: 'Bugs_Bunny', password_hash: await get_hash('Bugs_Bunny'), last_action_date: 0 },
-  { id: '5', username: 'Batman', password_hash: await get_hash('Batman'), last_action_date: 0 },
-  { id: '6', username: 'Dorothy_Gale', password_hash: await get_hash('Dorothy_Gale'), last_action_date: 0 },
-  { id: '0', username: 'Maxban', password_hash: await get_hash('Maxban'), last_action_date: 0 },
-];
 ///////////////////////////////////////////////////////
 
 function notifyAllUsers(json: any) {
   connections.forEach((client) => {
     client.send(JSON.stringify(json));
   });
-}
-
-
-////////////////////// Functions for the game ///////////////////////
-router.get("/themes", (ctx) => {
-  ctx.response.status = 200;
-  ctx.response.body = {
-    themes,
-  };
-});
-
-router.get("/question", (ctx) => {
-  const theme = ctx.request.url.searchParams.get("theme");
-  console.log("theme", theme);
-
-  // Filtrer les questions par thème si un thème est fourni
-  let filteredQuestions = questions;
-  if (theme) {
-    filteredQuestions = questions.filter((q) =>
-      q.theme.toLowerCase().includes(theme.toLowerCase())
-    );
-  }
-
-  // Si aucune question ne correspond, retourner une erreur
-  if (filteredQuestions.length === 0) {
-    ctx.response.status = 404;
-    ctx.response.body = { error: "No questions found for the given theme." };
-    return;
-  }
-
-  // Sélectionner une question aléatoire
-  const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
-
-  // Retourner la question
-  ctx.response.status = 200;
-  ctx.response.body = {
-    id: question.id,
-    question: question.question,
-    theme: question.theme,
-    subtheme: question.subtheme,
-    type: question.type,
-  };
-});
-
-router.post("/answer", async (ctx) => {
-  const body = await ctx.request.body().value;
-  const { questionId, answer } = body;
-  const question = questions.find((q) => q.id === questionId);
-  if (!question) {
-    ctx.response.status = 404;
-    ctx.response.body = { error: "Question not found" };
-    return;
-  }
-  if (question.answer.toLowerCase() === answer.toLowerCase()) {
-    ctx.response.status = 200;
-    ctx.response.body = { correct: true };
-  }
-  else {
-    ctx.response.status = 200;
-    ctx.response.body = { correct: false };
-  }
-
-});
-
-
-function questionThemed(data: any) {
-  const question = questions[Math.floor(Math.random() * questions.length)];
-
-  return
 }
 
 router.get("/", (ctx) => {
@@ -298,7 +174,14 @@ app.use(async (ctx, next) => {
   console.log(ctx.request.url.pathname);
 });
 
+
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+app.use(questionsRouter.routes());
+app.use(questionsRouter.allowedMethods());
+
+app.use(profilRouter.routes());
+app.use(profilRouter.allowedMethods());
 
 await app.listen(options);

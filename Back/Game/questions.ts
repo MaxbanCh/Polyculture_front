@@ -1,6 +1,5 @@
 import { Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
-
-const router = new Router();
+import router from "../utils/router.ts";
 
 // Load questions from JSON file
 let questions: any[] = [];
@@ -44,6 +43,26 @@ router.get("/question", (ctx) => {
   const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
   ctx.response.status = 200;
   ctx.response.body = question;
+});
+
+router.post("/answer", async (ctx) => {
+  const body = await ctx.request.body().value;
+  const { questionId, answer } = body;
+  const question = questions.find((q) => q.id === questionId);
+  if (!question) {
+    ctx.response.status = 404;
+    ctx.response.body = { error: "Question not found" };
+    return;
+  }
+  if (question.answer.toLowerCase() === answer.toLowerCase()) {
+    ctx.response.status = 200;
+    ctx.response.body = { correct: true };
+  }
+  else {
+    ctx.response.status = 200;
+    ctx.response.body = { correct: false };
+  }
+
 });
 
 export default router;
