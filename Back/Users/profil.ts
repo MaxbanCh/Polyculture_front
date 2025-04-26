@@ -1,4 +1,4 @@
-import client from "../database/client.ts";
+import client, { executeQuery } from "../database/client.ts";
 import router from "../utils/router.ts";
 import { create, verify } from "https://deno.land/x/djwt@v2.8/mod.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
@@ -13,21 +13,41 @@ router.options("/login", (ctx) => {
   ctx.response.headers.set("Access-Control-Allow-Credentials", "true");
 });
 
-const users = [
-  { id: '1', username: 'Superman', password_hash: await get_hash('Superman'), last_action_date: 0 },
-  { id: '2', username: 'Mickey_Mouse', password_hash: await get_hash('Mickey_Mouse'), last_action_date: 0 },
-  { id: '3', username: 'James_Bond', password_hash: await get_hash('James_Bond'), last_action_date: 0 },
-  { id: '4', username: 'Bugs_Bunny', password_hash: await get_hash('Bugs_Bunny'), last_action_date: 0 },
-  { id: '5', username: 'Batman', password_hash: await get_hash('Batman'), last_action_date: 0 },
-  { id: '6', username: 'Dorothy_Gale', password_hash: await get_hash('Dorothy_Gale'), last_action_date: 0 },
-  { id: '0', username: 'Maxban', password_hash: await get_hash('Maxban'), last_action_date: 0 },
-];
+// const users = [
+//   { id: '1', username: 'Superman', password_hash: await get_hash('Superman'), last_action_date: 0 },
+//   { id: '2', username: 'Mickey_Mouse', password_hash: await get_hash('Mickey_Mouse'), last_action_date: 0 },
+//   { id: '3', username: 'James_Bond', password_hash: await get_hash('James_Bond'), last_action_date: 0 },
+//   { id: '4', username: 'Bugs_Bunny', password_hash: await get_hash('Bugs_Bunny'), last_action_date: 0 },
+//   { id: '5', username: 'Batman', password_hash: await get_hash('Batman'), last_action_date: 0 },
+//   { id: '6', username: 'Dorothy_Gale', password_hash: await get_hash('Dorothy_Gale'), last_action_date: 0 },
+//   { id: '0', username: 'Maxban', password_hash: await get_hash('Maxban'), last_action_date: 0 },
+// ];
+
+const modifmdp = await executeQuery(
+  "UPDATE users SET password_hash = $1 WHERE username = 'admin'",
+  [await get_hash('admin')]
+);
+
+const usersTemp = await executeQuery(
+  "SELECT id, username, password_hash FROM users"
+);
+console.log(usersTemp.rows);
+// if (users.rows.length === 0) {
+//   console.log("No users found in the database.");
+// }
+const users = usersTemp.rows;
+
+console.log(users);
+
 
 const secretKey = await crypto.subtle.generateKey(
   { name: "HMAC", hash: "SHA-512" },
   true,
   ["sign", "verify"]
 );
+
+
+
 
 // Connection related variables
 const tokens: { [key: string]: string } = {};

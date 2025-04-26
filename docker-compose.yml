@@ -26,7 +26,7 @@ services:
       context: ./Front
       dockerfile: dockerfile.dev # Utiliser le Dockerfile pour le développement
     ports:
-      - "5173:5173" # Exposer le port de Vite
+      - "80:80" # Port exposé pour le frontend
     volumes:
       - ./Front:/app # Monter le dossier local pour permettre le hot-reloading
       - /app/node_modules # Éviter les conflits avec les dépendances locales

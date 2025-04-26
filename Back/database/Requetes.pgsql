@@ -1,18 +1,22 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS posts;
-DROP TABLE IF EXISTS Themes;
-DROP TABLE IF EXISTS Subthemes;
-DROP TABLE IF EXISTS Questions;
-
-DROP TABLE IF EXISTS DefiSolo;
 DROP TABLE IF EXISTS QuestionsDefi;
+DROP TABLE IF EXISTS DefiSolo;
+
+DROP TABLE IF EXISTS Questions;
+DROP TABLE IF EXISTS Subthemes;
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS Themes;
+
+
+
+
 
 -- Basic tables for the app :
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
     Description TEXT,
     admin BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -38,7 +42,6 @@ CREATE TABLE Questions (
     subtheme_id INT REFERENCES Subthemes(id),
     question TEXT NOT NULL,
     question_type VARCHAR(50) NOT NULL,
-    options TEXT[],
     answer TEXT NOT NULL,
     media TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -58,14 +61,13 @@ CREATE TABLE QuestionsDefi (
     question_id INT REFERENCES Questions(id),
     defi_id INT REFERENCES DefiSolo(id),
     answer TEXT,
-    time_taken INT,
+    time_taken INT
 );
 
 
 
-INSERT INTO users (username, password, Description, admin)
+INSERT INTO users (username, password_hash, Description, admin)
 VALUES
-('admin', 'admin', 'Administrator account', TRUE);
+('admin', '$2a$10$WPwpecAkN611LTKQ9UhFgeisZ3RZWLa6RvEOgVn03BKCJLjaxIBf.', 'Administrator account', TRUE);
 
-
-SELECT * FROM users;
+select * from users;

@@ -55,10 +55,25 @@ function logout() {
 //     }
 // }
 
-function isAdmin() {
+async function isAdmin() {
     const token = localStorage.getItem('auth_token');
-    
-    return false;
+    await fetch("http://89.195.188.17:3000/profil", {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            console.error("Failed to fetch user data");
+            return false;
+        }
+    })
 }
 </script>
 
@@ -77,6 +92,12 @@ function isAdmin() {
         <p id="nbWins">Nombre de victoires : {{ nbWins }}</p>
         <p id="nbDefis">Nombre de défis : {{ nbDefis }}</p>
         <p id="nbDefisGagnes">Nombre de défis gagnés : {{ nbDefisGagnes }}</p>
+    </div>
+
+    <div id="admin">
+        <h2>Admin</h2>
+        <p v-if="isAdmin">Vous êtes administrateur</p>
+        <p v-else>Vous n'êtes pas administrateur</p>
     </div>
 
     <button id="logout" @click="logout()">Logout</button>

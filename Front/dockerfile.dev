@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Exposer le port utilisé par Vite
-EXPOSE 5173
+EXPOSE 80
 
 # Commande pour démarrer le serveur de développement
 CMD ["npm", "run", "dev", "--", "--host"]
