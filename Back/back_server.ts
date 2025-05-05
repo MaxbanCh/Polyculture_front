@@ -6,6 +6,7 @@ import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 import router from "./utils/router.ts";
 import questionsRouter from "./Game/questions.ts";
 import profilRouter from "./Users/profil.ts";
+import wsRouter, { connections, rooms } from "./utils/websocket.ts";
 
 import client, { connectToDatabase, disconnectFromDatabase } from "./database/client.ts";
 
@@ -51,7 +52,7 @@ const is_authorized = async (auth_token: string) => {
   return false;
 };
 
-const connections: WebSocket[] = [];
+// const connections: WebSocket[] = [];
 
 
 // Connection related variables
@@ -112,61 +113,64 @@ function notifyAllUsers(json: any) {
   });
 }
 
-router.get("/", (ctx) => {
-  if (!ctx.isUpgradable) {
-    ctx.throw(501);
-  }
-  const ws = ctx.upgrade();
-
-  connections.push(ws);
-  console.log(`+ websocket connected (${connections.length})`);
-
-  ws.onerror = (_error) => {
-    const index = connections.indexOf(ws);
-    if (index !== -1) {
-      connections.splice(index, 1);
-    }
-    console.log(`- websocket error`);
-  };
-
-  ws.onmessage = async (event) => {
-    const data = JSON.parse(event.data);
-    console.log(data);
-    console.log(data.type)
 
 
-    if (data.type == "buzz") {
-      // if (user.last_action_date + 1000 > Date.now()) {
-      //     ws.send(JSON.stringify({ too_early: true }));
-      //     return
-      // }
-      console.log(`- buzzer pressed by ${data.data.name}`);
-      // user.last_action_date = Date.now();
-      notifyAllUsers({ type: "buzz", owner: data.data.name });
-      return
-    }
 
-    if (data.type == "question") {
-      console.log(`- question asked by ${data.data.name}`);
-      notifyAllUsers({ type: "question", owner: data.data.name, question: data.data.question });
-      return
-    }
+// router.get("/", (ctx) => {
+//   if (!ctx.isUpgradable) {
+//     ctx.throw(501);
+//   }
+//   const ws = ctx.upgrade();
 
-    if (data.type == "answer") {
-      console.log(`- answer sent by ${data.data.name}`);
-      notifyAllUsers({ type: "answer", owner: data.data.name, answer: data.data.answer });
-      return
-    }
-  };
+//   connections.push(ws);
+//   console.log(`+ websocket connected (${connections.length})`);
 
-  ws.onclose = () => {
-    const index = connections.indexOf(ws);
-    if (index !== -1) {
-      connections.splice(index, 1);
-    }
-    console.log(`- websocket disconnected (${connections.length})`);
-  };
-});
+//   ws.onerror = (_error) => {
+//     const index = connections.indexOf(ws);
+//     if (index !== -1) {
+//       connections.splice(index, 1);
+//     }
+//     console.log(`- websocket error`);
+//   };
+
+//   ws.onmessage = async (event) => {
+//     const data = JSON.parse(event.data);
+//     console.log(data);
+//     console.log(data.type)
+
+
+//     if (data.type == "buzz") {
+//       // if (user.last_action_date + 1000 > Date.now()) {
+//       //     ws.send(JSON.stringify({ too_early: true }));
+//       //     return
+//       // }
+//       console.log(`- buzzer pressed by ${data.data.name}`);
+//       // user.last_action_date = Date.now();
+//       notifyAllUsers({ type: "buzz", owner: data.data.name });
+//       return
+//     }
+
+//     if (data.type == "question") {
+//       console.log(`- question asked by ${data.data.name}`);
+//       notifyAllUsers({ type: "question", owner: data.data.name, question: data.data.question });
+//       return
+//     }
+
+//     if (data.type == "answer") {
+//       console.log(`- answer sent by ${data.data.name}`);
+//       notifyAllUsers({ type: "answer", owner: data.data.name, answer: data.data.answer });
+//       return
+//     }
+//   };
+
+//   ws.onclose = () => {
+//     const index = connections.indexOf(ws);
+//     if (index !== -1) {
+//       connections.splice(index, 1);
+//     }
+//     console.log(`- websocket disconnected (${connections.length})`);
+//   };
+// });
 
 
 app.use(async (ctx, next) => {
@@ -183,5 +187,10 @@ app.use(questionsRouter.allowedMethods());
 
 app.use(profilRouter.routes());
 app.use(profilRouter.allowedMethods());
+
+app.use(wsRouter.routes());
+app.use(wsRouter.allowedMethods());
+
+
 
 await app.listen(options);

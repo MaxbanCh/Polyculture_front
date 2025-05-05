@@ -86,7 +86,7 @@ function submitAnswer(answer: string) {
             console.log("Answer submitted successfully");
             const data = await response.json();
             if (data.correct) {
-                
+                score.value += 1; // Increment score if the answer is correct
                 console.log("Correct answer!");
             } else {
                 console.log("Incorrect answer.");
