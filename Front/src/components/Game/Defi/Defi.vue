@@ -3,11 +3,11 @@ import { ref, onMounted } from 'vue';
 
 console.log("Hello from Defi !")
 import Question from '../Question.vue';
-// import ws from '../../../utils/websocket.ts'
 
 const questionData = ref(null);
 const themes = ref<string[]>([]); // Liste des thèmes
 const selectedTheme = ref<string>(""); 
+const score = ref(0);
 
 async function fetchThemes() {
     try {
@@ -86,6 +86,7 @@ function submitAnswer(answer: string) {
             console.log("Answer submitted successfully");
             const data = await response.json();
             if (data.correct) {
+                
                 console.log("Correct answer!");
             } else {
                 console.log("Incorrect answer.");

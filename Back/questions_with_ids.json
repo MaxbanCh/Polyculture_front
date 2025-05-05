@@ -50,7 +50,7 @@
     {
         "question": "Qui a peint la Joconde ?",
         "answer": "Léonard de Vinci",
-        "theme": "Arts Classiques",
+        "theme": "Culture Classique",
         "subtheme": "Peinture",
         "id": "c3c1ed85-a244-42df-9b53-6ecacc718b38",
         "type": "text"
@@ -226,7 +226,7 @@
     {
         "question": "Quel était l'ancien nom de Tik Tok ?",
         "answer": "Musical.ly",
-        "theme": "Sciences",
+        "theme": "Web et Jeux Videos",
         "subtheme": " ",
         "id": "0834f97d-f8d2-49e5-a2e0-1a1260d4bb69",
         "type": "text"
@@ -242,7 +242,7 @@
     {
         "question": "Quel est le nom de la société qui détient Google, Youtube, etc...?",
         "answer": "Alphabet",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "fdd0e177-e0fe-4a33-a662-2708a38319cd",
         "type": "text"
@@ -442,7 +442,7 @@
     {
         "question": "Citer deux musiques de Michel Sardou.",
         "answer": "Les lacs du Connemara, La maladie d'amour, En chantant, etc...",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "fb599c32-1439-465b-b550-71a3bdf55994",
         "type": "text"
@@ -458,7 +458,7 @@
     {
         "question": "Dans quel château peut-on visiter la Galerie des Glaces ?",
         "answer": "Château de Versailles",
-        "theme": "",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "ea9f9dc4-f262-42f6-a3f9-82cb210f2381",
         "type": "text"
@@ -466,16 +466,16 @@
     {
         "question": "Quel est le nom du Premier Ministre Canadien ?",
         "answer": "Justin Trudeau",
-        "theme": " ",
-        "subtheme": " ",
+        "theme": "Geographie",
+        "subtheme": "Geopolotique",
         "id": "5c467f85-4d58-462a-b4d4-ca9571d24229",
         "type": "text"
     },
     {
         "question": "Dans quel jeu narratif peut-on incarner Max Caulfield, une lycéenne photographe ayant des pouvoirs lui permettant de remonter dans le temps ?",
         "answer": "Life is Strange",
-        "theme": " ",
-        "subtheme": " ",
+        "theme": "Web et Jeux Videos",
+        "subtheme": "Gaming",
         "id": "2b158ee5-fe1a-4211-a999-c72e0722a0bf",
         "type": "text"
     },
@@ -483,7 +483,7 @@
         "question": "Citer un présentateur de Question Pour Un Champion.",
         "answer": "Samuel Etienne, Julien Lepers",
         "theme": "Cinema, Series et TV",
-        "subtheme": " ",
+        "subtheme": "Emissions TV",
         "id": "46823203-d7f7-4c7f-b256-857bea9265c4",
         "type": "text"
     },
@@ -538,31 +538,31 @@
     {
         "question": "Citer 3 entreprises d'Elon Musk.",
         "answer": "SpaceX, Tesla, Neuralink, Boring Company, etc...",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "d6c6aec0-e5f9-49ce-bcd8-b8a14950cb8c",
-        "type": "text"
+        "type": "choice"
     },
     {
         "question": "Quels sont les différents groupes sanguins possibles ?",
         "answer": "A, B, AB, O",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "4288c676-d456-444f-ad23-7198eb7ecfd7",
-        "type": "text"
+        "type": "choice"
     },
     {
         "question": "Citer le nom d'institut de sondage.",
         "answer": "IPSOS, Ifop, BVA, Harris Interactive, etc...",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "5ea45dcc-069b-4160-b097-b88931ee1dc9",
-        "type": "text"
+        "type": "choice"
     },
     {
         "question": "Qu'est-ce que la théologie ?",
         "answer": "Étude des religions",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "e86c5dbc-01f7-4bc8-8719-b8beb7be2394",
         "type": "text"
@@ -570,15 +570,15 @@
     {
         "question": "De quelle nationalité était le pianiste Chopin ?",
         "answer": "Polonais",
-        "theme": " ",
-        "subtheme": " ",
+        "theme": "Musique",
+        "subtheme": "",
         "id": "bc32ae13-879c-424a-a1fa-1bc1d2a8b09b",
         "type": "text"
     },
     {
         "question": "Quel pays possède le plus de fuseau horaires différents ?",
         "answer": "France",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "17e136e7-1fae-4870-945b-84c2b1dce0aa",
         "type": "text"
@@ -586,7 +586,7 @@
     {
         "question": "Quel est le son sorti durant le XXème siècle le plus écouté sur Spotify ?",
         "answer": "Bohemian Rhapsody de Queen",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "3548a23f-0dfb-4dad-ac4e-d2bfa32e2ccc",
         "type": "text"
@@ -594,7 +594,7 @@
     {
         "question": "Depuis 2022 en France, quelle est la durée minimum légale entre la sortie d'un film au cinéma et sa publication sur Netflix ?",
         "answer": "15 mois",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "02b8f692-bd1a-471f-9cf8-2926e3002030",
         "type": "text"
@@ -602,7 +602,7 @@
     {
         "question": "À quel groupe appartient la société de production 20th Century Fox, Lucas Film, ou encore Marvel ?",
         "answer": "Disney",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "291af2a2-19af-4ee1-8fdc-3a27083dbe88",
         "type": "text"
@@ -610,7 +610,7 @@
     {
         "question": "Qui est l'auteur de l'article \"J'accuse... !\" publié dans l'Aurore le 13 Janvier 1898 ?",
         "answer": "Émile Zola",
-        "theme": " ",
+        "theme": "Culture Classique",
         "subtheme": " ",
         "id": "345f70f9-e91f-45bf-94be-052bd3d1ea9a",
         "type": "text"
@@ -618,7 +618,7 @@
     {
         "question": "Quel est le nom de la prise avec laquelle on peut recharger un Iphone ? ",
         "answer": "Lightning avant 2023, USB-C après 2023",
-        "theme": " ",
+        "theme": "Sciences",
         "subtheme": " ",
         "id": "60622def-a467-49cb-b4a7-390ffe0a2686",
         "type": "text"
@@ -626,7 +626,7 @@
     {
         "question": "Quels sont les 3 pays qui composent le Benelux ?",
         "answer": "Belgique, Pays-Bas, Luxembourg",
-        "theme": " ",
+        "theme": "Geographie",
         "subtheme": " ",
         "id": "b1c4b208-91f6-4d0d-8478-a8b66d1c2eb5",
         "type": "text"
@@ -634,7 +634,7 @@
     {
         "question": "Quels produits fabriquent la marque Steinways and Sons ?",
         "answer": "Pianos",
-        "theme": " ",
+        "theme": "Musique",
         "subtheme": " ",
         "id": "6b82d2d7-c181-4c11-bcf0-f703f48e97b1",
         "type": "text"
@@ -642,7 +642,7 @@
     {
         "question": "Citer une chaine appartenant à la filiales TV de la CMA CGM Médias.",
         "answer": "BFM TV, RMC Découverte, RMC Story, etc...",
-        "theme": " ",
+        "theme": "Cinema, Series et TV",
         "subtheme": " ",
         "id": "29cf9ed0-0514-4677-864c-0348fb7b6a04",
         "type": "text"
@@ -650,7 +650,7 @@
     {
         "question": "A quelle date correspond le 21 avril 1944 en France ?",
         "answer": "Obtention du droit de vote des femmes",
-        "theme": " ",
+        "theme": "Histoire",
         "subtheme": " ",
         "id": "cfb7ccd2-34d7-449b-97b8-d08de64236a4",
         "type": "text"
@@ -658,7 +658,7 @@
     {
         "question": "Quel moment pourrait être considéré comme l'opposé du crépuscule ?",
         "answer": "Aube",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "a5d0709f-ed05-47ec-aca0-55fb536dbadb",
         "type": "text"
@@ -666,7 +666,7 @@
     {
         "question": "Sur un échiquier, quelle pièce se situe en A6 en début de partie ?",
         "answer": "Rien du tout",
-        "theme": " ",
+        "theme": "Culture Generale",
         "subtheme": " ",
         "id": "d6f65c21-2732-4561-8d1b-003c0ea9a352",
         "type": "text"

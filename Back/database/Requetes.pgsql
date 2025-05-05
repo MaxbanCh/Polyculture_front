@@ -8,9 +8,6 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS Themes;
 
 
-
-
-
 -- Basic tables for the app :
 
 CREATE TABLE users (

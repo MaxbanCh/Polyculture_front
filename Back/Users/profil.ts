@@ -47,8 +47,6 @@ const secretKey = await crypto.subtle.generateKey(
 );
 
 
-
-
 // Connection related variables
 const tokens: { [key: string]: string } = {};
 
