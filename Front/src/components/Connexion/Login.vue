@@ -49,7 +49,7 @@ async function login() {
 </script>
 
 <template>
-    <h1>Login</h1>
+    <h2>Login</h2>
     Username:
     <input type="text" name="Username" id="username">
     Password:

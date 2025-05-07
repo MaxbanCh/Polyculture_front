@@ -1,18 +1,60 @@
 // Front/src/components/Game/Room.vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import ws from '../../utils/websocket';
+import { themes } from '../themes';
+import ws from '../../../utils/websocket';
 
 const roomCode = ref('');
 const players = ref([]);
 const selectedThemes = ref([]);
 const isHost = ref(false);
 
+function getUserId(): string {
+  // Récupérer tous les cookies
+  const cookies = document.cookie.split(';');
+  console.log('Cookies:', cookies);
+  
+  // Chercher le cookie auth_token
+  const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token'));
+
+  console.log('Auth token:', authCookie);
+
+  if (!authCookie) {
+    console.error('Auth token cookie not found');
+    return '';
+  }
+  
+  // Extraire la valeur du token
+  const token = authCookie.split('=')[1].trim();
+  
+  try {
+    // Décoder le token JWT (sans vérifier la signature côté client)
+    // Le token JWT est composé de 3 parties: header.payload.signature
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    
+    // Retourner le username (selon la structure de votre token)
+    return payload.userName || '';
+  } catch (error) {
+    console.error('Error parsing JWT token:', error);
+    return '';
+  }
+}
+
+function getUsername(): string {
+  let username = document.getElementById('username') as HTMLInputElement;
+  if (username) {
+    return username.value;
+  } else {
+    console.error('Username input not found');
+    return '';
+  }
+}
+
 function createRoom() {
   ws.send(JSON.stringify({
     type: 'CREATE_ROOM',
-    userId: getCurrentUserId(),
-    username: getCurrentUsername()
+    userId: getUserId(),
+    username: getUsername()
   }));
 }
 
@@ -20,8 +62,8 @@ function joinRoom() {
   ws.send(JSON.stringify({
     type: 'JOIN_ROOM',
     roomCode: roomCode.value,
-    userId: getCurrentUserId(),
-    username: getCurrentUsername()
+    userId: getUserId,
+    username: getUsername()
   }));
 }
 
@@ -53,6 +95,7 @@ ws.onmessage = (event) => {
 <template>
   <div class="room">
     <div v-if="!roomCode">
+      <input id="username" placeholder="Nom d'utilisateur">
       <button @click="createRoom">Créer un salon</button>
       <div>
         <input v-model="roomCode" placeholder="Code du salon">
@@ -74,7 +117,7 @@ ws.onmessage = (event) => {
       <div v-if="isHost" class="themes">
         <h3>Sélection des thèmes</h3>
         <select multiple v-model="selectedThemes">
-          <option v-for="theme in availableThemes" :key="theme">
+          <option v-for="theme in themes" :key="theme">
             {{ theme }}
           </option>
         </select>

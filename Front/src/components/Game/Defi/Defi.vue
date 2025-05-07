@@ -3,34 +3,11 @@ import { ref, onMounted } from 'vue';
 
 console.log("Hello from Defi !")
 import Question from '../Question.vue';
+import {themes} from '../themes';
 
 const questionData = ref(null);
-const themes = ref<string[]>([]); // Liste des thèmes
 const selectedTheme = ref<string>(""); 
 const score = ref(0);
-
-async function fetchThemes() {
-    try {
-        const response = await fetch("http://83.195.188.17:3000/themes", {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            themes.value = data.themes; // Stocker les thèmes
-        } else {
-            console.error("Failed to fetch themes");
-        }
-    } catch (error) {
-        console.error("Error fetching themes:", error);
-    }
-}
-
 
 function askQuestion() {
     // console.log(document.getElementById("theme").value);
@@ -100,9 +77,7 @@ function submitAnswer(answer: string) {
     });
 }
 onMounted(() => {
-    fetchThemes();
 });
-
 
 </script>
 

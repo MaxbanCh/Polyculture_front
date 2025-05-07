@@ -1,14 +1,15 @@
 <script setup lang="ts">
 // import ws from '../../utils/websocket.ts'
 
+
 console.log("Hello from Register!")
 
 async function register() {
-    let username = ((document.getElementById("username") as HTMLInputElement)?.value ?? "");
+    let username = ((document.getElementById("usernameRegister") as HTMLInputElement)?.value ?? "");
     let mail = ((document.getElementById("mail") as HTMLInputElement)?.value ?? "");
-    let password = (document.getElementById("password") as HTMLInputElement)?.value ?? "";
+    let password = (document.getElementById("passwordRegister") as HTMLInputElement)?.value ?? "";
 
-    fetch("http://93.195.188.17:3000/register", {
+    fetch("http://83.195.188.17:3000/register", {
         method: "POST",
         mode : "cors",
         credentials: "include",
@@ -24,7 +25,7 @@ async function register() {
 
             console.log(data);
             localStorage.setItem('auth_token', data.auth_token);
-            router.push("/");
+            window.location.href = '/'; // Rediriger vers la page d'accueil
         }
         // throw new Error("Network response was not ok.");
         else {
@@ -43,13 +44,13 @@ async function register() {
 </script>
 
 <template>
-    <h1>Login</h1>
+    <h2>Register</h2>
     Username:
-    <input type="text" name="Username" id="username">
+    <input type="text" name="UsernameRegister" id="usernameRegister">
     Email :
     <input type="email" name="Mail" id="mail">
     Password:
-    <input type="password" name="Password" id="password">
+    <input type="password" name="PasswordRegister" id="passwordRegister">
 
     <button id="register" @click="register()">Register</button>
 </template>

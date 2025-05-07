@@ -13,8 +13,6 @@ let nbWins = ref(0);
 let nbDefis = ref(0);
 let nbDefisGagnes = ref(0);
 
-
-
 function logout() {
     console.log("Logout successful");
     localStorage.removeItem('auth_token');

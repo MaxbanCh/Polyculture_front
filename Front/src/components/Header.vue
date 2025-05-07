@@ -45,7 +45,7 @@ function toggleMenu() {
           <RouterLink to="/profil">Profil</RouterLink>
         </li>
         <li v-else>
-          <RouterLink to="/login">Login</RouterLink>
+          <RouterLink to="/connexion">Connexion</RouterLink>
         </li>
         <li>Question</li>
       </ul>
