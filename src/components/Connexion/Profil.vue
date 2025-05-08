@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-// // import ws from '../../utils/websocket.ts'
-// console.log("Hello from Profil!")
-
-// import { useRouter } from 'vue-router'; // Importer useRouter
-// // const router = useRouter(); // Initialiser le routeur
+import { ref } from 'vue';
+ // Initialiser le routeur
 
 let username = ref("");
 let score = ref(0);
@@ -94,8 +90,8 @@ async function isAdmin() {
 
     <div id="admin">
         <h2>Admin</h2>
-        <p v-if="isAdmin">Vous êtes administrateur</p>
-        <p v-else>Vous n'êtes pas administrateur</p>
+        <!-- <p v-if="isAdmin">Vous êtes administrateur</p>
+        <p v-else>Vous n'êtes pas administrateur</p> -->
     </div>
 
     <button id="logout" @click="logout()">Logout</button>

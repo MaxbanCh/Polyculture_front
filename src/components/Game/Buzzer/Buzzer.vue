@@ -13,7 +13,7 @@ function pressBuzzer(){
     return;
 }
 
-function priority(event){
+function priority(event : any){
     console.log("Buzzer pressed");
     const buzz = JSON.parse(event.data);
     console.log("pressed by : ${buzz.owner}");

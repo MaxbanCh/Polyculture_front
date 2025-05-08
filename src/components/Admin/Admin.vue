@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, onMounted } from "vue";
+    import { ref } from "vue";
     let wait = ref(true);
     let isAdmin = ref(false);
 

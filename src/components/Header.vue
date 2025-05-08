@@ -10,14 +10,6 @@ onMounted(() => {
   isLoggedIn.value = !!localStorage.getItem('auth_token'); // Vérifie si un token est présent
 });
 
-// Fonction pour se déconnecter
-function logout() {
-  localStorage.removeItem('auth_token'); // Supprime le token
-  isLoggedIn.value = false; // Met à jour l'état de connexion
-  router.push('/'); // Redirige vers la page d'accueil
-}
-
-
 const isMenuOpen = ref(false);
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
