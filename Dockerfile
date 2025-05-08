@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Utilisez une image de base Deno pour servir l'application
-FROM hayd/deno:alpine-1.25.0
+FROM denoland/deno:latest
 
 # Définissez le répertoire de travail
 WORKDIR /app
