@@ -40,7 +40,7 @@ export default createRouter({
 			beforeEnter: (to, from, next) => {
 				const token = localStorage.getItem('auth_token');
 				if (!token) {
-					next('/login');
+					next('/connexion');
 				} else {
 					// Vérification du token
 					fetch("http://83.195.188.17:3000/profil", {
@@ -52,7 +52,7 @@ export default createRouter({
 						if (response.status === 200) {
 							next(); // Autoriser l'accès
 						} else {
-							next('/'); // Rediriger vers la page d'accueil
+							next('/connexion'); // Rediriger vers la page d'accueil
 						}
 					})
 					.catch(() => next('/connexion'));

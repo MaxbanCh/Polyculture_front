@@ -120,7 +120,7 @@ async function checkAuthStatus() {
   
   if (!token) {
     console.log("Token absent, déconnexion automatique");
-    router.push('/login');
+    router.push('/connexion');
     return;
   }
 
@@ -140,7 +140,7 @@ async function checkAuthStatus() {
       // Suppression du token et du cookie
       localStorage.removeItem('auth_token');
       document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Strict;";
-      window.location.href = '/login';
+      window.location.href = '/connexion';
     }
   } catch (error) {
     console.error("Erreur lors de la vérification du token:", error);

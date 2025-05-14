@@ -84,23 +84,36 @@ function startGame() {
 // Gestion des messages WebSocket
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
+  console.log(data);
+
   switch (data.type) {
     case 'ROOM_CREATED':
       roomCode.value = data.room.code;
       isHost.value = true;
       break;
     case 'ROOM_JOINED':
-      console.log('Room joined:', data);
       roomCode.value = data.room.code;
-      isHost.value = false;
+      isHost.value = true;
       break;
-
     case 'PLAYER_JOINED':
       players.value = data.players;
       break;
   }
 };
+
+
+onMounted(() => {
+    fetchThemes()
+        .then((data) => {
+            themes.value = data; // Store the themes in the ref
+        })
+        .catch((error) => {
+            console.error("Error fetching themes:", error);
+        });
+      });
+
 </script>
+
 
 <template>
   <div class="room">
