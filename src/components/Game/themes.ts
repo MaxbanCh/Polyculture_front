@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-async function fetchThemes() {
+export async function fetchThemes() {
     try {
         const response = await fetch("http://83.195.188.17:3000/themes", {
             method: "GET",
@@ -25,19 +25,18 @@ async function fetchThemes() {
     }
 }
 
-const themes = ref<string[]>([]); // Liste des thèmes
-const themesLoaded = ref(false); // Indicateur de chargement des thèmes
+// const themes = ref<string[]>([]); // Liste des thèmes
+// const themesLoaded = ref(false); // Indicateur de chargement des thèmes
 
-// Fonction pour charger les thèmes
-async function loadThemes() {
-    if (!themesLoaded.value) {
-        const fetchedThemes = await fetchThemes();
-        if (fetchedThemes) {
-            themes.value = fetchedThemes;
-            themesLoaded.value = true; // Marquer les thèmes comme chargés
-        }
-    }
-}
-// Appeler la fonction pour charger les thèmes
-loadThemes();
-export { themes, loadThemes };
+// // Fonction pour charger les thèmes
+// async function loadThemes() {
+//     if (!themesLoaded.value) {
+//         const fetchedThemes = await fetchThemes();
+//         if (fetchedThemes) {
+//             themes.value = fetchedThemes;
+//             themesLoaded.value = true; // Marquer les thèmes comme chargés
+//         }
+//     }
+// }
+
+export default fetchThemes;

@@ -1,12 +1,15 @@
+// Front/src/components/Game/Room.vue
 <script setup lang="ts">
-import { ref } from 'vue';
-import { themes } from '../themes';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { fetchThemes } from '../themes';
 import ws from '../../../utils/websocket';
 
 const roomCode = ref('');
+const inputRoomCode = ref(''); // Nouveau ref pour l'input
 const players = ref([]);
 const selectedThemes = ref([]);
 const isHost = ref(false);
+const themes = ref([]);
 
 function getUserId(): string {
   // Récupérer tous les cookies
@@ -58,10 +61,12 @@ function createRoom() {
 }
 
 function joinRoom() {
+  if (!inputRoomCode.value) return;
+
   ws.send(JSON.stringify({
     type: 'JOIN_ROOM',
-    roomCode: roomCode.value,
-    userId: getUserId,
+    roomCode: inputRoomCode.value,
+    userId: getUserId(),
     username: getUsername()
   }));
 }
@@ -84,6 +89,12 @@ ws.onmessage = (event) => {
       roomCode.value = data.room.code;
       isHost.value = true;
       break;
+    case 'ROOM_JOINED':
+      console.log('Room joined:', data);
+      roomCode.value = data.room.code;
+      isHost.value = false;
+      break;
+
     case 'PLAYER_JOINED':
       players.value = data.players;
       break;
@@ -97,7 +108,7 @@ ws.onmessage = (event) => {
       <input id="username" placeholder="Nom d'utilisateur">
       <button @click="createRoom">Créer un salon</button>
       <div>
-        <input v-model="roomCode" placeholder="Code du salon">
+        <input v-model="inputRoomCode" placeholder="Code du salon">
         <button @click="joinRoom">Rejoindre</button>
       </div>
     </div>

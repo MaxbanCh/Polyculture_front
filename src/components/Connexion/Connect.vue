@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// import { ref, onMounted } from 'vue';
-// import { useRouter } from 'vue-router'; // Importer useRouter
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router'; // Importer useRouter
 
 import Login from './Login.vue';
 import Register from './Register.vue';

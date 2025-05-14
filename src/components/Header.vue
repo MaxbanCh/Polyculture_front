@@ -10,35 +10,42 @@ onMounted(() => {
   isLoggedIn.value = !!localStorage.getItem('auth_token'); // Vérifie si un token est présent
 });
 
+
 const isMenuOpen = ref(false);
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value;
 }
+
+const closeMenu = () => {
+  isMenuOpen.value = false;
+};
 </script>
 
 <template>
   <div class="header-wrapper">
     <header>
     <nav>
+        <div class="logo-container">
+          Polyculture
+        </div>
       <button class="menu-toggle" @click="toggleMenu" aria-label="Toggle menu">
         <div class="hamburger" :class="{ 'menu-open': isMenuOpen }">
           <span></span>
           <span></span>
           <span></span>
         </div>
-
       </button>
       <ul :class="{ 'menu-open': isMenuOpen }">
         
-        <li><RouterLink to="/">Accueil</RouterLink></li>
-        <li><RouterLink to="/room">Multijoueur</RouterLink></li>
-        <li><RouterLink to="/Defi">Defi</RouterLink></li>
-        <li v-if="isLoggedIn">
-          <RouterLink to="/profil">Profil</RouterLink>
-        </li>
-        <li v-else>
-          <RouterLink to="/connexion">Connexion</RouterLink>
-        </li>
+        <li><RouterLink to="/" @click="closeMenu">Accueil</RouterLink></li>
+          <li><RouterLink to="/room" @click="closeMenu">Multijoueur</RouterLink></li>
+          <li><RouterLink to="/Defi" @click="closeMenu">Defi</RouterLink></li>
+          <li v-if="isLoggedIn">
+            <RouterLink to="/profil" @click="closeMenu">Profil</RouterLink>
+          </li>
+          <li v-else>
+            <RouterLink to="/connexion" @click="closeMenu">Connexion</RouterLink>
+          </li>
         <li>Question</li>
       </ul>
     </nav>
@@ -50,119 +57,9 @@ function toggleMenu() {
 
 
 <style scoped>
-/* header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    background-color: #2c3e50;
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-nav {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    gap: 2rem;
-}
-
-nav ul li {
-    margin: 0;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #ecf0f1;
-    font-weight: bold;
-    transition: color 0.3s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-}
-
-nav ul li a:hover {
-    color: #3498db;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-nav ul li a.router-link-active {
-    color: #3498db;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 21px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    position: absolute;
-    right: 2rem;
-    top: 1rem;
-}
-
-.menu-toggle span {
-    width: 30px;
-    height: 3px;
-    background-color: #ecf0f1;
-    transition: all 0.3s linear;
-    position: relative;
-    transform-origin: 1px;
-}
-
-@media (max-width: 768px) {
-    header {
-        padding: 0.5rem 0;
-    }
-
-    nav {
-        padding: 0 1rem;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-
-    nav ul {
-        display: none;
-        width: 100%;
-        padding-top: 4rem;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    nav ul.menu-open {
-        display: flex;
-    }
-
-    nav ul li {
-        width: 100%;
-        text-align: center;
-    }
-
-    nav ul li a {
-        display: block;
-        padding: 0.8rem 1rem;
-    }
-} */
-
 .header-wrapper {
     background-color: #2c3e50;
-    margin: 1% 3%;
+    margin: 1% 7.5%;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
@@ -180,11 +77,12 @@ nav {
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between; /* Changé de flex-end à space-between */
     align-items: center;
     height: 60px;
     position: relative;
 }
+
 
 /* Styles pour le bouton hamburger */
 .menu-toggle {
@@ -213,6 +111,25 @@ nav {
     border-radius: 3px;
     transition: all 0.3s ease;
 }
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 40px;
+}
+
+.logo {
+    height: 100%;
+    width: auto;
+}
+
+.logo-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
 
 /* Style pour les liens */
 nav ul {
@@ -297,6 +214,14 @@ nav ul li a.router-link-active {
 
     .menu-open + .menu-toggle .hamburger span:nth-child(3) {
         transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .logo-container {
+        gap: 0.5rem;
+    }
+
+    .logo-text {
+        font-size: 1rem;
     }
 }
 </style>

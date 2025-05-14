@@ -1,35 +1,22 @@
-# Utilisez une image de base Node.js pour construire l'application Vue.js
-FROM node:16 as build-stage
+# Utiliser une image Node.js pour construire l'application
+FROM node:18 AS builder
 
-# Définissez le répertoire de travail
+# Définir le répertoire de travail
 WORKDIR /app
 
-# Copiez les fichiers package.json et package-lock.json
+# Copier les fichiers nécessaires
 COPY package*.json ./
-
-# Installez les dépendances
-RUN npm install
-
-# Copiez le reste des fichiers de l'application
 COPY . .
 
-# Construisez l'application Vue.js
+# Installer les dépendances et construire l'application
+RUN npm install
 RUN npm run build
 
-# Utilisez une image de base Deno pour servir l'application
-FROM denoland/deno:latest
+# Utiliser une image Nginx pour servir l'application
+FROM nginx:alpine
 
-# Définissez le répertoire de travail
-WORKDIR /app
+# Copier les fichiers construits dans le dossier Nginx
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copiez les fichiers construits depuis l'étape de construction
-COPY --from=build-stage /app/dist ./dist
-
-# Copiez le fichier server.ts
-COPY server.ts .
-
-# Exposez le port sur lequel le serveur Deno écoutera
+# Exposer le port utilisé par Nginx
 EXPOSE 80
-
-# Commande pour démarrer le serveur Deno
-CMD ["deno", "run", "--allow-net", "--allow-read", "server.ts"]

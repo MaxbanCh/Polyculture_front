@@ -1,50 +1,86 @@
 <script setup lang="ts">
-    import { ref } from "vue";
+    import { ref, onMounted } from "vue";
+    import { useRouter } from 'vue-router';
+    import ManageQuestion from './ManageQuestion.vue';
+
+    const router = useRouter();
     let wait = ref(true);
     let isAdmin = ref(false);
+    let errorMessage = ref("");
 
-    async function accessGranted() {
+    async function checkAdminAccess() {
+        const token = localStorage.getItem('auth_token');
+        
+        // Vérifier si le token existe
+        if (!token) {
+            errorMessage.value = "Vous n'êtes pas connecté";
+            wait.value = false;
+            // Rediriger vers la page de connexion
+            router.push('/login');
+            return;
+        }
+        
         try {
-        const response = await fetch("http://89.195.188.17:3000/admin", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            const response = await fetch("http://83.195.188.17:3000/admin", {
+                method: "GET",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+            
+            if (response.status === 200) {
+                // L'utilisateur est un administrateur
+                isAdmin.value = true;
+                wait.value = false;
+            } else if (response.status === 403) {
+                // L'utilisateur est connecté mais n'a pas les droits admin
+                errorMessage.value = "Vous n'avez pas les droits d'administrateur";
+                wait.value = false;
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            } else if (response.status === 401) {
+                // Token invalide ou expiré
+                errorMessage.value = "Session expirée, veuillez vous reconnecter";
+                wait.value = false;
+                // Supprimer le token et le cookie
+                localStorage.removeItem('auth_token');
+                document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Strict;";
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            } else {
+                // Autre erreur
+                errorMessage.value = "Une erreur est survenue";
+                wait.value = false;
             }
-        });
-        if (response.status === 200) {
-            const data = await response.json();
-            isAdmin.value = data.isAdmin;
-        } else {
-            console.error("Failed to fetch admin status");
-        }
         } catch (error) {
-            console.error("Error during admin check:", error);
-            isAdmin.value = false;
+            console.error("Erreur lors de la vérification des droits admin:", error);
+            errorMessage.value = "Erreur de connexion au serveur";
+            wait.value = false;
         }
     }
-    async function init() {
-        await accessGranted();
-        if (!isAdmin.value) {
-            window.location.href = "/home";
-        }
-        wait.value = false;
-    }
-    init();
 
+    onMounted(() => {
+        checkAdminAccess();
+    });
 </script>
-
 
 <template>
     <div id="admin">
         <div v-if="wait">
-            <p>Loading...</p>
+            <p>Vérification des droits d'accès...</p>
+        </div>
+        <div v-else-if="!isAdmin">
+            <h2>Accès refusé</h2>
+            <p>{{ errorMessage }}</p>
         </div>
         <div v-else>
-            <h1>Admin Panel</h1>
+            <h1>Panneau d'administration</h1>
+            <ManageQuestion />
         </div>
-
     </div>
-
 </template>

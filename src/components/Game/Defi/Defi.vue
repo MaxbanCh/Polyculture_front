@@ -3,16 +3,17 @@ import { ref, onMounted } from 'vue';
 
 console.log("Hello from Defi !")
 import Question from '../Question.vue';
-import {themes} from '../themes';
+import {fetchThemes} from '../themes';
 
 const questionData = ref(null);
 const selectedTheme = ref<string>(""); 
 const score = ref(0);
+const themes = ref<string[]>([]); // Liste des thèmes
 
 function askQuestion() {
     // console.log(document.getElementById("theme").value);
     const theme = selectedTheme.value; // Récupérer le thème sélectionné
-    const url = new URL("http://83.195.188.17:3000/question");
+    const url = new URL("http://83.195.188.17:3000/randomquestion");
     if (theme) {
         url.searchParams.append("theme", theme);
     }
@@ -30,6 +31,7 @@ function askQuestion() {
         if (response.ok) {
             console.log("Question asked successfully");
             questionData.value = await response.json(); // Store the question data
+            console.log("Question data:", questionData.value);
         } else {
             console.error("Error asking question");
         }
@@ -76,7 +78,15 @@ function submitAnswer(answer: string) {
         console.error("There has been a problem with your fetch operation:", error);
     });
 }
+
 onMounted(() => {
+    fetchThemes()
+        .then((data) => {
+            themes.value = data; // Store the themes in the ref
+        })
+        .catch((error) => {
+            console.error("Error fetching themes:", error);
+        });
 });
 
 </script>

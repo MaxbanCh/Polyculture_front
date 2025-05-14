@@ -13,7 +13,7 @@ function pressBuzzer(){
     return;
 }
 
-function priority(event : any){
+function priority(event){
     console.log("Buzzer pressed");
     const buzz = JSON.parse(event.data);
     console.log("pressed by : ${buzz.owner}");
@@ -25,8 +25,8 @@ function priority(event : any){
         } else {
             light.style.backgroundColor = "red";
         }
-        light.style.width = "400px";
-        light.style.height = "100px";
+        light.style.width = "80%";
+        light.style.height = "40%";
     }
 
     return ;
