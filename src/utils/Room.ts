@@ -5,7 +5,7 @@ interface Room {
   host: string;
   players: Player[];
   selectedThemes: string[];
-  status: 'waiting' | 'playing' | 'finished';
+  status: "waiting" | "playing" | "finished";
   currentQuestion?: Question;
   scores: Record<string, number>;
 }

@@ -4,7 +4,6 @@ import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 const app = new Application();
 const router = new Router();
 
-
 app.use(async (ctx) => {
   try {
     await ctx.send({
@@ -16,7 +15,6 @@ app.use(async (ctx) => {
     ctx.response.body = "404 File not found";
   }
 });
-
 
 app.use(router.routes());
 app.use(router.allowedMethods());
