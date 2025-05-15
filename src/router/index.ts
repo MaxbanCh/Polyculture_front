@@ -62,7 +62,7 @@ export default createRouter({
       path: "/admin",
       name: "Admin",
       component: Admin,
-      beforeEnter: (to, from, next) => {
+      beforeEnter: (_to, _from, next) => {
         const token = localStorage.getItem("auth_token");
         if (!token) {
           next("/login");

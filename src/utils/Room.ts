@@ -15,3 +15,12 @@ interface Player {
   username: string;
   ready: boolean;
 }
+
+interface Question {
+  id: string;
+  question: string;
+  answer: string;
+  theme?: string;
+  subtheme?: string;
+  type?: string;
+}

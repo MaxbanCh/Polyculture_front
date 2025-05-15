@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "types": ["./src/vite-env.d.ts", "./src/vue-shims.d.ts"]
+  },
+  "tasks": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
