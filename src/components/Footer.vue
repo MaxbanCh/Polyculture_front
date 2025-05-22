@@ -8,7 +8,7 @@
       <p>&copy; 2025 Polyculture. Tous droits réservés.</p>
       <ul>
         <li>Publicité</li>
-        <li>Crédits</li>
+        <li></li>
       </ul>
     </div>
   </footer>
