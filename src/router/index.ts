@@ -7,6 +7,8 @@ import Room from "../components/Game/Multijoueur/Room.vue";
 
 import Connect from "../components/Connexion/Connect.vue";
 import Admin from "../components/Admin/Admin.vue";
+import ManageQuestionPool from '../components/Admin/ManageQuestionPool.vue'
+
 
 export default createRouter({
   history: createWebHistory("/"),
@@ -83,6 +85,12 @@ export default createRouter({
             .catch(() => next("/"));
         }
       },
+    },
+    {
+      path: '/admin/pools',
+      name: 'ManageQuestionPool',
+      component: ManageQuestionPool,
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
   ],
 });

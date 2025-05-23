@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from 'vue-router';
 
 import { fetchThemes } from '../Game/themes.ts';
 
 const router = useRouter();
 const questions = ref([]);
+const filteredQuestions = ref([]); // Pour stocker les questions filtrées
 const themes = ref<string[]>([]); // Liste des thèmes
 const selectedTheme = ref<string>("");
+
+// Variables pour la recherche
+const searchQuery = ref("");
+const isSearching = ref(false);
 
 // Variables pour l'ajout de question
 const newQuestionText = ref("");
@@ -25,6 +30,11 @@ const editQuestionTheme = ref("");
 const editQuestionSubtheme = ref("");
 const editQuestionType = ref("");
 
+// Surveiller les changements de questions pour mettre à jour filteredQuestions
+watch(() => questions.value, (newQuestions) => {
+  updateFilteredQuestions();
+}, { deep: true, immediate: true });
+
 async function fetchQuestions(page = 1) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
@@ -32,15 +42,15 @@ async function fetchQuestions(page = 1) {
         wait.value = false;
         return;
     }
-    console.log(page)
+    
     if (page < 1) {
         page = 1;
     }
 
     const url = new URL("http://83.195.188.17:3000/question");
     url.searchParams.append("page", page.toString());
-    // url.searchParams.append("theme", selectedTheme.value || "Général");
 
+    wait.value = true;
     fetch(url.toString(), {
         method: "GET",
         mode: "cors",
@@ -51,16 +61,35 @@ async function fetchQuestions(page = 1) {
         },
     })
     .then(async (response) => {
-        questions.value = await response.json();
-        console.log(questions.value);
-        
+        const result = await response.json();
+        questions.value = result;
         wait.value = false;
+        updateFilteredQuestions(); // Mettre à jour les questions filtrées
     })
     .catch((error) => {
         console.error("Erreur lors de la récupération des questions:", error);
         errorMessage.value = "Erreur lors de la récupération des questions";
         wait.value = false;
     });
+}
+
+// Fonction pour filtrer les questions en fonction de la recherche
+function updateFilteredQuestions() {
+    if (!searchQuery.value.trim() || !questions.value.questions) {
+        filteredQuestions.value = questions.value.questions || [];
+        isSearching.value = false;
+        return;
+    }
+
+    const query = searchQuery.value.toLowerCase();
+    isSearching.value = true;
+    
+    filteredQuestions.value = questions.value.questions.filter(question => 
+        question.question.toLowerCase().includes(query) || 
+        (question.answer && question.answer.toLowerCase().includes(query)) || 
+        (question.theme && question.theme.toLowerCase().includes(query)) ||
+        (question.subtheme && question.subtheme.toLowerCase().includes(query))
+    );
 }
 
 async function addQuestion() {
@@ -200,6 +229,15 @@ function cancelEdit() {
     editingQuestion.value = null;
 }
 
+function handleSearch() {
+    fetchQuestions(1); // Revenir à la première page lors d'une recherche
+}
+
+function clearSearch() {
+    searchQuery.value = "";
+    updateFilteredQuestions();
+}
+
 onMounted(() => {
     wait.value = true;
     fetchQuestions();
@@ -220,7 +258,22 @@ onMounted(() => {
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
         <div v-if="wait" class="loading">Chargement...</div>
         <div v-else>
+            
             <h2>Liste des questions</h2>
+            
+            <!-- Barre de recherche instantanée -->
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    v-model="searchQuery" 
+                    @input="updateFilteredQuestions"
+                    placeholder="Rechercher des questions..."
+                />
+                <button v-if="isSearching" class="clear-btn" @click="clearSearch">
+                    Effacer la recherche
+                </button>
+            </div>
+            
             <div class="table-container">
                 <table class="questions-table">
                     <thead>
@@ -234,7 +287,7 @@ onMounted(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="question in questions.questions" :key="question.id">
+                        <tr v-for="question in filteredQuestions" :key="question.id">
                             <!-- Mode affichage normal -->
                             <template v-if="editingQuestion !== question.id">
                                 <td>{{ question.question }}</td>
@@ -248,7 +301,7 @@ onMounted(() => {
                                 </td>
                             </template>
                             
-                            <!-- Mode édition -->
+                            <!-- Mode édition - aucun changement ici -->
                             <template v-else>
                                 <td><input v-model="editQuestionText" placeholder="Question" /></td>
                                 <td><input v-model="editQuestionAnswer" placeholder="Réponse" /></td>
@@ -271,6 +324,12 @@ onMounted(() => {
                                     <button class="cancel-btn" @click="cancelEdit">Annuler</button>
                                 </td>
                             </template>
+                        </tr>
+                        <!-- Message quand aucun résultat -->
+                        <tr v-if="filteredQuestions.length === 0">
+                            <td colspan="6" class="no-results">
+                                Aucune question ne correspond à votre recherche
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -436,5 +495,45 @@ button {
     padding: 8px;
     border: 1px solid #333;
     border-radius: 4px;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #121212;
+    color: white;
+}
+
+.search-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.clear-btn {
+    background-color: #607D8B;
+    color: white;
+}
+
+/* Indiquer que des filtres sont actifs */
+.search-active {
+    border-bottom: 2px solid #4caf50;
+    padding-bottom: 5px;
+}
+
+/* Style pour le message quand aucun résultat */
+.no-results {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #999;
 }
 </style>

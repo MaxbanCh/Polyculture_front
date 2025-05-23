@@ -1,27 +1,60 @@
-// Front/src/components/Game/Room.vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { fetchThemes } from '../themes';
-import ws from '../../../utils/websocket';
+const ws = new WebSocket(`ws://83.195.188.17:3000/Multi`);
 
 const roomCode = ref('');
-const inputRoomCode = ref(''); // Nouveau ref pour l'input
+const inputRoomCode = ref(''); 
 const players = ref([]);
 const selectedThemes = ref([]);
 const isHost = ref(false);
 const themes = ref([]);
 
+// Question pools
+const questionPools = ref([]);
+const selectedPoolId = ref(null);
+
 // Game Refs
 const gameInProgress = ref(false);
 const currentQuestion = ref(null);
 const timeRemaining = ref(0);
-const totalRounds = ref(10); // Number of questions per game
+const totalRounds = ref(10);
 const currentRound = ref(0);
 const playerScores = ref({});
 const userAnswer = ref('');
 const hasAnswered = ref(false);
 const questionResults = ref(null);
 
+
+// Fonction pour récupérer les pools de questions
+async function fetchQuestionPools() {
+  try {
+    const token = localStorage.getItem('auth_token') || document.cookie.split('; ').find(row => row.startsWith('auth_token='))?.split('=')[1];
+    
+    if (!token) {
+      console.error("Aucun token d'authentification trouvé");
+      return;
+    }
+
+    const response = await fetch('http://83.195.188.17:3000/questionpool', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    questionPools.value = data;
+    console.log("Pools de questions récupérés:", data);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des pools de questions:", error);
+  }
+}
 
 function getUserId(): string {
   // Récupérer tous les cookies
@@ -88,7 +121,8 @@ function startGame() {
     ws.send(JSON.stringify({
       type: 'START_GAME',
       roomCode: roomCode.value,
-      themes: selectedThemes.value,
+      themes: selectedPoolId.value ? [] : selectedThemes.value, // Si un pool est sélectionné, on ignore les thèmes
+      poolId: selectedPoolId.value,
       totalRounds: totalRounds.value
     }));
   }
@@ -192,6 +226,8 @@ onMounted(() => {
     .catch((error) => {
       console.error("Error fetching themes:", error);
     });
+  
+  fetchQuestionPools();
 });
 </script>
 
@@ -224,20 +260,56 @@ onMounted(() => {
           </ul>
         </div>
 
-        <div v-if="isHost" class="themes">
-          <h3>Sélection des thèmes</h3>
-          <select multiple v-model="selectedThemes">
-            <option v-for="theme in themes" :key="theme">
-              {{ theme }}
-            </option>
-          </select>
+        <div v-if="isHost" class="game-setup">
+          <div class="selection-option">
+            <h3>Sélectionner une option:</h3>
+            <div class="options-toggle">
+              <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = null">
+                Sélection par thèmes
+              </button>
+              <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : null">
+                Utiliser un pool de questions
+              </button>
+            </div>
+          </div>
+
+          <!-- Sélection par thèmes -->
+          <div v-if="!selectedPoolId" class="themes">
+            <h3>Sélection des thèmes</h3>
+            <select multiple v-model="selectedThemes" class="select-multiple">
+              <option v-for="theme in themes" :key="theme">
+                {{ theme }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Sélection par pool de questions -->
+          <div v-else class="question-pool">
+            <h3>Sélection d'un pool de questions</h3>
+            <select v-model="selectedPoolId" class="select-single">
+              <option v-for="pool in questionPools" :key="pool.id" :value="pool.id">
+                {{ pool.name }} ({{ pool.question_count }} questions)
+              </option>
+            </select>
+            
+            <div v-if="selectedPoolId && questionPools.length > 0" class="pool-info">
+              <h4>Description du pool:</h4>
+              <p>{{ questionPools.find(p => p.id === selectedPoolId)?.description || 'Aucune description disponible' }}</p>
+              <p><strong>Créé par:</strong> {{ questionPools.find(p => p.id === selectedPoolId)?.created_by || 'Utilisateur inconnu' }}</p>
+            </div>
+          </div>
           
           <div class="game-options">
             <label for="rounds">Nombre de questions:</label>
             <input type="number" id="rounds" v-model="totalRounds" min="5" max="20">
           </div>
           
-          <button @click="startGame">Démarrer la partie</button>
+          <button @click="startGame" 
+            :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
+                     (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId))" 
+            class="start-button">
+            Démarrer la partie
+          </button>
         </div>
       </div>
       
@@ -403,5 +475,74 @@ onMounted(() => {
 
 .game-options {
   margin: 15px 0;
+}
+
+/* Nouveaux styles pour la sélection de pool */
+.game-setup {
+  background-color: #0a0a0a;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.selection-option {
+  margin-bottom: 20px;
+}
+
+.options-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.options-toggle button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #222;
+  color: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.options-toggle button.active {
+  background-color: #2c6e49;
+  color: white;
+}
+
+.select-multiple, .select-single {
+  width: 100%;
+  padding: 10px;
+  background-color: #121212;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.select-multiple {
+  min-height: 150px;
+}
+
+.pool-info {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #121212;
+  border-radius: 4px;
+  border-left: 3px solid #2c6e49;
+}
+
+.start-button {
+  background-color: #2c6e49;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.start-button:disabled {
+  background-color: #444;
+  cursor: not-allowed;
 }
 </style>

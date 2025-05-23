@@ -18,12 +18,8 @@ function handleAnswer(answer: string) {
     <h2 id="question">{{ question.question }}</h2>
     <div id="answer">
         <!-- Render answer input dynamically based on question type -->
-        <TextAns v-if="question.type === 'text'"  @submit-answer="handleAnswer"/>
+        <TextAns v-if="question.question_type === 'text'"  @submit-answer="handleAnswer"/>
         <ChoiceAns v-else-if="question.type === 'choice'" />
         <p v-else>Unknown question type: {{ question.type }}</p>
-    </div>
-    <div id="response">
-        <p id="responseText">Réponse Utilisateur : {{ question.response }}</p>
-        <p id="responseText">Réponse correcte : {{ question.correctAnswer }}</p>
     </div>
 </template>

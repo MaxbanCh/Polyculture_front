@@ -22,4 +22,11 @@ router.get("/(.*)", async (ctx) => {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+if (Deno.args.length >= 3) {
+  options.secure = true;
+  options.cert = await Deno.readTextFile(Deno.args[1]);
+  options.key = await Deno.readTextFile(Deno.args[2]);
+  console.log(`SSL conf ready (use https)`);
+}
+
 await app.listen({ port: 80 });
