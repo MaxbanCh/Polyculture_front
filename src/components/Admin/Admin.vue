@@ -21,7 +21,7 @@
         }
         
         try {
-            const response = await fetch("http://83.195.188.17:3000/admin", {
+            const response = await fetch("https://83.195.188.17:3000/admin", {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",

@@ -6,8 +6,8 @@
     "types": ["./src/vite-env.d.ts", "./src/vue-shims.d.ts"]
   },
   "tasks": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "npm run build && echo 'Build completed'",
+    "serve": "deno run --allow-net --allow-read server.ts",
+    "start": "deno task build && deno task serve"
   }
 }

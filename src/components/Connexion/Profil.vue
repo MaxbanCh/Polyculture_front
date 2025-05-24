@@ -17,7 +17,7 @@ function logout() {
    const token = localStorage.getItem('auth_token');
     
     // 1. Envoi d'une requête au serveur pour invalider le token
-    fetch("http://83.195.188.17:3000/logout", {
+    fetch("https://83.195.188.17:3000/logout", {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -87,7 +87,7 @@ function logout() {
 
 async function isAdmin() {
     const token = localStorage.getItem('auth_token');
-    await fetch("http://83.195.188.17:3000/admin", {
+    await fetch("https://83.195.188.17:3000/admin", {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -125,7 +125,7 @@ async function checkAuthStatus() {
   }
 
   try {
-    const response = await fetch("http://83.195.188.17:3000/check-token", {
+    const response = await fetch("https://83.195.188.17:3000/check-token", {
       method: "GET",
       mode: "cors",
       credentials: "include",

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ws from '../../utils/websocket.ts'
-
 
 </script>
 

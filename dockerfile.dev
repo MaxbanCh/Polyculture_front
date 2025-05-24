@@ -1,41 +1,69 @@
-# # Utiliser une image Node.js pour le développement
-# FROM node:18
+# # # Utiliser une image Node.js pour le développement
+# # FROM node:18
+
+# # # Définir le répertoire de travail
+# # WORKDIR /app
+
+# # # Copier uniquement les fichiers nécessaires pour installer les dépendances
+# # COPY package*.json ./
+
+# # # Installer les dépendances
+# # RUN npm install
+
+# # # Copier tout le projet dans le conteneur
+# # COPY . .
+
+# # # Exposer le port utilisé par Vite
+# # EXPOSE 80
+
+# # # Commande pour démarrer le serveur de développement
+# # CMD ["npm", "run", "dev", "--", "--host"]
+
+
+# # Utiliser une image Deno officielle
+# FROM denoland/deno:alpine
+
+# RUN apk add --update nodejs npm
+
 
 # # Définir le répertoire de travail
 # WORKDIR /app
 
-# # Copier uniquement les fichiers nécessaires pour installer les dépendances
-# COPY package*.json ./
-
-# # Installer les dépendances
-# RUN npm install
-
-# # Copier tout le projet dans le conteneur
+# # Copier les fichiers nécessaires dans le conteneur
 # COPY . .
 
-# # Exposer le port utilisé par Vite
+# RUN npm install
+
+# RUN npm run build
+
+# # Exposer le port utilisé par Deno
 # EXPOSE 80
 
-# # Commande pour démarrer le serveur de développement
-# CMD ["npm", "run", "dev", "--", "--host"]
+# # Définir les permissions nécessaires pour Deno
+# # --allow-net : Permet les connexions réseau
+# # --allow-read : Permet la lecture des fichiers locaux
+# # CMD ["task", "dev", "--allow-net", "--allow-read", "--unstable"]
+# # CMD ["task", "build", "--allow-net", "--allow-read"]
+# CMD ["run", "--allow-net", "--allow-read", "server.ts", "ssl/cert.pem", "ssl/key.pem"]
 
 
-# Utiliser une image Deno officielle
-FROM denoland/deno:alpine
+# Étape de build avec Node.js
+FROM node:18-alpine AS build
 
-# Définir le répertoire de travail
 WORKDIR /app
-
-# Copier les fichiers nécessaires dans le conteneur
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-# Exposer le port utilisé par Deno
+# Étape finale avec Deno
+FROM denoland/deno:debian
+
+WORKDIR /app
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/server.ts ./
+COPY --from=build /app/ssl ./ssl
+
 EXPOSE 80
 
-# Définir les permissions nécessaires pour Deno
-# --allow-net : Permet les connexions réseau
-# --allow-read : Permet la lecture des fichiers locaux
-# CMD ["task", "dev", "--allow-net", "--allow-read", "--unstable"]
-CMD ["task", "build", "--allow-net", "--allow-read", "--unstable"]
-
-
+CMD ["deno", "run", "--allow-net", "--allow-read", "--allow-env", "server.ts", "ssl/cert.pem", "ssl/key.pem"]

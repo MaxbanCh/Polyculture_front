@@ -5,7 +5,12 @@ console.log("Hello from Defi !")
 import Question from '../Question.vue';
 import {fetchThemes} from '../themes';
 
-const questionData = ref(null);
+interface QuestionData {
+    id: string;
+    answer: string;
+    [key: string]: any; // Add other properties as needed
+}
+const questionData = ref<QuestionData | null>(null);
 const selectedTheme = ref<string>(""); 
 const score = ref(0);
 const themes = ref<string[]>([]); // Liste des thèmes
@@ -83,7 +88,7 @@ function submitAnswer(answer: string) {
         questionTimes.value[questionData.value.id] = timeSpent;
     }
 
-    fetch("http://83.195.188.17:3000/answer", {
+    fetch("https://83.195.188.17:3000/answer", {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -128,7 +133,7 @@ function submitAnswer(answer: string) {
 
 // Fonction pour envoyer le score au serveur
 function sendScoreToServer() {
-    fetch("http://83.195.188.17:3000/savescore", {
+    fetch("https://83.195.188.17:3000/savescore", {
         method: "POST",
         mode: "cors",
         credentials: "include",

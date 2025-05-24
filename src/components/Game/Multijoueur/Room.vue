@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { fetchThemes } from '../themes';
 
 const router = useRouter();
-const ws = new WebSocket(`ws://83.195.188.17:3000/Multi`);
+const ws = new WebSocket(`wss://83.195.188.17:3000/Multi`);
 
 // Authentification
 const isAuthenticated = ref(false);
@@ -14,22 +14,27 @@ const token = ref('');
 // Room state
 const roomCode = ref('');
 const inputRoomCode = ref(''); 
-const players = ref([]);
-const selectedThemes = ref([]);
+interface Player {
+  id: string;
+  username: string;
+  status?: string;
+}
+
+const players = ref<Player[]>([]);
+const selectedThemes = ref<string[]>([]);
 const isHost = ref(false);
-const themes = ref([]);
+const themes = ref<string[]>([]);
 
 // Question pools
 const questionPools = ref([]);
 const selectedPoolId = ref(null);
 
-// Game Refs
+const playerScores = ref<Record<string, number>>({});
 const gameInProgress = ref(false);
 const currentQuestion = ref(null);
 const timeRemaining = ref(0);
 const totalRounds = ref(10);
 const currentRound = ref(0);
-const playerScores = ref({});
 const userAnswer = ref('');
 const hasAnswered = ref(false);
 const questionResults = ref(null);
@@ -42,7 +47,7 @@ const rankNames = {
   2: "3ème"
 };
 
-let timer = null;
+let timer: ReturnType<typeof setInterval> | null = null;
 
 // Ajouter cette fonction pour suivre qui a répondu
 const playersWhoAnswered = ref(new Set());
@@ -198,7 +203,7 @@ function submitAnswer() {
 }
 
 // Fonction pour vérifier si un joueur a répondu
-function playerAnswered(playerId) {
+function playerAnswered(playerId : string): boolean {
   return playersWhoAnswered.value.has(playerId);
 }
 

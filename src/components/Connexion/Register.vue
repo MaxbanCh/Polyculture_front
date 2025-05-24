@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import ws from '../../utils/websocket.ts'
-
 
 console.log("Hello from Register!")
 
@@ -8,7 +6,7 @@ async function register() {
     let username = ((document.getElementById("usernameRegister") as HTMLInputElement)?.value ?? "");
     let password = (document.getElementById("passwordRegister") as HTMLInputElement)?.value ?? "";
 
-    fetch("http://83.195.188.17:3000/register", {
+    fetch("https://83.195.188.17:3000/register", {
         method: "POST",
         mode : "cors",
         credentials: "include",
