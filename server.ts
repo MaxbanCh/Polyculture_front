@@ -68,25 +68,10 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 // Configuration du serveur
-const options: any = { port: 443 };
+const PORT = parseInt(Deno.env.get("PORT") || "443");
+const options: any = { port: PORT };
 
-// Vérifier et configurer SSL si les certificats sont fournis
-if (Deno.args.length >= 2) {
-  const certPath = Deno.args[0];
-  const keyPath = Deno.args[1];
-  
-  try {
-    options.secure = true;
-    // Lire le contenu des fichiers de certificat et clé
-    options.cert = await Deno.readTextFile(certPath);
-    options.key = await Deno.readTextFile(keyPath);
-    console.log(`SSL configuration prête (utiliser HTTPS)`);
-  } catch (error) {
-    console.error("Erreur lors du chargement des certificats SSL:", error);
-    options.secure = false; // Fallback to HTTP
-  }
-}
-
-// Démarrer le serveur
-console.log(`Serveur frontend démarré sur ${options.secure ? 'https' : 'http'}://localhost:${options.port}`);
+// En environnement de production (Dokku), nous n'avons pas besoin de gérer le SSL
+// car Dokku gère le SSL termination
+console.log(`Serveur frontend démarré sur http://localhost:${PORT}`);
 await app.listen(options);
