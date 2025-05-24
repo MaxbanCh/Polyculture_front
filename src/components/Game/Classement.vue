@@ -1,9 +1,12 @@
 <script setup lang="ts">
     import { ref, onMounted } from 'vue';
-    import { useRouter } from 'vue-router';
 
-    const router = useRouter();
-    const players = ref([]);
+    interface Player {
+        pseudo: string;
+        score: number;
+    }
+    
+    const players = ref<Player[]>([]);
 
     // Récupère le classement des joueurs
     async function fetchClassement() {

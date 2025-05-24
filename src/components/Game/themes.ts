@@ -16,7 +16,7 @@ export async function fetchThemes() {
       if (data.themes && Array.isArray(data.themes) && data.themes.length > 0) {
         // If themes are objects, extract just the names
         if (typeof data.themes[0] === 'object' && data.themes[0].name) {
-          const themeNames = data.themes.map(theme => theme.name);
+          const themeNames = data.themes.map((theme: { name: string }) => theme.name);
           console.log("Themes fetched successfully:", themeNames);
           return themeNames;
         }

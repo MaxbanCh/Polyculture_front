@@ -35,7 +35,6 @@ import { Application, Router, send } from "https://deno.land/x/oak@v12.6.1/mod.t
 
 const app = new Application();
 const router = new Router();
-
 const STATIC_DIR = "./dist";
 
 // Middleware pour logger les requêtes
@@ -58,7 +57,7 @@ router.get("/(favicon.ico|robots.txt|images/.*)", async (ctx) => {
   });
 });
 
-// Route pour toutes les autres requêtes - SPA routing
+// Route pour toutes les autres requêtes - renvoie index.html pour SPA
 router.get("/(.*)", async (ctx) => {
   await send(ctx, "index.html", {
     root: STATIC_DIR,
@@ -69,7 +68,7 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 // Configuration du serveur
-const options: any = { port: 80 };
+const options: any = { port: 443 };
 
 // Vérifier et configurer SSL si les certificats sont fournis
 if (Deno.args.length >= 2) {
@@ -77,23 +76,14 @@ if (Deno.args.length >= 2) {
   const keyPath = Deno.args[1];
   
   try {
-    // Vérifier que les fichiers existent
-    await Deno.stat(certPath);
-    await Deno.stat(keyPath);
-    
-    // Lire le contenu des certificats
-    const cert = await Deno.readTextFile(certPath);
-    const key = await Deno.readTextFile(keyPath);
-    
-    // Configurer les options SSL avec le contenu des fichiers
     options.secure = true;
-    options.cert = cert;
-    options.key = key;
+    // Lire le contenu des fichiers de certificat et clé
+    options.cert = await Deno.readTextFile(certPath);
+    options.key = await Deno.readTextFile(keyPath);
     console.log(`SSL configuration prête (utiliser HTTPS)`);
   } catch (error) {
-    console.error(`Erreur lors du chargement des certificats SSL: ${error.message}`);
-    console.error(`Chemins: cert=${certPath}, key=${keyPath}`);
-    console.error("Démarrage en mode HTTP...");
+    console.error("Erreur lors du chargement des certificats SSL:", error);
+    options.secure = false; // Fallback to HTTP
   }
 }
 

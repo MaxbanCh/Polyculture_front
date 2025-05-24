@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
-import ws from '../../../utils/websocket'
 import Buzzer from './Buzzer.vue';
 import { defineEmits } from 'vue';
 const emit = defineEmits(["buzz-submitted"]);
+
+function handleBuzz() {
+    // handle the buzz event here
+}
 
 </script>
 

@@ -63,7 +63,7 @@ function pressBuzzer() {
   return;
 }
 
-function priority(event) {
+function priority(event: MessageEvent) {
   console.log("Buzzer pressed");
   const buzz = JSON.parse(event.data);
   console.log(`pressed by : ${buzz.owner}`);
@@ -103,12 +103,14 @@ onMounted(() => {
   });
 });
 
-ws.onmessage = function(event) {
-  const buzz = JSON.parse(event.data);
-  if (buzz.type === "buzz") {
-    priority(event);
+ws.onmessage = (event => {
+  if (event.data) {
+    const data = JSON.parse(event.data);
+    if (data.type === "buzz") {
+      priority(event);
+    }
   }
-}
+});
 </script>
 
 <template>

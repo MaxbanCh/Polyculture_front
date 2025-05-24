@@ -26,28 +26,58 @@ const isHost = ref(false);
 const themes = ref<string[]>([]);
 
 // Question pools
-const questionPools = ref([]);
-const selectedPoolId = ref(null);
+interface QuestionPool {
+  id: number;
+  name: string;
+  description?: string;
+  question_count?: number;
+  created_by?: string;
+}
+const questionPools = ref<QuestionPool[]>([]);
+const selectedPoolId = ref<number | undefined>(undefined);
 
 const playerScores = ref<Record<string, number>>({});
 const gameInProgress = ref(false);
-const currentQuestion = ref(null);
+interface Question {
+  question: string;
+  theme: string;
+  // Ajoutez d'autres propriétés si nécessaire
+  [key: string]: any;
+}
+const currentQuestion = ref<Question | null>(null);
 const timeRemaining = ref(0);
 const totalRounds = ref(10);
 const currentRound = ref(0);
 const userAnswer = ref('');
 const hasAnswered = ref(false);
-const questionResults = ref(null);
+interface QuestionResults {
+  correctAnswer: string;
+  playerResults: Array<{
+    playerId: string;
+    username: string;
+    answer: string;
+    time: number;
+    points: number;
+    isCorrect: boolean;
+  }>;
+}
+
+const questionResults = ref<QuestionResults | null>(null);
 
 // Variables pour le statut des réponses des joueurs
-const playerResponseStatus = ref({});
+const playerResponseStatus = ref<{ [playerId: string]: {
+  status: string;
+  points: number;
+  time: number;
+  isCorrect: boolean;
+} }>({});
 const rankNames = {
   0: "1er",
   1: "2ème",
   2: "3ème"
 };
 
-let timer: ReturnType<typeof setInterval> | null = null;
+let timer: number | undefined = undefined;
 
 // Ajouter cette fonction pour suivre qui a répondu
 const playersWhoAnswered = ref(new Set());
@@ -280,15 +310,22 @@ ws.onmessage = (event) => {
       playerResponseStatus.value = {};
       
       // Marquer les joueurs qui ont bien répondu avec leur rang
-      data.results.playerResults.forEach(result => {
+      data.results.playerResults.forEach((result: {
+        playerId: string;
+        username: string;
+        answer: string;
+        time: number;
+        points: number;
+        isCorrect: boolean;
+      }) => {
         if (result.isCorrect) {
           const rank = data.results.playerResults
-            .filter(r => r.isCorrect)
-            .sort((a, b) => Number(a.time) - Number(b.time))
-            .findIndex(r => r.playerId === result.playerId);
+            .filter((r: { isCorrect: boolean }) => r.isCorrect)
+            .sort((a: { time: number }, b: { time: number }) => Number(a.time) - Number(b.time))
+            .findIndex((r: { playerId: string }) => r.playerId === result.playerId);
           
           playerResponseStatus.value[result.playerId] = {
-            status: rank <= 2 ? rankNames[rank] : 'correct',
+            status: (rank >= 0 && rank <= 2) ? rankNames[rank as 0 | 1 | 2] : 'correct',
             points: result.points,
             time: result.time,
             isCorrect: true
@@ -445,10 +482,10 @@ onMounted(() => {
             <div class="selection-option">
               <h3>Sélectionner une option:</h3>
               <div class="options-toggle">
-                <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = null">
+                <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = undefined">
                   Sélection par thèmes
                 </button>
-                <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : null">
+                <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : undefined">
                   Utiliser un pool de questions
                 </button>
               </div>
@@ -486,8 +523,8 @@ onMounted(() => {
             </div>
             
             <button @click="startGame" 
-              :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
-                       (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId))" 
+              :disabled="!!((!selectedPoolId && selectedThemes.length === 0) || 
+                       (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId)))" 
               class="start-button">
               Démarrer la partie
             </button>

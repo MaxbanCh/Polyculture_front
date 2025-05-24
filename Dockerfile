@@ -9,7 +9,7 @@ COPY package*.json ./
 COPY . .
 
 # Installer les dépendances et construire l'application
-RUN npm install
+RUN npm install && npm install --save-dev @types/node
 RUN npm run build
 
 # Utiliser une image Nginx pour servir l'application

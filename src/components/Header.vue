@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 
 const isLoggedIn = ref(false); // Variable réactive pour l'état de connexion
-const router = useRouter();
 
 // Vérifie si l'utilisateur est connecté au montage du composant
 onMounted(() => {
