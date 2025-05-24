@@ -1,7 +1,7 @@
 <script setup lang="ts">
 //import Question from './Game/Question.vue'
 // import ws from '../utils/websocket.ts'
-import Buzzer from './Game/Buzzer/Buzzer.vue'
+// import Buzzer from './Game/Buzzer/Buzzer.vue'
 
 // ws.onopen = function(event) {
 //     console.log('WebSocket connection established.');
@@ -10,8 +10,9 @@ import Buzzer from './Game/Buzzer/Buzzer.vue'
 
 <template>
   <h1>PolyCulture</h1>
-  
-  <buzzer />
+  <h2>Bienvenue sur un petit site avec des quiz de culture générale !</h2>
+  On vous invite à vous connecter pour accéder aux principales fonctionnalités du site.
+  <!-- <buzzer /> -->
 </template>
 
 <style scoped>

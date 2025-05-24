@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { fetchThemes } from '../themes';
+
+const router = useRouter();
 const ws = new WebSocket(`ws://83.195.188.17:3000/Multi`);
 
+// Authentification
+const isAuthenticated = ref(false);
+const username = ref('');
+const token = ref('');
+
+// Room state
 const roomCode = ref('');
 const inputRoomCode = ref(''); 
 const players = ref([]);
@@ -25,6 +34,74 @@ const userAnswer = ref('');
 const hasAnswered = ref(false);
 const questionResults = ref(null);
 
+// Variables pour le statut des réponses des joueurs
+const playerResponseStatus = ref({});
+const rankNames = {
+  0: "1er",
+  1: "2ème",
+  2: "3ème"
+};
+
+let timer = null;
+
+// Ajouter cette fonction pour suivre qui a répondu
+const playersWhoAnswered = ref(new Set());
+const sortedPlayers = computed(() => {
+  return [...players.value].sort((a, b) => 
+    (playerScores.value[b.id] || 0) - (playerScores.value[a.id] || 0)
+  );
+});
+
+// Ajouter avec les autres refs
+const currentRoom = ref({
+  host: '',
+  code: '',
+  players: [],
+  status: 'waiting'
+});
+
+
+// Vérifie si l'utilisateur est authentifié
+function checkAuthentication() {
+  // Essayer d'abord le localStorage
+  let authToken = localStorage.getItem('auth_token');
+  
+  // Si pas dans localStorage, essayer les cookies
+  if (!authToken) {
+    const cookies = document.cookie.split(';');
+    const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
+    if (authCookie) {
+      authToken = authCookie.split('=')[1].trim();
+    }
+  }
+  
+  if (!authToken) {
+    isAuthenticated.value = false;
+    return false;
+  }
+  
+  token.value = authToken;
+  
+  try {
+    // Décoder le JWT pour obtenir le username
+    const payload = JSON.parse(atob(authToken.split('.')[1]));
+    if (payload.userName) {
+      username.value = payload.userName;
+      isAuthenticated.value = true;
+      return true;
+    }
+  } catch (error) {
+    console.error('Erreur lors du décodage du token JWT:', error);
+  }
+  
+  isAuthenticated.value = false;
+  return false;
+}
+
+// Redirige vers la page de connexion
+function redirectToLogin() {
+  router.push('/connexion');
+}
 
 // Fonction pour récupérer les pools de questions
 async function fetchQuestionPools() {
@@ -57,62 +134,37 @@ async function fetchQuestionPools() {
 }
 
 function getUserId(): string {
-  // Récupérer tous les cookies
-  const cookies = document.cookie.split(';');
-  console.log('Cookies:', cookies);
-  
-  // Chercher le cookie auth_token
-  const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token'));
-
-  console.log('Auth token:', authCookie);
-
-  if (!authCookie) {
-    console.error('Auth token cookie not found');
-    return '';
-  }
-  
-  // Extraire la valeur du token
-  const token = authCookie.split('=')[1].trim();
-  
-  try {
-    // Décoder le token JWT (sans vérifier la signature côté client)
-    // Le token JWT est composé de 3 parties: header.payload.signature
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    
-    // Retourner le username (selon la structure de votre token)
-    return payload.userName || '';
-  } catch (error) {
-    console.error('Error parsing JWT token:', error);
-    return '';
-  }
-}
-
-function getUsername(): string {
-  let username = document.getElementById('username') as HTMLInputElement;
-  if (username) {
-    return username.value;
-  } else {
-    console.error('Username input not found');
-    return '';
-  }
+  return username.value || '';
 }
 
 function createRoom() {
+  if (!isAuthenticated.value) {
+    alert('Vous devez être connecté pour créer un salon');
+    redirectToLogin();
+    return;
+  }
+
   ws.send(JSON.stringify({
     type: 'CREATE_ROOM',
     userId: getUserId(),
-    username: getUsername()
+    username: getUserId() // Utilise le username du token
   }));
 }
 
 function joinRoom() {
+  if (!isAuthenticated.value) {
+    alert('Vous devez être connecté pour rejoindre un salon');
+    redirectToLogin();
+    return;
+  }
+
   if (!inputRoomCode.value) return;
 
   ws.send(JSON.stringify({
     type: 'JOIN_ROOM',
     roomCode: inputRoomCode.value,
     userId: getUserId(),
-    username: getUsername()
+    username: getUserId() // Utilise le username du token
   }));
 }
 
@@ -128,18 +180,31 @@ function startGame() {
   }
 }
 
+// Mettre à jour quand une réponse est soumise
 function submitAnswer() {
   if (!hasAnswered.value && gameInProgress.value && currentQuestion.value) {
+    hasAnswered.value = true;
+    playersWhoAnswered.value.add(getUserId());
+    
     ws.send(JSON.stringify({
       type: 'SUBMIT_ANSWER',
       roomCode: roomCode.value,
       userId: getUserId(),
-      username: getUsername(),
+      username: getUserId(),
       answer: userAnswer.value,
       timestamp: Date.now()
     }));
-    hasAnswered.value = true;
   }
+}
+
+// Fonction pour vérifier si un joueur a répondu
+function playerAnswered(playerId) {
+  return playersWhoAnswered.value.has(playerId);
+}
+
+// Réinitialiser les joueurs qui ont répondu lors d'une nouvelle question
+function resetPlayersAnswered() {
+  playersWhoAnswered.value.clear();
 }
 
 // Handle timer updates
@@ -159,12 +224,14 @@ ws.onmessage = (event) => {
       roomCode.value = data.room.code;
       isHost.value = true;
       players.value = data.room.players;
+      currentRoom.value = data.room;  // Ajoutez cette ligne
       break;
       
     case 'ROOM_JOINED':
       roomCode.value = data.room.code;
       players.value = data.room.players;
       isHost.value = data.room.host === getUserId();
+      currentRoom.value = data.room;  // Ajoutez cette ligne
       break;
       
     case 'PLAYER_JOINED':
@@ -179,29 +246,67 @@ ws.onmessage = (event) => {
       
     case 'NEW_QUESTION':
       currentQuestion.value = data.question;
-      timeRemaining.value = data.timeLimit || 30; // Default 30 seconds
       currentRound.value = data.round;
+      timeRemaining.value = data.timeLimit; // Utiliser la valeur envoyée par le serveur
       hasAnswered.value = false;
       userAnswer.value = '';
       questionResults.value = null;
+      resetPlayersAnswered();
       
-      // Start timer
-      const timer = setInterval(() => {
+      // Clear any existing timer
+      if (timer) {
+        clearInterval(timer);
+      }
+      
+      // Start timer - utilisez la variable globale sans "const"
+      timer = setInterval(() => {
         updateTimer();
         if (timeRemaining.value <= 0) {
           clearInterval(timer);
         }
-      }, 1000);
+      }, 1000); // Une seconde
       break;
       
     case 'ROUND_ENDED':
       questionResults.value = data.results;
       playerScores.value = data.scores;
+      
+      // Mettez à jour le statut de réponse de chaque joueur
+      playerResponseStatus.value = {};
+      
+      // Marquer les joueurs qui ont bien répondu avec leur rang
+      data.results.playerResults.forEach(result => {
+        if (result.isCorrect) {
+          const rank = data.results.playerResults
+            .filter(r => r.isCorrect)
+            .sort((a, b) => Number(a.time) - Number(b.time))
+            .findIndex(r => r.playerId === result.playerId);
+          
+          playerResponseStatus.value[result.playerId] = {
+            status: rank <= 2 ? rankNames[rank] : 'correct',
+            points: result.points,
+            time: result.time,
+            isCorrect: true
+          };
+        } else {
+          playerResponseStatus.value[result.playerId] = {
+            status: 'incorrect',
+            points: 0,
+            time: result.time,
+            isCorrect: false
+          };
+        }
+      });
       break;
       
     case 'GAME_ENDED':
       gameInProgress.value = false;
       playerScores.value = data.finalScores;
+      break;
+    
+    // Ajouter pour suivre les autres joueurs qui répondent
+    case 'PLAYER_ANSWERED':
+      playersWhoAnswered.value.add(data.playerId);
       break;
   }
 };
@@ -217,8 +322,14 @@ onUnmounted(() => {
   }
 });
 
-// Fetch themes on mount
+// Fetch themes on mount and check authentication
 onMounted(() => {
+  // Vérifie l'authentification au chargement du composant
+  if (!checkAuthentication()) {
+    redirectToLogin();
+    return;
+  }
+
   fetchThemes()
     .then((data) => {
       themes.value = data;
@@ -233,12 +344,24 @@ onMounted(() => {
 
 <template>
   <div class="room">
-    <!-- Lobby view when not in a game -->
-    <div v-if="!roomCode">
+    <!-- Affichage si non authentifié -->
+    <div v-if="!isAuthenticated" class="auth-error">
+      <h2>Authentification requise</h2>
+      <p>Vous devez être connecté pour accéder aux parties multijoueur.</p>
+      <button @click="redirectToLogin">Se connecter</button>
+    </div>
+
+    <!-- Lobby view when authenticated but not in a room -->
+    <div v-else-if="!roomCode">
       <h2>Créer ou rejoindre un salon</h2>
+      
+      <div class="welcome-message">
+        <p>Connecté en tant que <strong>{{ username }}</strong></p>
+      </div>
+      
       <h3>Créer un salon</h3>
-      <input id="username" placeholder="Nom d'utilisateur">
       <button @click="createRoom">Créer un salon</button>
+      
       <div>
         <h3>Rejoindre un salon</h3>
         <input v-model="inputRoomCode" placeholder="Code du salon">
@@ -247,146 +370,200 @@ onMounted(() => {
     </div>
 
     <!-- Room view (either waiting or in-game) -->
-    <div v-else>
-      <!-- Waiting room view -->
-      <div v-if="!gameInProgress">
-        <h2>Salon: {{ roomCode }}</h2>
-        <div class="players">
-          <h3>Joueurs</h3>
-          <ul>
-            <li v-for="player in players" :key="player.id">
-              {{ player.username }}
-            </li>
-          </ul>
-        </div>
-
-        <div v-if="isHost" class="game-setup">
-          <div class="selection-option">
-            <h3>Sélectionner une option:</h3>
-            <div class="options-toggle">
-              <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = null">
-                Sélection par thèmes
-              </button>
-              <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : null">
-                Utiliser un pool de questions
-              </button>
-            </div>
-          </div>
-
-          <!-- Sélection par thèmes -->
-          <div v-if="!selectedPoolId" class="themes">
-            <h3>Sélection des thèmes</h3>
-            <select multiple v-model="selectedThemes" class="select-multiple">
-              <option v-for="theme in themes" :key="theme">
-                {{ theme }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Sélection par pool de questions -->
-          <div v-else class="question-pool">
-            <h3>Sélection d'un pool de questions</h3>
-            <select v-model="selectedPoolId" class="select-single">
-              <option v-for="pool in questionPools" :key="pool.id" :value="pool.id">
-                {{ pool.name }} ({{ pool.question_count }} questions)
-              </option>
-            </select>
+    <div v-else class="room-layout">
+      <!-- Tableau de bord des joueurs - maintenant renommé "leaderboard" -->
+      <div class="leaderboard">
+        <h3>Joueurs</h3>
+        <div class="player-list">
+          <div v-for="player in sortedPlayers" :key="player.id" 
+               class="player-card" 
+               :class="{
+                 'player-offline': player.status === 'offline',
+                 'player-self': player.id === getUserId(),
+                 'player-host': player.id === currentRoom.host
+               }">
             
-            <div v-if="selectedPoolId && questionPools.length > 0" class="pool-info">
-              <h4>Description du pool:</h4>
-              <p>{{ questionPools.find(p => p.id === selectedPoolId)?.description || 'Aucune description disponible' }}</p>
-              <p><strong>Créé par:</strong> {{ questionPools.find(p => p.id === selectedPoolId)?.created_by || 'Utilisateur inconnu' }}</p>
+            <!-- Contenu du player-card inchangé -->
+            <div class="player-header">
+              <span class="status-dot" :class="player.status || 'online'"></span>
+              <span class="player-name">{{ player.username }}</span>
+              <span v-if="player.id === getUserId()" class="player-tag">(vous)</span>
+              <span v-if="player.id === currentRoom.host" class="host-tag">[Host]</span>
+            </div>
+            
+            <div class="player-score">
+              {{ playerScores[player.id] || 0 }} pts
+            </div>
+            
+            <div v-if="playerResponseStatus[player.id]" class="player-response"
+                 :class="{
+                   'response-correct': playerResponseStatus[player.id].isCorrect,
+                   'response-incorrect': !playerResponseStatus[player.id].isCorrect,
+                   'response-rank': ['1er', '2ème', '3ème'].includes(playerResponseStatus[player.id].status)
+                 }">
+              <div class="response-status">
+                {{ playerResponseStatus[player.id].status }}
+              </div>
+              <div v-if="playerResponseStatus[player.id].isCorrect" class="response-time">
+                {{ playerResponseStatus[player.id].time }}s
+              </div>
+            </div>
+            
+            <div v-else-if="gameInProgress && currentQuestion" class="player-answering">
+              <span v-if="player.id === getUserId()">
+                {{ hasAnswered ? '✓ Répondu' : 'En attente...' }}
+              </span>
+              <span v-else>
+                {{ playerAnswered(player.id) ? '✓ A répondu' : 'En attente...' }}
+              </span>
             </div>
           </div>
-          
-          <div class="game-options">
-            <label for="rounds">Nombre de questions:</label>
-            <input type="number" id="rounds" v-model="totalRounds" min="5" max="20">
-          </div>
-          
-          <button @click="startGame" 
-            :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
-                     (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId))" 
-            class="start-button">
-            Démarrer la partie
-          </button>
         </div>
       </div>
-      
-      <!-- In-game view -->
-      <div v-else class="game-container">
-        <div class="game-header">
-          <h2>Question {{ currentRound }} sur {{ totalRounds }}</h2>
-          <div class="timer">Temps restant: {{ timeRemaining }} secondes</div>
-        </div>
-        
-        <!-- Question display -->
-        <div v-if="currentQuestion" class="question-container">
-          <div class="question-theme">Thème: {{ currentQuestion.theme }}</div>
-          <h3 class="question-text">{{ currentQuestion.question }}</h3>
-          
-          <!-- Answer input (disabled after submission) -->
-          <div class="answer-section">
-            <input 
-              v-model="userAnswer" 
-              :disabled="hasAnswered || timeRemaining <= 0" 
-              placeholder="Votre réponse" 
-              @keyup.enter="submitAnswer"
-            />
-            <button 
-              @click="submitAnswer" 
-              :disabled="hasAnswered || timeRemaining <= 0"
-            >
-              Répondre
+
+      <!-- Contenu principal (waiting room ou gameplay) -->
+      <div class="main-content">
+        <!-- Waiting room view -->
+        <div v-if="!gameInProgress">
+          <h2>Salon: {{ roomCode }}</h2>
+          <!-- Reste du contenu de la salle d'attente -->
+          <div class="players">
+            <h3>Joueurs</h3>
+            <ul>
+              <li v-for="player in players" :key="player.id">
+                {{ player.username }}
+              </li>
+            </ul>
+          </div>
+
+          <div v-if="isHost" class="game-setup">
+            <div class="selection-option">
+              <h3>Sélectionner une option:</h3>
+              <div class="options-toggle">
+                <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = null">
+                  Sélection par thèmes
+                </button>
+                <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : null">
+                  Utiliser un pool de questions
+                </button>
+              </div>
+            </div>
+
+            <!-- Sélection par thèmes -->
+            <div v-if="!selectedPoolId" class="themes">
+              <h3>Sélection des thèmes</h3>
+              <select multiple v-model="selectedThemes" class="select-multiple">
+                <option v-for="theme in themes" :key="theme">
+                  {{ theme }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Sélection par pool de questions -->
+            <div v-else class="question-pool">
+              <h3>Sélection d'un pool de questions</h3>
+              <select v-model="selectedPoolId" class="select-single">
+                <option v-for="pool in questionPools" :key="pool.id" :value="pool.id">
+                  {{ pool.name }} ({{ pool.question_count }} questions)
+                </option>
+              </select>
+              
+              <div v-if="selectedPoolId && questionPools.length > 0" class="pool-info">
+                <h4>Description du pool:</h4>
+                <p>{{ questionPools.find(p => p.id === selectedPoolId)?.description || 'Aucune description disponible' }}</p>
+                <p><strong>Créé par:</strong> {{ questionPools.find(p => p.id === selectedPoolId)?.created_by || 'Utilisateur inconnu' }}</p>
+              </div>
+            </div>
+            
+            <div class="game-options">
+              <label for="rounds">Nombre de questions:</label>
+              <input type="number" id="rounds" v-model="totalRounds" min="5" max="20">
+            </div>
+            
+            <button @click="startGame" 
+              :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
+                       (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId))" 
+              class="start-button">
+              Démarrer la partie
             </button>
           </div>
-          
-          <!-- Answer status message -->
-          <div v-if="hasAnswered" class="answer-status">
-            Réponse envoyée! Attente des autres joueurs...
+        </div>
+        
+        <!-- In-game view -->
+        <div v-else class="game-container">
+          <div class="game-header">
+            <h2>Question {{ currentRound }} sur {{ totalRounds }}</h2>
+            <div class="timer">Temps restant: {{ timeRemaining }} secondes</div>
           </div>
-        </div>
-        
-        <!-- Round results -->
-        <div v-if="questionResults" class="results-container">
-          <h3>Réponse correcte: {{ questionResults.correctAnswer }}</h3>
-          <table class="results-table">
-            <thead>
-              <tr>
-                <th>Joueur</th>
-                <th>Réponse</th>
-                <th>Temps</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="result in questionResults.playerResults" :key="result.playerId">
-                <td>{{ result.username }}</td>
-                <td>{{ result.answer }}</td>
-                <td>{{ result.time }}s</td>
-                <td>{{ result.points }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        
-        <!-- Scoreboard -->
-        <div class="scoreboard">
-          <h3>Scores</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Joueur</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(score, playerId) in playerScores" :key="playerId">
-                <td>{{ players.find(p => p.id === playerId)?.username }}</td>
-                <td>{{ score }}</td>
-              </tr>
-            </tbody>
-          </table>
+          
+          <!-- Question display -->
+          <div v-if="currentQuestion" class="question-container">
+            <div class="question-theme">Thème: {{ currentQuestion.theme }}</div>
+            <h3 class="question-text">{{ currentQuestion.question }}</h3>
+            
+            <!-- Answer input (disabled after submission) -->
+            <div class="answer-section">
+              <input 
+                v-model="userAnswer" 
+                :disabled="hasAnswered || timeRemaining <= 0" 
+                placeholder="Votre réponse" 
+                @keyup.enter="submitAnswer"
+              />
+              <button 
+                @click="submitAnswer" 
+                :disabled="hasAnswered || timeRemaining <= 0"
+              >
+                Répondre
+              </button>
+            </div>
+            
+            <!-- Answer status message -->
+            <div v-if="hasAnswered" class="answer-status">
+              Réponse envoyée! Attente des autres joueurs...
+            </div>
+          </div>
+          
+          <!-- Round results -->
+          <div v-if="questionResults" class="results-container">
+            <h3>Réponse correcte: {{ questionResults.correctAnswer }}</h3>
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>Joueur</th>
+                  <th>Réponse</th>
+                  <th>Temps</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="result in questionResults.playerResults" :key="result.playerId">
+                  <td>{{ result.username }}</td>
+                  <td>{{ result.answer }}</td>
+                  <td>{{ result.time }}s</td>
+                  <td>{{ result.points }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Scoreboard -->
+          <!-- <div class="scoreboard">
+            <h3>Scores</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Joueur</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(score, playerId) in playerScores" :key="playerId">
+                  <td>{{ players.find(p => p.id === playerId)?.username }}</td>
+                  <td>{{ score }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
         </div>
       </div>
     </div>
@@ -419,7 +596,7 @@ onMounted(() => {
 }
 
 .question-container {
-  background-color: #f8f9fa;
+  background-color: #080808;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -454,7 +631,7 @@ onMounted(() => {
 }
 
 .results-container {
-  background-color: #eafaf1;
+  background-color: #010f07;
   border-radius: 8px;
   padding: 15px;
   margin-top: 20px;
@@ -545,4 +722,129 @@ onMounted(() => {
   background-color: #444;
   cursor: not-allowed;
 }
+
+/* Styles pour le message de bienvenue */
+.welcome-message {
+  background-color: #2c6e49;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Styles pour l'affichage d'erreur d'authentification */
+.auth-error {
+  background-color: #ffe9e9;
+  border: 1px solid #ff5555;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin: 40px auto;
+  max-width: 500px;
+}
+
+.auth-error button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* Nouvelle mise en page responsive */
+.room-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Styles pour le leaderboard (nouveau nom pour player-dashboard) */
+.leaderboard {
+  background: #080706;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Media query pour l'affichage desktop */
+@media (min-width: 1024px) {
+  .room {
+    max-width: 1200px; /* Plus large pour accommoder la mise en page en colonnes */
+  }
+  
+  .room-layout {
+    flex-direction: row; /* Disposer en colonnes sur desktop */
+    align-items: flex-start;
+  }
+  
+  .leaderboard {
+    position: sticky;
+    top: 20px; /* Reste visible lors du défilement */
+    width: 280px; /* Largeur fixe */
+    margin-right: 20px;
+    align-self: flex-start;
+  }
+  
+  .main-content {
+    flex: 1;
+  }
+  
+  .player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* Adaptations pour dark mode */
+.leaderboard {
+  background: #080706;
+  color: #e0e0e0;
+}
+
+.player-card {
+  background: #121212;
+  color: #e0e0e0;
+  border-color: #333;
+}
+
+.player-self {
+  background: #0d1b29;
+}
+
+.response-correct {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #81c784;
+}
+
+.response-incorrect {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #e57373;
+}
+
+.response-rank {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #ffd54f;
+}
+
+.player-answering {
+  color: #aaaaaa;
+}
+
+.player-tag, .host-tag {
+  color: #9e9e9e;
+}
+
+.host-tag {
+  color: #ffb74d;
+}
+
+/* Garder les autres styles de player-dashboard déjà définis */
 </style>

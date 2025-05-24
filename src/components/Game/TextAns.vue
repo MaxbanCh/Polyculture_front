@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { defineEmits } from 'vue';
+defineProps<{ disabled?: boolean }>();
 
 const emit = defineEmits(["submit-answer"]);
 
@@ -13,6 +14,5 @@ function submitAnswer() {
 </script>
 
 <template>
-    <input type="text" id="answer" v-model="userAnswer" placeholder="Réponse" />
-    <button id="submit" @click="submitAnswer">Valider</button>
-</template>
+<input type="text" id="answer" v-model="userAnswer" :disabled="disabled" placeholder="Réponse" />
+<button id="submit" @click="submitAnswer" :disabled="disabled">Valider</button></template>

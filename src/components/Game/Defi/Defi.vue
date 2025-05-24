@@ -187,7 +187,6 @@ onMounted(() => {
                 </option>
             </select>
             <button id="askQuestion" @click="askQuestion()">Nouvelle question</button>
-            <button class="abandon-button" @click="abandonGame()">Abandonner</button>
         </div>
         
         <div id="question">
@@ -216,6 +215,12 @@ onMounted(() => {
         </div>
 
         <!-- Game over section -->
+        <div v-if="gameOver" class="game-over">
+            <h2>Partie terminée</h2>
+            <p>Votre score final : {{ score }}</p>
+            <button @click="score = 0; wrongAnswersCount = 0; gameOver = false; askQuestion()">Nouvelle partie</button>
+        </div>
+        <button class="abandon-button" @click="abandonGame()">Abandonner</button>
         <div v-if="gameOver" class="game-over">
             <h2>Partie terminée</h2>
             <p>Votre score final : {{ score }}</p>

@@ -5,10 +5,10 @@
 <template>
   <footer>
     <div class="footer-content">
-      <p>&copy; 2025 Polyculture. Tous droits réservés.</p>
+      <p>Polyculture</p>
       <ul>
         <li>Publicité</li>
-        <li></li>
+        <li>Credits</li>
       </ul>
     </div>
   </footer>

@@ -4,7 +4,10 @@ import ChoiceAns from './ChoiceAns.vue';
 import { defineEmits } from 'vue';
 const emit = defineEmits(["answer-submitted"]);
 
-defineProps<{ question: any }>();
+defineProps<{ 
+  question: any;
+  disabled?: boolean;
+}>();
 
 function handleAnswer(answer: string) {
     // Émettre un événement avec la réponse
@@ -18,7 +21,11 @@ function handleAnswer(answer: string) {
     <h2 id="question">{{ question.question }}</h2>
     <div id="answer">
         <!-- Render answer input dynamically based on question type -->
-        <TextAns v-if="question.question_type === 'text'"  @submit-answer="handleAnswer"/>
+        <TextAns 
+            v-if="question.question_type === 'text'"
+            :disabled="disabled" 
+            @submit-answer="handleAnswer"
+            />
         <ChoiceAns v-else-if="question.type === 'choice'" />
         <p v-else>Unknown question type: {{ question.type }}</p>
     </div>

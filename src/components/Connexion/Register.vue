@@ -6,7 +6,6 @@ console.log("Hello from Register!")
 
 async function register() {
     let username = ((document.getElementById("usernameRegister") as HTMLInputElement)?.value ?? "");
-    let mail = ((document.getElementById("mail") as HTMLInputElement)?.value ?? "");
     let password = (document.getElementById("passwordRegister") as HTMLInputElement)?.value ?? "";
 
     fetch("http://83.195.188.17:3000/register", {
@@ -16,7 +15,7 @@ async function register() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({username: username, mail: mail, password: password})
+        body: JSON.stringify({username: username, password: password})
         })
     .then(async (response) => {
         if (response.ok) {
@@ -47,8 +46,6 @@ async function register() {
     <h2>Register</h2>
     Username:
     <input type="text" name="UsernameRegister" id="usernameRegister">
-    Email :
-    <input type="email" name="Mail" id="mail">
     Password:
     <input type="password" name="PasswordRegister" id="passwordRegister">
 
