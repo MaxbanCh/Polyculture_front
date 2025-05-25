@@ -7,8 +7,7 @@
     <div class="footer-content">
       <p>Polyculture</p>
       <ul>
-        <li>Publicité</li>
-        <li>Credits</li>
+        <li><a href="https://github.com/MaxbanCh" target="_blank" rel="noopener noreferrer">Credits</a></li>
       </ul>
     </div>
   </footer>
