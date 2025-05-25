@@ -177,6 +177,18 @@ onMounted(() => {
             console.error("Error fetching themes:", error);
         });
 });
+
+// Assurez-vous que l'objet contient la propriété 'question'
+const someObject = {
+    id: "123",
+    answer: "réponse",
+    question: "Texte de la question" // Ajout de cette propriété manquante
+};
+
+// Corriger le type du paramètre opt
+function someFunction(opt: { id: number; texte: string; est_correcte: boolean }) {
+    // code existant utilisant opt
+}
 </script>
 
 <template>

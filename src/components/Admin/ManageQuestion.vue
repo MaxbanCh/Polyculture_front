@@ -132,7 +132,17 @@ async function addQuestion() {
     }
 
     try {
-        const requestBody = {
+        // Corriger le type avec une interface ou type explicite
+        interface QuestionRequest {
+            question: string;
+            answer: string;
+            theme: string;
+            subtheme: string;
+            question_type: string;
+            options?: Array<{texte: string, est_correcte: boolean}>;
+        }
+        
+        const requestBody: QuestionRequest = {
             question: newQuestionText.value,
             answer: newQuestionAnswer.value,
             theme: selectedTheme.value || "Général",
@@ -281,7 +291,16 @@ async function saveEdit(id : number) {
     }
 
     try {
-        const requestBody = {
+        interface QuestionRequest {
+            question: string;
+            answer: string;
+            theme: string;
+            subtheme: string;
+            question_type: string;
+            options?: Array<{texte: string, est_correcte: boolean, id?: number}>;
+        }
+        
+        const requestBody: QuestionRequest = {
             question: editQuestionText.value,
             answer: editQuestionAnswer.value,
             theme: editQuestionTheme.value,
@@ -346,6 +365,27 @@ onMounted(() => {
         console.error("Error fetching themes:", error);
     });
 });
+
+// Ajouter ces fonctions qui manquent
+function addOption() {
+    newQuestionOptions.value.push({ texte: '', est_correcte: false });
+}
+
+function removeOption(index: number) {
+    if (newQuestionOptions.value.length > 2) {
+        newQuestionOptions.value.splice(index, 1);
+    }
+}
+
+function addEditOption() {
+    editQuestionOptions.value.push({ texte: '', est_correcte: false });
+}
+
+function removeEditOption(index: number) {
+    if (editQuestionOptions.value.length > 2) {
+        editQuestionOptions.value.splice(index, 1);
+    }
+}
 </script>
 
 <template>
@@ -397,7 +437,7 @@ onMounted(() => {
                                 </td>
                             </template>
                             
-                            <!-- Mode édition - aucun changement ici -->
+                            <!-- Mode édition -->
                             <template v-else>
                                 <td><input v-model="editQuestionText" placeholder="Question" /></td>
                                 <td><input v-model="editQuestionAnswer" placeholder="Réponse" /></td>
