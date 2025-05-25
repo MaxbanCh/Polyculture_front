@@ -50,7 +50,7 @@ export default createRouter({
           next("/connexion");
         } else {
           // Vérification du token
-          fetch("https://83.195.188.17/profil", {
+          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/profil", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
