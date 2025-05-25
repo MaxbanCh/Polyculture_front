@@ -36,6 +36,15 @@ const editQuestionTheme = ref("");
 const editQuestionSubtheme = ref("");
 const editQuestionType = ref("");
 
+// Ajout des variables pour gérer les options de réponse
+const newQuestionOptions = ref([
+    { texte: '', est_correcte: false },
+    { texte: '', est_correcte: false }
+]);
+
+// Variables pour les options en mode édition
+const editQuestionOptions = ref<Array<{texte: string, est_correcte: boolean, id?: number}>>([]);
+
 // Surveiller les changements de questions pour mettre à jour filteredQuestions
 watch(() => questions.value, () => {
   updateFilteredQuestions();
@@ -105,7 +114,37 @@ async function addQuestion() {
         return;
     }
 
+    // Vérification pour les questions à choix multiple
+    if (newQuestionType.value === 'choice') {
+        // Vérifier qu'il y a au moins une réponse correcte
+        const hasCorrectAnswer = newQuestionOptions.value.some(option => option.est_correcte);
+        if (!hasCorrectAnswer) {
+            errorMessage.value = "Veuillez sélectionner au moins une réponse correcte";
+            return;
+        }
+
+        // Vérifier que toutes les options ont un texte
+        const allOptionsHaveText = newQuestionOptions.value.every(option => option.texte.trim() !== '');
+        if (!allOptionsHaveText) {
+            errorMessage.value = "Toutes les options doivent avoir un texte";
+            return;
+        }
+    }
+
     try {
+        const requestBody = {
+            question: newQuestionText.value,
+            answer: newQuestionAnswer.value,
+            theme: selectedTheme.value || "Général",
+            subtheme: newQuestionSubtheme.value || " ",
+            question_type: newQuestionType.value
+        };
+
+        // Ajouter les options si c'est une question à choix multiple
+        if (newQuestionType.value === 'choice') {
+            requestBody.options = newQuestionOptions.value;
+        }
+
         const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/question", {
             method: "POST",
             mode: "cors",
@@ -114,14 +153,9 @@ async function addQuestion() {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                question: newQuestionText.value,
-                answer: newQuestionAnswer.value,
-                theme: selectedTheme.value || "Général",
-                subtheme: newQuestionSubtheme.value || " ",
-                type: newQuestionType.value
-            }),
+            body: JSON.stringify(requestBody),
         });
+        
         if (response.ok) {
             fetchQuestions(); // Rafraîchir la liste complète
             
@@ -130,6 +164,10 @@ async function addQuestion() {
             newQuestionAnswer.value = "";
             newQuestionSubtheme.value = "";
             selectedTheme.value = "";
+            newQuestionOptions.value = [
+                { texte: '', est_correcte: false },
+                { texte: '', est_correcte: false }
+            ];
             
             errorMessage.value = "Question ajoutée avec succès";
             setTimeout(() => {
@@ -186,7 +224,36 @@ function startEdit(question: any) {
     editQuestionAnswer.value = question.answer;
     editQuestionTheme.value = question.theme;
     editQuestionSubtheme.value = question.subtheme;
-    editQuestionType.value = question.type || "text";
+    editQuestionType.value = question.question_type || "text";
+    
+    // Si c'est une question à choix multiple, charger les options
+    if (editQuestionType.value === 'choice') {
+        try {
+            const token = localStorage.getItem('auth_token');
+            const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question?id=${question.id}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+            
+            if (response.ok) {
+                const fullQuestion = await response.json();
+                editQuestionOptions.value = fullQuestion.options || [];
+                
+                // S'assurer qu'il y a au moins 2 options
+                if (editQuestionOptions.value.length < 2) {
+                    while (editQuestionOptions.value.length < 2) {
+                        editQuestionOptions.value.push({ texte: '', est_correcte: false });
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Erreur lors du chargement des options:", error);
+        }
+    } else {
+        // Réinitialiser les options si ce n'est pas une question à choix
+        editQuestionOptions.value = [];
+    }
 }
 
 async function saveEdit(id : number) {
@@ -196,7 +263,37 @@ async function saveEdit(id : number) {
         return;
     }
 
+    // Vérification pour les questions à choix multiple
+    if (editQuestionType.value === 'choice') {
+        // Vérifier qu'il y a au moins une réponse correcte
+        const hasCorrectAnswer = editQuestionOptions.value.some(option => option.est_correcte);
+        if (!hasCorrectAnswer) {
+            errorMessage.value = "Veuillez sélectionner au moins une réponse correcte";
+            return;
+        }
+
+        // Vérifier que toutes les options ont un texte
+        const allOptionsHaveText = editQuestionOptions.value.every(option => option.texte.trim() !== '');
+        if (!allOptionsHaveText) {
+            errorMessage.value = "Toutes les options doivent avoir un texte";
+            return;
+        }
+    }
+
     try {
+        const requestBody = {
+            question: editQuestionText.value,
+            answer: editQuestionAnswer.value,
+            theme: editQuestionTheme.value,
+            subtheme: editQuestionSubtheme.value,
+            question_type: editQuestionType.value
+        };
+
+        // Ajouter les options si c'est une question à choix multiple
+        if (editQuestionType.value === 'choice') {
+            requestBody.options = editQuestionOptions.value;
+        }
+
         const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
             method: "PUT",
             mode: "cors",
@@ -205,13 +302,7 @@ async function saveEdit(id : number) {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                question: editQuestionText.value,
-                answer: editQuestionAnswer.value,
-                theme: editQuestionTheme.value,
-                subtheme: editQuestionSubtheme.value,
-                type: editQuestionType.value
-            }),
+            body: JSON.stringify(requestBody),
         });
         
         if (response.ok) {
@@ -353,7 +444,7 @@ onMounted(() => {
                 </div>
             </div>
             
-            <h2>Ajouter une question</h2>
+            <!-- Formulaire d'ajout de question -->
             <div class="add-question-form">
                 <div class="form-group">
                     <label for="new-question">Question:</label>
@@ -380,12 +471,45 @@ onMounted(() => {
                     <input id="subtheme" type="text" v-model="newQuestionSubtheme" placeholder="Sous-thème (optionnel)" />
                 </div>
                 
+                <!-- Type de question -->
                 <div class="form-group">
                     <label for="question-type">Type:</label>
                     <select id="question-type" v-model="newQuestionType">
                         <option value="text">Texte</option>
                         <option value="choice">Choix multiple</option>
                     </select>
+                </div>
+                
+                <!-- Options pour les questions à choix multiple -->
+                <div v-if="newQuestionType === 'choice'" class="options-container">
+                    <h3>Options de réponse:</h3>
+                    
+                    <div v-for="(option, index) in newQuestionOptions" :key="index" class="option-item">
+                        <div class="option-row">
+                            <input 
+                                v-model="option.texte" 
+                                placeholder="Texte de l'option" 
+                                class="option-text"
+                                required
+                            />
+                            <label class="option-correct">
+                                <input type="checkbox" v-model="option.est_correcte"> 
+                                Correcte
+                            </label>
+                            <button 
+                                type="button" 
+                                @click="removeOption(index)" 
+                                class="remove-option-btn"
+                                :disabled="newQuestionOptions.length <= 2"
+                            >
+                                Supprimer
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="button" @click="addOption" class="add-option-btn">
+                        + Ajouter une option
+                    </button>
                 </div>
                 
                 <button class="add-btn" @click="addQuestion">Ajouter cette question</button>
@@ -540,5 +664,64 @@ button {
     padding: 20px;
     font-style: italic;
     color: #999;
+}
+
+/* Styles pour les options de réponse */
+.options-container {
+    background-color: #111;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid #333;
+}
+
+.option-item {
+    margin-bottom: 10px;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.option-text {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.option-correct {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 90px;
+    white-space: nowrap;
+}
+
+.remove-option-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.remove-option-btn:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.add-option-btn {
+    background-color: #2196F3;
+    color: white;
+    padding: 8px 16px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.options-editor {
+    background-color: #111;
+    padding: 15px;
 }
 </style>

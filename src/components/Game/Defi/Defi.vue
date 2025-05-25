@@ -68,7 +68,7 @@ function askQuestion() {
     });
 }
 
-function submitAnswer(answer: string) {
+function submitAnswer(answer: string | number) {
     // Empêcher les soumissions multiples pour la même question
     if (hasAnswered.value) {
         console.log("Une réponse a déjà été soumise pour cette question");
@@ -76,7 +76,12 @@ function submitAnswer(answer: string) {
     }
     
     console.log("Answer submitted:", answer);
-    userAnswer.value = answer; // Store the user's answer
+    // Pour les questions à choix, l'ID de l'option est passé plutôt que le texte
+    if (questionData.value?.question_type === 'choice') {
+        userAnswer.value = questionData.value.options.find(opt => opt.id === answer)?.texte || '';
+    } else {
+        userAnswer.value = answer.toString(); // Store the user's answer as string
+    }
     hasAnswered.value = true; // Marquer que l'utilisateur a répondu
 
     // Calculer le temps passé sur cette question
@@ -87,7 +92,7 @@ function submitAnswer(answer: string) {
     if (questionData.value?.id) {
         questionTimes.value[questionData.value.id] = timeSpent;
     }
-
+    
     fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/answer", {
         method: "POST",
         mode: "cors",
@@ -195,8 +200,12 @@ onMounted(() => {
         </div>
         
         <div id="question">
-            <!-- Passe l'état de réponse au composant Question -->
-            <Question v-if="questionData && !gameOver" :question="questionData" :disabled="hasAnswered" @answer-submitted="submitAnswer" />
+            <Question 
+                v-if="questionData && !gameOver" 
+                :question="questionData" 
+                :disabled="hasAnswered" 
+                @answer-submitted="submitAnswer" 
+            />
         </div>
 
         <!-- Answer feedback section -->

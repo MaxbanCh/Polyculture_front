@@ -39,12 +39,21 @@ const selectedPoolId = ref<number | undefined>(undefined);
 const playerScores = ref<Record<string, number>>({});
 const gameInProgress = ref(false);
 interface Question {
+  id: number;
   question: string;
   theme: string;
-  // Ajoutez d'autres propriétés si nécessaire
+  question_type?: string;
+  options?: Array<{
+    id: number;
+    texte: string;
+    est_correcte: boolean;
+  }>;
   [key: string]: any;
 }
 const currentQuestion = ref<Question | null>(null);
+// Ajout d'une nouvelle variable pour stocker l'ID de l'option sélectionnée
+const selectedOptionId = ref<number | null>(null);
+
 const timeRemaining = ref(0);
 const totalRounds = ref(10);
 const currentRound = ref(0);
@@ -221,15 +230,35 @@ function submitAnswer() {
     hasAnswered.value = true;
     playersWhoAnswered.value.add(getUserId());
     
+    // Préparation de la réponse selon le type de question
+    const answerToSubmit = currentQuestion.value.question_type === 'choice' 
+      ? selectedOptionId.value  // Pour les questions à choix multiple, envoyer l'ID de l'option
+      : userAnswer.value;       // Pour les questions textuelles, envoyer le texte
+    
     ws.send(JSON.stringify({
       type: 'SUBMIT_ANSWER',
       roomCode: roomCode.value,
       userId: getUserId(),
       username: getUserId(),
-      answer: userAnswer.value,
+      answer: answerToSubmit,
       timestamp: Date.now()
     }));
   }
+}
+
+function selectOption(optionId: number) {
+  if (!hasAnswered.value && gameInProgress.value && currentQuestion.value) {
+    selectedOptionId.value = optionId;
+    submitAnswer(); // Soumettre automatiquement après sélection
+  }
+}
+
+// Réinitialiser les variables quand une nouvelle question arrive
+function resetAnswerState() {
+  hasAnswered.value = false;
+  userAnswer.value = '';
+  selectedOptionId.value = null;
+  resetPlayersAnswered();
 }
 
 // Fonction pour vérifier si un joueur a répondu
@@ -282,24 +311,22 @@ ws.onmessage = (event) => {
     case 'NEW_QUESTION':
       currentQuestion.value = data.question;
       currentRound.value = data.round;
-      timeRemaining.value = data.timeLimit; // Utiliser la valeur envoyée par le serveur
-      hasAnswered.value = false;
-      userAnswer.value = '';
+      timeRemaining.value = data.timeLimit;
+      resetAnswerState(); // Utiliser la nouvelle fonction pour réinitialiser l'état
       questionResults.value = null;
-      resetPlayersAnswered();
       
       // Clear any existing timer
       if (timer) {
         clearInterval(timer);
       }
       
-      // Start timer - utilisez la variable globale sans "const"
+      // Start timer
       timer = setInterval(() => {
         updateTimer();
         if (timeRemaining.value <= 0) {
           clearInterval(timer);
         }
-      }, 1000); // Une seconde
+      }, 1000);
       break;
       
     case 'ROUND_ENDED':
@@ -543,8 +570,8 @@ onMounted(() => {
             <div class="question-theme">Thème: {{ currentQuestion.theme }}</div>
             <h3 class="question-text">{{ currentQuestion.question }}</h3>
             
-            <!-- Answer input (disabled after submission) -->
-            <div class="answer-section">
+            <!-- Questions de type texte (par défaut) -->
+            <div v-if="!currentQuestion.question_type || currentQuestion.question_type === 'text'" class="answer-section">
               <input 
                 v-model="userAnswer" 
                 :disabled="hasAnswered || timeRemaining <= 0" 
@@ -557,6 +584,24 @@ onMounted(() => {
               >
                 Répondre
               </button>
+            </div>
+            
+            <!-- Questions à choix multiple -->
+            <div v-else-if="currentQuestion.question_type === 'choice'" class="options-container">
+              <div class="options-list">
+                <div 
+                  v-for="option in currentQuestion.options" 
+                  :key="option.id" 
+                  class="option-item"
+                  :class="{ 
+                    'option-selected': selectedOptionId === option.id,
+                    'option-disabled': hasAnswered || timeRemaining <= 0 
+                  }"
+                  @click="selectOption(option.id)"
+                >
+                  {{ option.texte }}
+                </div>
+              </div>
             </div>
             
             <!-- Answer status message -->
@@ -886,6 +931,41 @@ onMounted(() => {
 
 .host-tag {
   color: #ffb74d;
+}
+
+/* Styles pour les questions à choix multiple */
+.options-container {
+  margin-top: 15px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-item {
+  padding: 15px;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-item:hover:not(.option-disabled) {
+  background-color: #222;
+  transform: translateY(-2px);
+}
+
+.option-selected {
+  background-color: #2980b9;
+  border-color: #3498db;
+}
+
+.option-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* Garder les autres styles de player-dashboard déjà définis */
