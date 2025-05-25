@@ -75,7 +75,7 @@ async function fetchAllQuestions(page = 1) {
         return;
     }
 
-    const url = new URL("http://polyculture-back.cluster-ig3.igpolytech.fr/question");
+    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
     url.searchParams.append("page", page.toString());
     url.searchParams.append("limit", "50"); // On récupère plus de questions à la fois
 
@@ -126,7 +126,7 @@ async function fetchPoolQuestions(poolId : number) {
         return;
     }
 
-    fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
+    fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -207,7 +207,7 @@ async function deletePool(id : number) {
     }
 
     try {
-        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -248,7 +248,7 @@ async function saveEdit(id : number) {
     }
 
     try {
-        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -309,7 +309,7 @@ async function addQuestionsToPool() {
     }
 
     try {
-        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${currentPoolId.value}/questions`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${currentPoolId.value}/questions`, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -347,7 +347,7 @@ async function removeQuestionFromPool(poolId : number, questionId : number) {
     }
 
     try {
-        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions/${questionId}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions/${questionId}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",

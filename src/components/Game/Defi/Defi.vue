@@ -38,7 +38,7 @@ function askQuestion() {
     startTime.value = Date.now();
     
     const theme = selectedTheme.value; // Récupérer le thème sélectionné
-    const url = new URL("http://polyculture-back.cluster-ig3.igpolytech.fr/randomquestion");
+    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestion");
     if (theme) {
         url.searchParams.append("theme", theme);
     }

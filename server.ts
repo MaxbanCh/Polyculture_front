@@ -73,5 +73,5 @@ const options: any = { port: PORT };
 
 // En environnement de production (Dokku), nous n'avons pas besoin de gérer le SSL
 // car Dokku gère le SSL termination
-console.log(`Serveur frontend démarré sur http://localhost:${PORT}`);
+console.log(`Serveur frontend démarré sur https://localhost:${PORT}`);
 await app.listen(options);

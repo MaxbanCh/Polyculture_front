@@ -53,7 +53,7 @@ async function fetchQuestions(page = 1) {
         page = 1;
     }
 
-    const url = new URL("http://polyculture-back.cluster-ig3.igpolytech.fr/question");
+    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
     url.searchParams.append("page", page.toString());
 
     wait.value = true;
@@ -156,7 +156,7 @@ async function deleteQuestion(id : number) {
     }
 
     try {
-        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -197,7 +197,7 @@ async function saveEdit(id : number) {
     }
 
     try {
-        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",

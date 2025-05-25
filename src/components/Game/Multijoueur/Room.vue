@@ -148,7 +148,7 @@ async function fetchQuestionPools() {
       return;
     }
 
-    const response = await fetch('http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool', {
+    const response = await fetch('https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
