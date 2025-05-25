@@ -2,13 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../components/Home.vue";
 import Defi from "../components/Game/Defi/Defi.vue";
-import Profil from "../components/Connexion/Profil.vue";
+import Profil from "../components/User/Profil.vue";
 import Room from "../components/Game/Multijoueur/Room.vue";
 import BuzzerRoom from "../components/Game/Buzzer/BuzzerRoom.vue";
 
-import Connect from "../components/Connexion/Connect.vue";
+import Connect from "../components/User/Connect.vue";
 import Admin from "../components/Admin/Admin.vue";
 import ManageQuestionPool from '../components/Admin/ManageQuestionPool.vue'
+import UserQuestionManager from '../components/User/UserQuestionManager.vue'
 
 
 export default createRouter({
@@ -29,11 +30,6 @@ export default createRouter({
       path: "/room/:code?",
       name: "Room",
       component: Room,
-    },
-    {
-      path: "/buzzer/:code?",
-      name: "Buzzer",
-      component: BuzzerRoom,
     },
     {
       path: "/defi",
@@ -119,5 +115,15 @@ export default createRouter({
         }
       },
     },
+    {
+      path: "/questions",
+      name: "UserQuestionManager",
+      component: UserQuestionManager,
+    },
+    {
+      path: '/buzzer/:code?',
+      name: 'BuzzerRoom',
+      component: BuzzerRoom,
+    }
   ],
 });
