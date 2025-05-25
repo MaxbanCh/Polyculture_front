@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import Buzzer from './Buzzer.vue';
 
 // Connexion WebSocket
 const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/BuzzerRoom`);
@@ -20,7 +19,7 @@ const router = useRouter();
 
 // Buzzer state
 const activeBuzzer = ref<string | null>(null);
-const questionData = ref<Question | null>(null);
+// const questionData = ref<Question | null>(null);
 const showAnswer = ref(false);
 const playerScores = ref<Record<string, number>>({});
 const loadingQuestion = ref(false);

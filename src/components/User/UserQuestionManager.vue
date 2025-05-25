@@ -45,7 +45,7 @@ const newQuestionType = ref("text");
 const newPoolName = ref("");
 const newPoolDescription = ref("");
 const isPublic = ref(false);
-const selectedQuestions = ref<number[]>([]);
+// const selectedQuestions = ref<number[]>([]);
 
 // Variables pour la pagination
 const currentPage = ref(1);
