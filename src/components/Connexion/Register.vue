@@ -6,7 +6,7 @@ async function register() {
     let username = ((document.getElementById("usernameRegister") as HTMLInputElement)?.value ?? "");
     let password = (document.getElementById("passwordRegister") as HTMLInputElement)?.value ?? "";
 
-    fetch("https://83.195.188.17:3000/register", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/register", {
         method: "POST",
         mode : "cors",
         credentials: "include",

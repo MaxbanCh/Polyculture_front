@@ -50,7 +50,7 @@ export default createRouter({
           next("/connexion");
         } else {
           // Vérification du token
-          fetch("https://83.195.188.17:3000/profil", {
+          fetch("https://83.195.188.17/profil", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -76,7 +76,7 @@ export default createRouter({
           next("/login");
         } else {
           // Vérification des droits admin
-          fetch("https://83.195.188.17:3000/admin", {
+          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -103,7 +103,7 @@ export default createRouter({
           next("/login");
         } else {
           // Vérification des droits admin
-          fetch("https://83.195.188.17:3000/admin", {
+          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },

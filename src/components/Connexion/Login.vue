@@ -8,7 +8,7 @@ async function login() {
     let passwordElement = document.getElementById("password") as HTMLInputElement;
     let password = passwordElement ? passwordElement.value : '';
 
-    fetch("https://83.195.188.17:3000/login", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/login", {
         method: "POST",
         mode : "cors",
         credentials: "include",

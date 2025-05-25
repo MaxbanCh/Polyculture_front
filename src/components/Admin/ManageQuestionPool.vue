@@ -43,7 +43,7 @@ async function fetchPools() {
         return;
     }
 
-    fetch("https://83.195.188.17:3000/questionpool", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -75,7 +75,7 @@ async function fetchAllQuestions(page = 1) {
         return;
     }
 
-    const url = new URL("http://83.195.188.17:3000/question");
+    const url = new URL("http://polyculture-back.cluster-ig3.igpolytech.fr/question");
     url.searchParams.append("page", page.toString());
     url.searchParams.append("limit", "50"); // On récupère plus de questions à la fois
 
@@ -126,7 +126,7 @@ async function fetchPoolQuestions(poolId : number) {
         return;
     }
 
-    fetch(`http://83.195.188.17:3000/questionpool/${poolId}/questions`, {
+    fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -160,7 +160,7 @@ async function createPool() {
     }
 
     try {
-        const response = await fetch("https://83.195.188.17:3000/questionpool", {
+        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -207,7 +207,7 @@ async function deletePool(id : number) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${id}`, {
+        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -248,7 +248,7 @@ async function saveEdit(id : number) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${id}`, {
+        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -309,7 +309,7 @@ async function addQuestionsToPool() {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${currentPoolId.value}/questions`, {
+        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${currentPoolId.value}/questions`, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -347,7 +347,7 @@ async function removeQuestionFromPool(poolId : number, questionId : number) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${poolId}/questions/${questionId}`, {
+        const response = await fetch(`http://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions/${questionId}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",

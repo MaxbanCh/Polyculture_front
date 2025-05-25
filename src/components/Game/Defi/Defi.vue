@@ -38,7 +38,7 @@ function askQuestion() {
     startTime.value = Date.now();
     
     const theme = selectedTheme.value; // Récupérer le thème sélectionné
-    const url = new URL("http://83.195.188.17:3000/randomquestion");
+    const url = new URL("http://polyculture-back.cluster-ig3.igpolytech.fr/randomquestion");
     if (theme) {
         url.searchParams.append("theme", theme);
     }
@@ -88,7 +88,7 @@ function submitAnswer(answer: string) {
         questionTimes.value[questionData.value.id] = timeSpent;
     }
 
-    fetch("https://83.195.188.17:3000/answer", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/answer", {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -133,7 +133,7 @@ function submitAnswer(answer: string) {
 
 // Fonction pour envoyer le score au serveur
 function sendScoreToServer() {
-    fetch("https://83.195.188.17:3000/savescore", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/savescore", {
         method: "POST",
         mode: "cors",
         credentials: "include",

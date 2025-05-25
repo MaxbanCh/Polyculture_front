@@ -1,6 +1,6 @@
 export async function fetchThemes() {
   try {
-    const response = await fetch("https://83.195.188.17:3000/themes", {
+    const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/themes", {
       method: "GET",
       mode: "cors",
       credentials: "include",
