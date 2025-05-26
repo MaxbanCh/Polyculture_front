@@ -1,5 +1,6 @@
 <script setup lang="ts">
-console.log("Hello from Login!")
+import { getAuthToken } from '../../utils/auth';
+
 
 async function login() {
     let usernameElement = document.getElementById("username");
@@ -20,22 +21,17 @@ async function login() {
     .then(async (response) => {
         if (response.ok) {
             console.log("Login successful");
-            const data = await response.json();
+            // const data = await response.json();
 
-            console.log(data);
-            localStorage.setItem('auth_token', data.auth_token);
+            // const expirationDate = new Date();
+            // expirationDate.setDate(expirationDate.getDate() + 7); // Cookie valide 7 jours
+            
+            // document.cookie = `auth_token=${data.auth_token}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict; Secure`;
 
             window.location.href = '/'; // Rediriger vers la page d'accueil
             // router.push('/'); // Utiliser le routeur pour rediriger vers la page d'accueil
         }
-        // throw new Error("Network response was not ok.");
-        else {
-            
-        }
-    })
-    .then((data) => {
-        console.log(data);
-    })
+        })
     .catch((error) => {
         console.error("There has been a problem with your fetch operation:", error);
     });

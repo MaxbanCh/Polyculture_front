@@ -98,39 +98,27 @@ const currentRoom = ref({
 
 // Vérifie si l'utilisateur est authentifié
 function checkAuthentication() {
-  // Essayer d'abord le localStorage
-  let authToken = localStorage.getItem('auth_token');
-  
-  // Si pas dans localStorage, essayer les cookies
-  if (!authToken) {
-    const cookies = document.cookie.split(';');
-    const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
-    if (authCookie) {
-      authToken = authCookie.split('=')[1].trim();
+  // Remplacer par une vérification via API
+  fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/check-token", {
+    method: "GET",
+    mode: "cors",
+    credentials: "include",
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
     }
-  }
-  
-  if (!authToken) {
+    throw new Error('Not authenticated');
+  })
+  .then(data => {
+    username.value = data.userName || '';
+    isAuthenticated.value = true;
+    return true;
+  })
+  .catch(() => {
     isAuthenticated.value = false;
     return false;
-  }
-  
-  token.value = authToken;
-  
-  try {
-    // Décoder le JWT pour obtenir le username
-    const payload = JSON.parse(atob(authToken.split('.')[1]));
-    if (payload.userName) {
-      username.value = payload.userName;
-      isAuthenticated.value = true;
-      return true;
-    }
-  } catch (error) {
-    console.error('Erreur lors du décodage du token JWT:', error);
-  }
-  
-  isAuthenticated.value = false;
-  return false;
+  });
 }
 
 // Redirige vers la page de connexion
@@ -141,18 +129,11 @@ function redirectToLogin() {
 // Fonction pour récupérer les pools de questions
 async function fetchQuestionPools() {
   try {
-    const token = localStorage.getItem('auth_token') || document.cookie.split('; ').find(row => row.startsWith('auth_token='))?.split('=')[1];
-    
-    if (!token) {
-      console.error("Aucun token d'authentification trouvé");
-      return;
-    }
-
     const response = await fetch('https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool', {
       method: 'GET',
+      credentials: 'include', // Ajouter cette ligne
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }
     });
 

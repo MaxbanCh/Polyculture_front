@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { getAuthToken, removeAuthToken } from '../../utils/auth';
 
 const router = useRouter();
 
 let username = ref("");
 
 function profil() {
-    const token = localStorage.getItem('auth_token');
-    
+    const token = getAuthToken();    
+
     fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/profil", {
         method: "GET",
         mode: "cors",
@@ -55,11 +56,7 @@ function logout() {
             console.error("Server logout failed");
         }
         
-        // 2. Suppression du token du localStorage
-        localStorage.removeItem('auth_token');
-        
-        // 3. Suppression du cookie auth_token
-        document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Strict;";
+        removeAuthToken();
         
         // 4. Redirection vers la page d'accueil
         window.location.href = '/';
@@ -150,16 +147,16 @@ onMounted(() => {
         <h2>Mes informations</h2>
         <p id="username">Nom d'utilisateur : {{ username }}</p>
     </div>
-
+<!-- 
 
     <div id="stats">
         <h2>Mes statistiques</h2>
 
-    </div>
+    </div> -->
 
     <div id="admin">
-        <h2>Admin</h2>
         <div id="admin" v-if="isAdminvar">
+            <h2>Admin</h2>
             <button @click="redirectAdmin()">Accéder à la page admin</button>
             <p>Vous êtes administrateur</p>
         </div>

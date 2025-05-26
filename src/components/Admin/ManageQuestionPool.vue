@@ -36,20 +36,12 @@ const questionPage = ref(1);
 const totalQuestionPages = ref(1);
 
 async function fetchPools() {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        wait.value = false;
-        return;
-    }
-
     fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
         method: "GET",
         mode: "cors",
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
         },
     })
     .then(async (response) => {
@@ -69,12 +61,6 @@ async function fetchPools() {
 }
 
 async function fetchAllQuestions(page = 1) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
     url.searchParams.append("page", page.toString());
     url.searchParams.append("limit", "50"); // On récupère plus de questions à la fois
@@ -85,7 +71,6 @@ async function fetchAllQuestions(page = 1) {
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
         },
     })
     .then(async (response) => {
@@ -120,19 +105,12 @@ function updateFilteredQuestions() {
 }
 
 async function fetchPoolQuestions(poolId : number) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
         },
     })
     .then(async (response) => {
@@ -153,12 +131,6 @@ async function fetchPoolQuestions(poolId : number) {
 }
 
 async function createPool() {
-    const token = localStorage.getItem('auth_token');
-    if (!token || !newPoolName.value) {
-        errorMessage.value = "Veuillez renseigner au moins un nom pour le pool";
-        return;
-    }
-
     try {
         const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
             method: "POST",
@@ -166,7 +138,6 @@ async function createPool() {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 name: newPoolName.value,
@@ -196,12 +167,6 @@ async function createPool() {
 }
 
 async function deletePool(id : number) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce pool de questions ?")) {
         return;
     }
@@ -213,7 +178,6 @@ async function deletePool(id : number) {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
         });
         
@@ -241,12 +205,6 @@ function startEdit(pool: { id: number; name: string; description?: string; is_pu
 }
 
 async function saveEdit(id : number) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     try {
         const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "PUT",
@@ -254,7 +212,6 @@ async function saveEdit(id : number) {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 name: editPoolName.value,
@@ -302,12 +259,6 @@ function toggleQuestionSelection(questionId : number) {
 }
 
 async function addQuestionsToPool() {
-    const token = localStorage.getItem('auth_token');
-    if (!token || !currentPoolId.value || selectedQuestions.value.length === 0) {
-        errorMessage.value = "Veuillez sélectionner au moins une question";
-        return;
-    }
-
     try {
         const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${currentPoolId.value}/questions`, {
             method: "POST",
@@ -315,7 +266,6 @@ async function addQuestionsToPool() {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 question_ids: selectedQuestions.value
@@ -340,12 +290,6 @@ async function addQuestionsToPool() {
 }
 
 async function removeQuestionFromPool(poolId : number, questionId : number) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     try {
         const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions/${questionId}`, {
             method: "DELETE",
@@ -353,7 +297,6 @@ async function removeQuestionFromPool(poolId : number, questionId : number) {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
         });
         

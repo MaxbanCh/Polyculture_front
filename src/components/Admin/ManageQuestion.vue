@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-
 import { fetchThemes } from '../Game/themes.ts';
 
 const questions = ref<{ 
@@ -41,14 +40,7 @@ watch(() => questions.value, () => {
   updateFilteredQuestions();
 }, { deep: true, immediate: true });
 
-async function fetchQuestions(page = 1) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        wait.value = false;
-        return;
-    }
-    
+async function fetchQuestions(page = 1) {    
     if (page < 1) {
         page = 1;
     }
@@ -63,7 +55,6 @@ async function fetchQuestions(page = 1) {
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
         },
     })
     .then(async (response) => {
@@ -99,8 +90,7 @@ function updateFilteredQuestions() {
 }
 
 async function addQuestion() {
-    const token = localStorage.getItem('auth_token');
-    if (!token || !newQuestionText.value || !newQuestionAnswer.value) {
+    if (!newQuestionText.value || !newQuestionAnswer.value) {
         errorMessage.value = "Veuillez remplir tous les champs requis";
         return;
     }
@@ -112,7 +102,6 @@ async function addQuestion() {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 question: newQuestionText.value,
@@ -145,12 +134,6 @@ async function addQuestion() {
 }
 
 async function deleteQuestion(id : number) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     if (!confirm("Êtes-vous sûr de vouloir supprimer cette question ?")) {
         return;
     }
@@ -162,7 +145,6 @@ async function deleteQuestion(id : number) {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
         });
         if (response.ok) {
@@ -190,12 +172,6 @@ function startEdit(question: any) {
 }
 
 async function saveEdit(id : number) {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-        errorMessage.value = "Vous n'êtes pas connecté";
-        return;
-    }
-
     try {
         const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
             method: "PUT",
@@ -203,7 +179,6 @@ async function saveEdit(id : number) {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 question: editQuestionText.value,

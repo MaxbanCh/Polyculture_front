@@ -2,24 +2,15 @@
     import { ref, onMounted } from "vue";
     import { useRouter } from 'vue-router';
     import ManageQuestion from './ManageQuestion.vue';
+    import { getAuthToken } from '../../utils/auth';
+
 
     const router = useRouter();
     let wait = ref(true);
     let isAdmin = ref(false);
     let errorMessage = ref("");
 
-    async function checkAdminAccess() {
-        const token = localStorage.getItem('auth_token');
-        
-        // Vérifier si le token existe
-        if (!token) {
-            errorMessage.value = "Vous n'êtes pas connecté";
-            wait.value = false;
-            // Rediriger vers la page de connexion
-            router.push('/login');
-            return;
-        }
-        
+    async function checkAdminAccess() {                        
         try {
             const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
                 method: "GET",
@@ -27,7 +18,6 @@
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
                 },
             });
             
