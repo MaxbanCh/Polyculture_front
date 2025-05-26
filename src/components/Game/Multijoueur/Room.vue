@@ -362,6 +362,21 @@ onMounted(() => {
   
   fetchQuestionPools();
 });
+
+// Add this computed property to your script section
+const isStartDisabled = computed(() => {
+  // No themes selected and no pool selected
+  if (!selectedPoolId && selectedThemes.length === 0) {
+    return true;
+  }
+  
+  // Pool selected but not found in questionPools
+  if (selectedPoolId !== undefined && !questionPools.value.some(p => p.id === selectedPoolId)) {
+    return true;
+  }
+  
+  return false;
+});
 </script>
 
 <template>
@@ -378,7 +393,6 @@ onMounted(() => {
       <h2>Créer ou rejoindre un salon</h2>
       
       <div class="welcome-message">
-        <p>Connecté en tant que <strong>{{ username }}</strong></p>
       </div>
       
       <h3>Créer un salon</h3>
@@ -503,8 +517,7 @@ onMounted(() => {
             </div>
             
             <button @click="startGame" 
-              :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
-                       (!!selectedPoolId && questionPools.every(p => p.id !== selectedPoolId))" 
+              :disabled="isStartDisabled" 
               class="start-button">
               Démarrer la partie
             </button>
