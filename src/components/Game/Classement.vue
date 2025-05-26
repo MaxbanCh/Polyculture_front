@@ -11,7 +11,7 @@
     // Récupère le classement des joueurs
     async function fetchClassement() {
         try {
-            const response = await fetch('https://polyculture-back.cluster-ig3.igpolytech.fr/classement', {
+            const response = await fetch('http://83.195.188.17:3000/classement', {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include',

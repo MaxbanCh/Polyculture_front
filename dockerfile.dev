@@ -62,8 +62,8 @@ FROM denoland/deno:debian
 WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/server.ts ./
-COPY --from=build /app/ssl ./ssl
+# COPY --from=build /app/ssl ./ssl
 
-EXPOSE 443
+EXPOSE 80
 
-CMD ["deno", "run", "--allow-net", "--allow-read", "--allow-env", "server.ts", "ssl/cert.pem", "ssl/key.pem"]
+CMD ["deno", "run", "--allow-net", "--allow-read", "--allow-env", "server.ts"]

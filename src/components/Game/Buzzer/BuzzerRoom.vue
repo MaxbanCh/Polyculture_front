@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import fetchThemes from '../themes.ts'
 
 // Connexion WebSocket
-const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/BuzzerRoom`);
+const ws = new WebSocket(`ws://polyculture-back.cluster-ig3.igpolytech.fr/BuzzerRoom`);
 
 // Authentification
 const isAuthenticated = ref(false);
@@ -163,7 +163,7 @@ function getRandomQuestion() {
   if (isHost.value && !loadingQuestion.value) {
     loadingQuestion.value = true;
     
-    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestionwithanswer");
+    const url = new URL("http://83.195.188.17:3000/randomquestionwithanswer");
     if (selectedTheme.value) {
       url.searchParams.append("theme", selectedTheme.value);
     }

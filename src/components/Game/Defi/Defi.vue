@@ -48,7 +48,7 @@ const questionKey = ref(0);
 // Charger les pools de questions disponibles
 async function fetchPools() {
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
+        const response = await fetch("http://83.195.188.17:3000/questionpool", {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -68,7 +68,7 @@ async function fetchPools() {
 // Charger les questions d'un pool spécifique
 async function fetchPoolQuestions(poolId: number) {
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
+        const response = await fetch(`http://83.195.188.17:3000/questionpool/${poolId}/questions`, {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -122,7 +122,7 @@ function askQuestion() {
         resetQuestionState();
         
         const theme = selectedTheme.value;
-        const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestion");
+        const url = new URL("http://83.195.188.17:3000/randomquestion");
         if (theme) {
             url.searchParams.append("theme", theme);
         }
@@ -172,7 +172,7 @@ function submitAnswer(answer: string) {
         questionTimes.value[questionData.value.id] = timeSpent;
     }
 
-    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/answer", {
+    fetch("http://83.195.188.17:3000/answer", {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -229,7 +229,7 @@ function submitAnswer(answer: string) {
 }
 
 function sendScoreToServer() {
-    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/savescore", {
+    fetch("http://83.195.188.17:3000/savescore", {
         method: "POST",
         mode: "cors",
         credentials: "include",
