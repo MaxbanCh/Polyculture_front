@@ -182,15 +182,24 @@ function submitAnswer(answer: string) {
         body: JSON.stringify({
             questionId: questionData.value?.id ?? null,
             answer: answer,
+            finaltry : attemptCount.value >= MAX_ATTEMPTS - 1, // Indiquer si c'est la dernière tentative
         }),
     })
     .then(async (response) => {
         if (response.ok) {
             const data = await response.json();
             isCorrect.value = data.correct;
+            if (data.answer) {
+                questionData.value = {
+                    ...questionData.value,
+                    answer: data.answer // Mettre à jour la réponse de la question si fournie
+                };
+            }
             correctAnswer.value = questionData.value?.answer || "";
             showAnswer.value = true;
-            
+            if (data.answer) {
+                correctAnswer.value = data.answer; // Mettre à jour la réponse correcte si fournie
+            }
             if (data.correct) {
                 score.value += 1; // Ajouter un point pour une bonne réponse
                 hasAnswered.value = true; // Bloquer d'autres tentatives
