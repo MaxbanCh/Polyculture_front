@@ -68,7 +68,7 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 // Configuration du serveur
-const PORT = parseInt(Deno.env.get("PORT") || "80");
+const PORT = parseInt("80");
 const options: any = { port: PORT };
 
 // En environnement de production (Dokku), nous n'avons pas besoin de gérer le SSL
