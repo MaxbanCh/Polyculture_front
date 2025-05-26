@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import fetchThemes from ../themes.ts
 
 // Connexion WebSocket
 const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/BuzzerRoom`);
@@ -196,19 +197,6 @@ function toggleAnswer() {
   showAnswer.value = !showAnswer.value;
 }
 
-// Fetch themes on mount
-async function fetchThemes() {
-  try {
-    const response = await fetch('https://polyculture-back.cluster-ig3.igpolytech.fr/themes');
-    if (response.ok) {
-      const data = await response.json();
-      themes.value = data;
-    }
-  } catch (error) {
-    console.error("Error fetching themes:", error);
-  }
-}
-
 // WebSocket message handler
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
@@ -276,8 +264,13 @@ onMounted(() => {
     return;
   }
 
-  fetchThemes();
-});
+  fetchThemes()
+        .then((data) => {
+            themes.value = data; // Store the themes in the ref
+        })
+        .catch((error) => {
+            console.error("Error fetching themes:", error);
+        });});
 </script>
 
 <template>
