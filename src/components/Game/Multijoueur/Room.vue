@@ -504,7 +504,7 @@ onMounted(() => {
             
             <button @click="startGame" 
               :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
-                       (selectedPoolId && !questionPools.some(p => p.id === selectedPoolId))" 
+                       (!!selectedPoolId && questionPools.every(p => p.id !== selectedPoolId))" 
               class="start-button">
               Démarrer la partie
             </button>
@@ -562,7 +562,7 @@ onMounted(() => {
                   <td>{{ result.username }}</td>
                   <td>{{ result.answer }}</td>
                   <td>{{ result.time }}s</td>
-                  <td>{{ result.points || '-' }}</td> <!-- Convert possible 0 to string -->
+                  <td>{{ result.points !== undefined ? result.points : '-' }}</td> <!-- Convert possible 0 to string -->
                 </tr>
               </tbody>
             </table>
