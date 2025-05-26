@@ -362,6 +362,16 @@ onUnmounted(() => {
       userId: getUserId(),
     }));
   }
+  
+  // Fermer explicitement la WebSocket
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.close();
+  }
+  
+  // Nettoyer le timer s'il existe
+  if (timer) {
+    clearInterval(timer);
+  }
 });
 
 // Fetch themes on mount and check authentication

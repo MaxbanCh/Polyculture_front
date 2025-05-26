@@ -254,6 +254,9 @@ onUnmounted(() => {
       userId: getUserId(),
     }));
   }
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.close();
+  }
 });
 
 // Fetch themes and check authentication on mount
