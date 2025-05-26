@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { getAuthToken } from '../../utils/auth';
 
 
 async function login() {

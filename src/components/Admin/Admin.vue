@@ -2,10 +2,8 @@
     import { ref, onMounted } from "vue";
     import { useRouter } from 'vue-router';
     import ManageQuestion from './ManageQuestion.vue';
-    import { getAuthToken } from '../../utils/auth';
 
 
-    const router = useRouter();
     let wait = ref(true);
     let isAdmin = ref(false);
     let errorMessage = ref("");

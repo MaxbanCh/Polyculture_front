@@ -275,7 +275,9 @@ async function addQuestionsToPool() {
         if (response.ok) {
             showAddQuestions.value = false;
             selectedQuestions.value = [];
-            fetchPoolQuestions(currentPoolId.value);
+            if (currentPoolId.value !== null) {
+                fetchPoolQuestions(currentPoolId.value);
+            }
             errorMessage.value = "Questions ajoutées avec succès";
             setTimeout(() => {
                 errorMessage.value = "";

@@ -9,7 +9,6 @@ const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/Multi
 // Authentification
 const isAuthenticated = ref(false);
 const username = ref('');
-const token = ref('');
 
 // Room state
 const roomCode = ref('');
@@ -504,8 +503,8 @@ onMounted(() => {
             </div>
             
             <button @click="startGame" 
-              :disabled="!!((!selectedPoolId && selectedThemes.length === 0) || 
-                       (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId)))" 
+              :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
+                       (selectedPoolId && questionPools.find(p => p.id === selectedPoolId) === undefined)" 
               class="start-button">
               Démarrer la partie
             </button>
