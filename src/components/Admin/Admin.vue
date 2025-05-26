@@ -21,7 +21,7 @@
         }
         
         try {
-            const response = await fetch("http://83.195.188.17:3000/admin", {
+            const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",
@@ -81,6 +81,7 @@
         <div v-else>
             <h1>Panneau d'administration</h1>
             <ManageQuestion />
+            <RouterLink to="/admin/pools">Gestion des Pools</RouterLink>
         </div>
     </div>
 </template>

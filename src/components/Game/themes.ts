@@ -1,6 +1,6 @@
 export async function fetchThemes() {
   try {
-    const response = await fetch("http://83.195.188.17:3000/themes", {
+    const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/themes", {
       method: "GET",
       mode: "cors",
       credentials: "include",
@@ -16,7 +16,7 @@ export async function fetchThemes() {
       if (data.themes && Array.isArray(data.themes) && data.themes.length > 0) {
         // If themes are objects, extract just the names
         if (typeof data.themes[0] === 'object' && data.themes[0].name) {
-          const themeNames = data.themes.map(theme => theme.name);
+          const themeNames = data.themes.map((theme: { name: string }) => theme.name);
           console.log("Themes fetched successfully:", themeNames);
           return themeNames;
         }

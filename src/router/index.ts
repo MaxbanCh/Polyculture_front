@@ -2,13 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../components/Home.vue";
 import Defi from "../components/Game/Defi/Defi.vue";
-import Profil from "../components/Connexion/Profil.vue";
+import Profil from "../components/User/Profil.vue";
 import Room from "../components/Game/Multijoueur/Room.vue";
 import BuzzerRoom from "../components/Game/Buzzer/BuzzerRoom.vue";
 
-import Connect from "../components/Connexion/Connect.vue";
+import Connect from "../components/User/Connect.vue";
 import Admin from "../components/Admin/Admin.vue";
 import ManageQuestionPool from '../components/Admin/ManageQuestionPool.vue'
+import UserQuestionManager from '../components/User/UserQuestionManager.vue'
 
 
 export default createRouter({
@@ -31,11 +32,6 @@ export default createRouter({
       component: Room,
     },
     {
-      path: "/buzzer/:code?",
-      name: "Buzzer",
-      component: BuzzerRoom,
-    },
-    {
       path: "/defi",
       name: "Defi",
       component: Defi,
@@ -50,7 +46,7 @@ export default createRouter({
           next("/connexion");
         } else {
           // Vérification du token
-          fetch("http://83.195.188.17:3000/profil", {
+          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/profil", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -76,7 +72,7 @@ export default createRouter({
           next("/login");
         } else {
           // Vérification des droits admin
-          fetch("http://83.195.188.17:3000/admin", {
+          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -103,7 +99,7 @@ export default createRouter({
           next("/login");
         } else {
           // Vérification des droits admin
-          fetch("http://83.195.188.17:3000/admin", {
+          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -119,5 +115,15 @@ export default createRouter({
         }
       },
     },
+    {
+      path: "/questions",
+      name: "UserQuestionManager",
+      component: UserQuestionManager,
+    },
+    {
+      path: '/buzzer/:code?',
+      name: 'BuzzerRoom',
+      component: BuzzerRoom,
+    }
   ],
 });

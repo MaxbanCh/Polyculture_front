@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { useRouter } from 'vue-router';
 
 import { fetchThemes } from '../Game/themes.ts';
 
-const router = useRouter();
-const questions = ref([]);
-const filteredQuestions = ref([]); // Pour stocker les questions filtrées
+const questions = ref<{ 
+    questions: any[], 
+    currentPage: number, 
+    totalPages: number 
+}>({
+    questions: [],
+    currentPage: 1,
+    totalPages: 1
+});
+const filteredQuestions = ref<any[]>([]); // Pour stocker les questions filtrées
 const themes = ref<string[]>([]); // Liste des thèmes
 const selectedTheme = ref<string>("");
 
@@ -31,7 +37,7 @@ const editQuestionSubtheme = ref("");
 const editQuestionType = ref("");
 
 // Surveiller les changements de questions pour mettre à jour filteredQuestions
-watch(() => questions.value, (newQuestions) => {
+watch(() => questions.value, () => {
   updateFilteredQuestions();
 }, { deep: true, immediate: true });
 
@@ -47,7 +53,7 @@ async function fetchQuestions(page = 1) {
         page = 1;
     }
 
-    const url = new URL("http://83.195.188.17:3000/question");
+    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
     url.searchParams.append("page", page.toString());
 
     wait.value = true;
@@ -100,7 +106,7 @@ async function addQuestion() {
     }
 
     try {
-        const response = await fetch("http://83.195.188.17:3000/question", {
+        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/question", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -117,7 +123,6 @@ async function addQuestion() {
             }),
         });
         if (response.ok) {
-            const newQuestion = await response.json();
             fetchQuestions(); // Rafraîchir la liste complète
             
             // Réinitialiser les champs
@@ -139,7 +144,7 @@ async function addQuestion() {
     }
 }
 
-async function deleteQuestion(id) {
+async function deleteQuestion(id : number) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         errorMessage.value = "Vous n'êtes pas connecté";
@@ -151,7 +156,7 @@ async function deleteQuestion(id) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -175,7 +180,7 @@ async function deleteQuestion(id) {
     }
 }
 
-function startEdit(question) {
+function startEdit(question: any) {
     editingQuestion.value = question.id;
     editQuestionText.value = question.question;
     editQuestionAnswer.value = question.answer;
@@ -184,7 +189,7 @@ function startEdit(question) {
     editQuestionType.value = question.type || "text";
 }
 
-async function saveEdit(id) {
+async function saveEdit(id : number) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         errorMessage.value = "Vous n'êtes pas connecté";
@@ -192,7 +197,7 @@ async function saveEdit(id) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -229,9 +234,9 @@ function cancelEdit() {
     editingQuestion.value = null;
 }
 
-function handleSearch() {
-    fetchQuestions(1); // Revenir à la première page lors d'une recherche
-}
+// function handleSearch() {
+//     fetchQuestions(1); // Revenir à la première page lors d'une recherche
+// }
 
 function clearSearch() {
     searchQuery.value = "";
@@ -288,7 +293,6 @@ onMounted(() => {
                     </thead>
                     <tbody>
                         <tr v-for="question in filteredQuestions" :key="question.id">
-                            <!-- Mode affichage normal -->
                             <template v-if="editingQuestion !== question.id">
                                 <td>{{ question.question }}</td>
                                 <td>{{ question.answer }}</td>
@@ -301,7 +305,6 @@ onMounted(() => {
                                 </td>
                             </template>
                             
-                            <!-- Mode édition - aucun changement ici -->
                             <template v-else>
                                 <td><input v-model="editQuestionText" placeholder="Question" /></td>
                                 <td><input v-model="editQuestionAnswer" placeholder="Réponse" /></td>

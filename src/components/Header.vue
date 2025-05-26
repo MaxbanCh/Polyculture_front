@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 
 const isLoggedIn = ref(false); // Variable réactive pour l'état de connexion
-const router = useRouter();
 
 // Vérifie si l'utilisateur est connecté au montage du composant
 onMounted(() => {
@@ -36,18 +34,19 @@ const closeMenu = () => {
         </div>
       </button>
       <ul :class="{ 'menu-open': isMenuOpen }">
-        
-        <li><RouterLink to="/" @click="closeMenu">Accueil</RouterLink></li>
-          <li><RouterLink to="/room" @click="closeMenu">Multijoueur</RouterLink></li>
-          <li><RouterLink to="/Defi" @click="closeMenu">Defi</RouterLink></li>
-          <li v-if="isLoggedIn">
-            <RouterLink to="/profil" @click="closeMenu">Profil</RouterLink>
-          </li>
-          <li v-else>
-            <RouterLink to="/connexion" @click="closeMenu">Connexion</RouterLink>
-          </li>
-        <li>Question</li>
-      </ul>
+  <li><RouterLink to="/" @click="closeMenu">Accueil</RouterLink></li>
+  <li><RouterLink to="/room" @click="closeMenu">Multijoueur</RouterLink></li>
+  <li><RouterLink to="/Buzzer" @click="closeMenu">Buzzer</RouterLink></li>
+  <li><RouterLink to="/Defi" @click="closeMenu">Defi</RouterLink></li>
+  <!-- <li v-if="isLoggedIn">
+    <RouterLink to="/mes-questions" @click="closeMenu">Questions</RouterLink></li> -->
+  <li v-if="isLoggedIn">
+    <RouterLink to="/profil" @click="closeMenu">Profil</RouterLink>
+  </li>
+  <li v-else>
+    <RouterLink to="/connexion" @click="closeMenu">Connexion</RouterLink>
+  </li>
+</ul>
     </nav>
   </header>
   </div>

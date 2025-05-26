@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const pools = ref([]);
-const questions = ref([]);
-const selectedQuestions = ref([]);
+interface Question {
+    id: number;
+    question: string;
+    answer: string;
+    theme?: string;
+    subtheme?: string;
+    [key: string]: any;
+}
+
+const pools = ref<{ id: number; name: string; description?: string; is_public?: boolean; question_count?: number; questions?: any }[]>([]);
+const questions = ref<Question[]>([]);
+const selectedQuestions = ref<number[]>([]);
 const errorMessage = ref("");
 const wait = ref(true);
 
@@ -15,14 +22,14 @@ const newPoolDescription = ref("");
 const isPublic = ref(false);
 
 // Variables pour la modification
-const editingPool = ref(null);
+const editingPool = ref<number | null>(null);
 const editPoolName = ref("");
 const editPoolDescription = ref("");
 const editIsPublic = ref(false);
 const showAddQuestions = ref(false);
-const currentPoolId = ref(null);
+const currentPoolId = ref<number | null>(null);
 const searchQuery = ref("");
-const filteredQuestions = ref([]);
+const filteredQuestions = ref<Question[]>([]);
 
 // Pagination des questions
 const questionPage = ref(1);
@@ -36,7 +43,7 @@ async function fetchPools() {
         return;
     }
 
-    fetch("http://83.195.188.17:3000/questionpool", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -68,7 +75,7 @@ async function fetchAllQuestions(page = 1) {
         return;
     }
 
-    const url = new URL("http://83.195.188.17:3000/question");
+    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
     url.searchParams.append("page", page.toString());
     url.searchParams.append("limit", "50"); // On récupère plus de questions à la fois
 
@@ -112,14 +119,14 @@ function updateFilteredQuestions() {
     );
 }
 
-async function fetchPoolQuestions(poolId) {
+async function fetchPoolQuestions(poolId : number) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         errorMessage.value = "Vous n'êtes pas connecté";
         return;
     }
 
-    fetch(`http://83.195.188.17:3000/questionpool/${poolId}/questions`, {
+    fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -153,7 +160,7 @@ async function createPool() {
     }
 
     try {
-        const response = await fetch("http://83.195.188.17:3000/questionpool", {
+        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -163,6 +170,7 @@ async function createPool() {
             },
             body: JSON.stringify({
                 name: newPoolName.value,
+                user_id: "admin",
                 description: newPoolDescription.value,
                 is_public: isPublic.value
             }),
@@ -187,7 +195,7 @@ async function createPool() {
     }
 }
 
-async function deletePool(id) {
+async function deletePool(id : number) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         errorMessage.value = "Vous n'êtes pas connecté";
@@ -199,7 +207,7 @@ async function deletePool(id) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -224,15 +232,15 @@ async function deletePool(id) {
     }
 }
 
-function startEdit(pool) {
+function startEdit(pool: { id: number; name: string; description?: string; is_public?: boolean; question_count?: number; questions?: any }) {
     editingPool.value = pool.id;
     editPoolName.value = pool.name;
     editPoolDescription.value = pool.description || "";
-    editIsPublic.value = pool.is_public;
+    editIsPublic.value = pool.is_public ?? false;
     fetchPoolQuestions(pool.id);
 }
 
-async function saveEdit(id) {
+async function saveEdit(id : number) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         errorMessage.value = "Vous n'êtes pas connecté";
@@ -240,7 +248,7 @@ async function saveEdit(id) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -277,14 +285,14 @@ function cancelEdit() {
     selectedQuestions.value = [];
 }
 
-function openAddQuestionsModal(poolId) {
+function openAddQuestionsModal(poolId : number) {
     currentPoolId.value = poolId;
     showAddQuestions.value = true;
     fetchAllQuestions();
     selectedQuestions.value = [];
 }
 
-function toggleQuestionSelection(questionId) {
+function toggleQuestionSelection(questionId : number) {
     const index = selectedQuestions.value.indexOf(questionId);
     if (index === -1) {
         selectedQuestions.value.push(questionId);
@@ -301,7 +309,7 @@ async function addQuestionsToPool() {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${currentPoolId.value}/questions`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${currentPoolId.value}/questions`, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -331,7 +339,7 @@ async function addQuestionsToPool() {
     }
 }
 
-async function removeQuestionFromPool(poolId, questionId) {
+async function removeQuestionFromPool(poolId : number, questionId : number) {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         errorMessage.value = "Vous n'êtes pas connecté";
@@ -339,7 +347,7 @@ async function removeQuestionFromPool(poolId, questionId) {
     }
 
     try {
-        const response = await fetch(`http://83.195.188.17:3000/questionpool/${poolId}/questions/${questionId}`, {
+        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions/${questionId}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",

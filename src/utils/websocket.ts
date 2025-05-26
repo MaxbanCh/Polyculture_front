@@ -1,4 +1,4 @@
-const ws = new WebSocket(`ws://83.195.188.17:3000`);
+const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/`);
 
 ws.onopen = () => {
   console.log("WebSocket connection established.");

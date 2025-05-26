@@ -1,14 +1,14 @@
 <script setup lang="ts">
-// import ws from '../../utils/websocket.ts'
+console.log("Hello from Login!")
 
+async function login() {
+    let usernameElement = document.getElementById("username");
+    let username = usernameElement ? (usernameElement as HTMLInputElement).value : '';
 
-console.log("Hello from Register!")
+    let passwordElement = document.getElementById("password") as HTMLInputElement;
+    let password = passwordElement ? passwordElement.value : '';
 
-async function register() {
-    let username = ((document.getElementById("usernameRegister") as HTMLInputElement)?.value ?? "");
-    let password = (document.getElementById("passwordRegister") as HTMLInputElement)?.value ?? "";
-
-    fetch("http://83.195.188.17:3000/register", {
+    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/login", {
         method: "POST",
         mode : "cors",
         credentials: "include",
@@ -19,18 +19,19 @@ async function register() {
         })
     .then(async (response) => {
         if (response.ok) {
-            console.log("Register successful");
+            console.log("Login successful");
             const data = await response.json();
 
             console.log(data);
             localStorage.setItem('auth_token', data.auth_token);
+
             window.location.href = '/'; // Rediriger vers la page d'accueil
+            // router.push('/'); // Utiliser le routeur pour rediriger vers la page d'accueil
         }
         // throw new Error("Network response was not ok.");
         else {
             
         }
-
     })
     .then((data) => {
         console.log(data);
@@ -38,16 +39,16 @@ async function register() {
     .catch((error) => {
         console.error("There has been a problem with your fetch operation:", error);
     });
-
 }
+
 </script>
 
 <template>
-    <h2>Register</h2>
+    <h2>Login</h2>
     Username:
-    <input type="text" name="UsernameRegister" id="usernameRegister">
+    <input type="text" name="Username" id="username">
     Password:
-    <input type="password" name="PasswordRegister" id="passwordRegister">
+    <input type="password" name="Password" id="password">
 
-    <button id="register" @click="register()">Register</button>
+    <button id="login" @click="login()">Login</button>
 </template>

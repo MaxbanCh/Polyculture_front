@@ -1,11 +1,4 @@
 <script setup lang="ts">
-//import Question from './Game/Question.vue'
-// import ws from '../utils/websocket.ts'
-// import Buzzer from './Game/Buzzer/Buzzer.vue'
-
-// ws.onopen = function(event) {
-//     console.log('WebSocket connection established.');
-// }
 </script>
 
 <template>

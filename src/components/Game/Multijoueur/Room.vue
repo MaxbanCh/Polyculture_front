@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { fetchThemes } from '../themes';
 
 const router = useRouter();
-const ws = new WebSocket(`ws://83.195.188.17:3000/Multi`);
+const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/Multi`);
 
 // Authentification
 const isAuthenticated = ref(false);
@@ -14,35 +14,69 @@ const token = ref('');
 // Room state
 const roomCode = ref('');
 const inputRoomCode = ref(''); 
-const players = ref([]);
-const selectedThemes = ref([]);
+interface Player {
+  id: string;
+  username: string;
+  status?: string;
+}
+
+const players = ref<Player[]>([]);
+const selectedThemes = ref<string[]>([]);
 const isHost = ref(false);
-const themes = ref([]);
+const themes = ref<string[]>([]);
 
 // Question pools
-const questionPools = ref([]);
-const selectedPoolId = ref(null);
+interface QuestionPool {
+  id: number;
+  name: string;
+  description?: string;
+  question_count?: number;
+  created_by?: string;
+}
+const questionPools = ref<QuestionPool[]>([]);
+const selectedPoolId = ref<number | undefined>(undefined);
 
-// Game Refs
+const playerScores = ref<Record<string, number>>({});
 const gameInProgress = ref(false);
-const currentQuestion = ref(null);
+interface Question {
+  question: string;
+  theme: string;
+  [key: string]: any;
+}
+const currentQuestion = ref<Question | null>(null);
 const timeRemaining = ref(0);
 const totalRounds = ref(10);
 const currentRound = ref(0);
-const playerScores = ref({});
 const userAnswer = ref('');
 const hasAnswered = ref(false);
-const questionResults = ref(null);
+interface QuestionResults {
+  correctAnswer: string;
+  playerResults: Array<{
+    playerId: string;
+    username: string;
+    answer: string;
+    time: number;
+    points: number;
+    isCorrect: boolean;
+  }>;
+}
+
+const questionResults = ref<QuestionResults | null>(null);
 
 // Variables pour le statut des réponses des joueurs
-const playerResponseStatus = ref({});
+const playerResponseStatus = ref<{ [playerId: string]: {
+  status: string;
+  points: number;
+  time: number;
+  isCorrect: boolean;
+} }>({});
 const rankNames = {
   0: "1er",
   1: "2ème",
   2: "3ème"
 };
 
-let timer = null;
+let timer: number | undefined = undefined;
 
 // Ajouter cette fonction pour suivre qui a répondu
 const playersWhoAnswered = ref(new Set());
@@ -66,7 +100,6 @@ function checkAuthentication() {
   // Essayer d'abord le localStorage
   let authToken = localStorage.getItem('auth_token');
   
-  // Si pas dans localStorage, essayer les cookies
   if (!authToken) {
     const cookies = document.cookie.split(';');
     const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
@@ -113,7 +146,7 @@ async function fetchQuestionPools() {
       return;
     }
 
-    const response = await fetch('http://83.195.188.17:3000/questionpool', {
+    const response = await fetch('https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -198,7 +231,7 @@ function submitAnswer() {
 }
 
 // Fonction pour vérifier si un joueur a répondu
-function playerAnswered(playerId) {
+function playerAnswered(playerId : string): boolean {
   return playersWhoAnswered.value.has(playerId);
 }
 
@@ -258,7 +291,6 @@ ws.onmessage = (event) => {
         clearInterval(timer);
       }
       
-      // Start timer - utilisez la variable globale sans "const"
       timer = setInterval(() => {
         updateTimer();
         if (timeRemaining.value <= 0) {
@@ -271,19 +303,24 @@ ws.onmessage = (event) => {
       questionResults.value = data.results;
       playerScores.value = data.scores;
       
-      // Mettez à jour le statut de réponse de chaque joueur
       playerResponseStatus.value = {};
       
-      // Marquer les joueurs qui ont bien répondu avec leur rang
-      data.results.playerResults.forEach(result => {
+      data.results.playerResults.forEach((result: {
+        playerId: string;
+        username: string;
+        answer: string;
+        time: number;
+        points: number;
+        isCorrect: boolean;
+      }) => {
         if (result.isCorrect) {
           const rank = data.results.playerResults
-            .filter(r => r.isCorrect)
-            .sort((a, b) => Number(a.time) - Number(b.time))
-            .findIndex(r => r.playerId === result.playerId);
+            .filter((r: { isCorrect: boolean }) => r.isCorrect)
+            .sort((a: { time: number }, b: { time: number }) => Number(a.time) - Number(b.time))
+            .findIndex((r: { playerId: string }) => r.playerId === result.playerId);
           
           playerResponseStatus.value[result.playerId] = {
-            status: rank <= 2 ? rankNames[rank] : 'correct',
+            status: (rank >= 0 && rank <= 2) ? rankNames[rank as 0 | 1 | 2] : 'correct',
             points: result.points,
             time: result.time,
             isCorrect: true
@@ -311,7 +348,6 @@ ws.onmessage = (event) => {
   }
 };
 
-// Clean up on component unmount
 onUnmounted(() => {
   if (roomCode.value) {
     ws.send(JSON.stringify({
@@ -320,9 +356,18 @@ onUnmounted(() => {
       userId: getUserId(),
     }));
   }
+  
+  // Fermer explicitement la WebSocket
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.close();
+  }
+  
+  // Nettoyer le timer s'il existe
+  if (timer) {
+    clearInterval(timer);
+  }
 });
 
-// Fetch themes on mount and check authentication
 onMounted(() => {
   // Vérifie l'authentification au chargement du composant
   if (!checkAuthentication()) {
@@ -369,9 +414,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Room view (either waiting or in-game) -->
     <div v-else class="room-layout">
-      <!-- Tableau de bord des joueurs - maintenant renommé "leaderboard" -->
       <div class="leaderboard">
         <h3>Joueurs</h3>
         <div class="player-list">
@@ -383,7 +426,6 @@ onMounted(() => {
                  'player-host': player.id === currentRoom.host
                }">
             
-            <!-- Contenu du player-card inchangé -->
             <div class="player-header">
               <span class="status-dot" :class="player.status || 'online'"></span>
               <span class="player-name">{{ player.username }}</span>
@@ -421,12 +463,9 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Contenu principal (waiting room ou gameplay) -->
       <div class="main-content">
-        <!-- Waiting room view -->
         <div v-if="!gameInProgress">
           <h2>Salon: {{ roomCode }}</h2>
-          <!-- Reste du contenu de la salle d'attente -->
           <div class="players">
             <h3>Joueurs</h3>
             <ul>
@@ -440,10 +479,10 @@ onMounted(() => {
             <div class="selection-option">
               <h3>Sélectionner une option:</h3>
               <div class="options-toggle">
-                <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = null">
+                <button :class="{ active: !selectedPoolId }" @click="selectedPoolId = undefined">
                   Sélection par thèmes
                 </button>
-                <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : null">
+                <button :class="{ active: selectedPoolId }" @click="selectedPoolId = questionPools.length > 0 ? questionPools[0].id : undefined">
                   Utiliser un pool de questions
                 </button>
               </div>
@@ -481,8 +520,8 @@ onMounted(() => {
             </div>
             
             <button @click="startGame" 
-              :disabled="(!selectedPoolId && selectedThemes.length === 0) || 
-                       (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId))" 
+              :disabled="!!((!selectedPoolId && selectedThemes.length === 0) || 
+                       (selectedPoolId && !questionPools.find(p => p.id === selectedPoolId)))" 
               class="start-button">
               Démarrer la partie
             </button>
