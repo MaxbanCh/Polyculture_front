@@ -154,12 +154,12 @@ onMounted(() => {
 
     <div id="stats">
         <h2>Mes statistiques</h2>
-
+        Bientot...
     </div>
 
     <div id="admin">
-        <h2>Admin</h2>
         <div id="admin" v-if="isAdminvar">
+            <h2>Admin</h2>
             <button @click="redirectAdmin()">Accéder à la page admin</button>
             <p>Vous êtes administrateur</p>
         </div>

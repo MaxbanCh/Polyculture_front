@@ -81,6 +81,7 @@
         <div v-else>
             <h1>Panneau d'administration</h1>
             <ManageQuestion />
+            <RouterLink to="/admin/pools" @click="closeMenu">Gestion des Pools</RouterLink>
         </div>
     </div>
 </template>
