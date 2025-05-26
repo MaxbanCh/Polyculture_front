@@ -189,7 +189,7 @@ function submitAnswer(answer: string) {
         if (response.ok) {
             const data = await response.json();
             isCorrect.value = data.correct;
-            if (data.answer) {
+            if (data.answer && questionData.value) {
                 questionData.value = {
                     ...questionData.value,
                     answer: data.answer // Mettre à jour la réponse de la question si fournie
