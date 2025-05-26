@@ -293,7 +293,6 @@ onMounted(() => {
                     </thead>
                     <tbody>
                         <tr v-for="question in filteredQuestions" :key="question.id">
-                            <!-- Mode affichage normal -->
                             <template v-if="editingQuestion !== question.id">
                                 <td>{{ question.question }}</td>
                                 <td>{{ question.answer }}</td>
@@ -306,7 +305,6 @@ onMounted(() => {
                                 </td>
                             </template>
                             
-                            <!-- Mode édition - aucun changement ici -->
                             <template v-else>
                                 <td><input v-model="editQuestionText" placeholder="Question" /></td>
                                 <td><input v-model="editQuestionAnswer" placeholder="Réponse" /></td>

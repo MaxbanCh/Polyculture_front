@@ -163,7 +163,7 @@ function getRandomQuestion() {
   if (isHost.value && !loadingQuestion.value) {
     loadingQuestion.value = true;
     
-    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestion");
+    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestionwithanswer");
     if (selectedTheme.value) {
       url.searchParams.append("theme", selectedTheme.value);
     }

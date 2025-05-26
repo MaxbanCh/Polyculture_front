@@ -170,7 +170,7 @@ async function createPool() {
             },
             body: JSON.stringify({
                 name: newPoolName.value,
-                user_id: localStorage.getItem('user_id'),
+                user_id: "admin",
                 description: newPoolDescription.value,
                 is_public: isPublic.value
             }),

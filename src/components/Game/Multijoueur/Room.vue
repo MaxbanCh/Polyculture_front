@@ -41,7 +41,6 @@ const gameInProgress = ref(false);
 interface Question {
   question: string;
   theme: string;
-  // Ajoutez d'autres propriétés si nécessaire
   [key: string]: any;
 }
 const currentQuestion = ref<Question | null>(null);
@@ -101,7 +100,6 @@ function checkAuthentication() {
   // Essayer d'abord le localStorage
   let authToken = localStorage.getItem('auth_token');
   
-  // Si pas dans localStorage, essayer les cookies
   if (!authToken) {
     const cookies = document.cookie.split(';');
     const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
@@ -293,7 +291,6 @@ ws.onmessage = (event) => {
         clearInterval(timer);
       }
       
-      // Start timer - utilisez la variable globale sans "const"
       timer = setInterval(() => {
         updateTimer();
         if (timeRemaining.value <= 0) {
@@ -306,10 +303,8 @@ ws.onmessage = (event) => {
       questionResults.value = data.results;
       playerScores.value = data.scores;
       
-      // Mettez à jour le statut de réponse de chaque joueur
       playerResponseStatus.value = {};
       
-      // Marquer les joueurs qui ont bien répondu avec leur rang
       data.results.playerResults.forEach((result: {
         playerId: string;
         username: string;
@@ -353,7 +348,6 @@ ws.onmessage = (event) => {
   }
 };
 
-// Clean up on component unmount
 onUnmounted(() => {
   if (roomCode.value) {
     ws.send(JSON.stringify({
@@ -374,7 +368,6 @@ onUnmounted(() => {
   }
 });
 
-// Fetch themes on mount and check authentication
 onMounted(() => {
   // Vérifie l'authentification au chargement du composant
   if (!checkAuthentication()) {
@@ -421,9 +414,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Room view (either waiting or in-game) -->
     <div v-else class="room-layout">
-      <!-- Tableau de bord des joueurs - maintenant renommé "leaderboard" -->
       <div class="leaderboard">
         <h3>Joueurs</h3>
         <div class="player-list">
@@ -435,7 +426,6 @@ onMounted(() => {
                  'player-host': player.id === currentRoom.host
                }">
             
-            <!-- Contenu du player-card inchangé -->
             <div class="player-header">
               <span class="status-dot" :class="player.status || 'online'"></span>
               <span class="player-name">{{ player.username }}</span>
@@ -473,12 +463,9 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Contenu principal (waiting room ou gameplay) -->
       <div class="main-content">
-        <!-- Waiting room view -->
         <div v-if="!gameInProgress">
           <h2>Salon: {{ roomCode }}</h2>
-          <!-- Reste du contenu de la salle d'attente -->
           <div class="players">
             <h3>Joueurs</h3>
             <ul>
