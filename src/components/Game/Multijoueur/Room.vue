@@ -96,9 +96,9 @@ const currentRoom = ref({
 
 
 // Vérifie si l'utilisateur est authentifié
-function checkAuthentication() {
+function checkAuthentication(): Promise<boolean> {
   // Remplacer par une vérification via API
-  fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/check-token", {
+  return fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/check-token", {
     method: "GET",
     mode: "cors",
     credentials: "include",
@@ -347,31 +347,33 @@ onUnmounted(() => {
 // Fetch themes on mount and check authentication
 onMounted(() => {
   // Vérifie l'authentification au chargement du composant
-  if (!checkAuthentication()) {
-    redirectToLogin();
-    return;
-  }
-
-  fetchThemes()
-    .then((data) => {
-      themes.value = data;
-    })
-    .catch((error) => {
-      console.error("Error fetching themes:", error);
-    });
-  
-  fetchQuestionPools();
+  checkAuthentication().then(isAuth => {
+    if (!isAuth) {
+      redirectToLogin();
+      return;
+    }
+    
+    fetchThemes()
+      .then((data) => {
+        themes.value = data;
+      })
+      .catch((error) => {
+        console.error("Error fetching themes:", error);
+      });
+    
+    fetchQuestionPools();
+  });
 });
 
 // Add this computed property to your script section
 const isStartDisabled = computed(() => {
   // No themes selected and no pool selected
-  if (!selectedPoolId && selectedThemes.length === 0) {
+  if (!selectedPoolId.value && selectedThemes.value.length === 0) {
     return true;
   }
   
   // Pool selected but not found in questionPools
-  if (selectedPoolId !== undefined && !questionPools.value.some(p => p.id === selectedPoolId)) {
+  if (selectedPoolId.value !== undefined && !questionPools.value.some(p => p.id === selectedPoolId.value)) {
     return true;
   }
   
@@ -855,8 +857,8 @@ const isStartDisabled = computed(() => {
 }
 
 .response-correct {
-  background-color: rgba(76, 175, 80, 0.2);
-  color: #81c784;
+  background-color: rgba(76, 175, 76, 0.2);
+  color: #4caf50;
 }
 
 .response-incorrect {
