@@ -53,7 +53,7 @@ async function fetchQuestions(page = 1) {
         page = 1;
     }
 
-    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
+    const url = new URL("https://polyculture-back.axithem.fr/question");
     url.searchParams.append("page", page.toString());
 
     wait.value = true;
@@ -70,7 +70,7 @@ async function fetchQuestions(page = 1) {
         const result = await response.json();
         questions.value = result;
         wait.value = false;
-        updateFilteredQuestions(); // Mettre à jour les questions filtrées
+        updateFilteredQuestions();
     })
     .catch((error) => {
         console.error("Erreur lors de la récupération des questions:", error);
@@ -106,7 +106,7 @@ async function addQuestion() {
     }
 
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/question", {
+        const response = await fetch("https://polyculture-back.axithem.fr/question", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -123,7 +123,7 @@ async function addQuestion() {
             }),
         });
         if (response.ok) {
-            fetchQuestions(); // Rafraîchir la liste complète
+            fetchQuestions();
             
             // Réinitialiser les champs
             newQuestionText.value = "";
@@ -156,7 +156,7 @@ async function deleteQuestion(id : number) {
     }
 
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/question/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -197,7 +197,7 @@ async function saveEdit(id : number) {
     }
 
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/question/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -234,10 +234,6 @@ function cancelEdit() {
     editingQuestion.value = null;
 }
 
-// function handleSearch() {
-//     fetchQuestions(1); // Revenir à la première page lors d'une recherche
-// }
-
 function clearSearch() {
     searchQuery.value = "";
     updateFilteredQuestions();
@@ -249,7 +245,7 @@ onMounted(() => {
 
     fetchThemes()
     .then((data) => {
-        themes.value = data; // Store the themes in the ref
+        themes.value = data;
     })
     .catch((error) => {
         console.error("Error fetching themes:", error);
@@ -266,7 +262,6 @@ onMounted(() => {
             
             <h2>Liste des questions</h2>
             
-            <!-- Barre de recherche instantanée -->
             <div class="search-container">
                 <input 
                     type="text" 
@@ -328,7 +323,7 @@ onMounted(() => {
                                 </td>
                             </template>
                         </tr>
-                        <!-- Message quand aucun résultat -->
+                        
                         <tr v-if="filteredQuestions.length === 0">
                             <td colspan="6" class="no-results">
                                 Aucune question ne correspond à votre recherche

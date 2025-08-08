@@ -46,7 +46,7 @@ export default createRouter({
           next("/connexion");
         } else {
           // Vérification du token
-          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/profil", {
+          fetch("https://polyculture-back.axithem.fr/profil", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -72,7 +72,7 @@ export default createRouter({
           next("/login");
         } else {
           // Vérification des droits admin
-          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
+          fetch("https://polyculture-back.axithem.fr/admin", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },
@@ -99,7 +99,7 @@ export default createRouter({
           next("/login");
         } else {
           // Vérification des droits admin
-          fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
+          fetch("https://polyculture-back.axithem.fr/admin", {
             headers: {
               "Authorization": `Bearer ${token}`,
             },

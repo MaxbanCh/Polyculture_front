@@ -43,7 +43,7 @@ async function fetchPools() {
         return;
     }
 
-    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
+    fetch("https://polyculture-back.axithem.fr/questionpool", {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -75,9 +75,9 @@ async function fetchAllQuestions(page = 1) {
         return;
     }
 
-    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/question");
+    const url = new URL("https://polyculture-back.axithem.fr/question");
     url.searchParams.append("page", page.toString());
-    url.searchParams.append("limit", "50"); // On récupère plus de questions à la fois
+    url.searchParams.append("limit", "50");
 
     fetch(url.toString(), {
         method: "GET",
@@ -126,7 +126,7 @@ async function fetchPoolQuestions(poolId : number) {
         return;
     }
 
-    fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
+    fetch(`https://polyculture-back.axithem.fr/questionpool/${poolId}/questions`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
@@ -160,7 +160,7 @@ async function createPool() {
     }
 
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
+        const response = await fetch("https://polyculture-back.axithem.fr/questionpool", {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -177,7 +177,7 @@ async function createPool() {
         });
         
         if (response.ok) {
-            fetchPools(); // Rafraîchir la liste
+            fetchPools();
             newPoolName.value = "";
             newPoolDescription.value = "";
             isPublic.value = false;
@@ -207,7 +207,7 @@ async function deletePool(id : number) {
     }
 
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/questionpool/${id}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -218,7 +218,7 @@ async function deletePool(id : number) {
         });
         
         if (response.ok) {
-            fetchPools(); // Rafraîchir la liste
+            fetchPools(); 
             errorMessage.value = "Pool supprimé avec succès";
             setTimeout(() => {
                 errorMessage.value = "";
@@ -248,7 +248,7 @@ async function saveEdit(id : number) {
     }
 
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/questionpool/${id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -265,7 +265,7 @@ async function saveEdit(id : number) {
         
         if (response.ok) {
             editingPool.value = null;
-            fetchPools(); // Rafraîchir la liste
+            fetchPools();
             errorMessage.value = "Pool modifié avec succès";
             setTimeout(() => {
                 errorMessage.value = "";
@@ -309,7 +309,7 @@ async function addQuestionsToPool() {
     }
 
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${currentPoolId.value}/questions`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/questionpool/${currentPoolId.value}/questions`, {
             method: "POST",
             mode: "cors",
             credentials: "include",
@@ -347,7 +347,7 @@ async function removeQuestionFromPool(poolId : number, questionId : number) {
     }
 
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions/${questionId}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/questionpool/${poolId}/questions/${questionId}`, {
             method: "DELETE",
             mode: "cors",
             credentials: "include",
@@ -475,7 +475,6 @@ onMounted(() => {
                 <button class="add-btn" @click="createPool">Créer ce pool</button>
             </div>
             
-            <!-- Modal pour ajouter des questions -->
             <div v-if="showAddQuestions" class="modal">
                 <div class="modal-content">
                     <h2>Ajouter des questions</h2>

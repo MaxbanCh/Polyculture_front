@@ -81,7 +81,7 @@ async function fetchMyQuestions(page = 1) {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/my-questions?page=${page}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/my-questions?page=${page}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -113,7 +113,7 @@ async function fetchMyPools() {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/my-pools", {
+        const response = await fetch("https://polyculture-back.axithem.fr/my-pools", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -139,7 +139,7 @@ async function fetchThemes() {
     if (!checkAuthentication()) return;
     
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/themes", {
+        const response = await fetch("https://polyculture-back.axithem.fr/themes", {
             method: "GET",
         });
 
@@ -160,7 +160,7 @@ async function fetchAllQuestions() {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/question", {
+        const response = await fetch("https://polyculture-back.axithem.fr/question", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -192,7 +192,7 @@ async function createQuestion() {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/question", {
+        const response = await fetch("https://polyculture-back.axithem.fr/question", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -244,7 +244,7 @@ async function createPool() {
     const userId = localStorage.getItem('user_id');
     
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
+        const response = await fetch("https://polyculture-back.axithem.fr/questionpool", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -291,7 +291,7 @@ async function deleteQuestion(id: number) {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/question/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -324,7 +324,7 @@ async function deletePool(id: number) {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/questionpool/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -373,7 +373,7 @@ async function saveEditQuestion(id: number) {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/question/${id}`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/question/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

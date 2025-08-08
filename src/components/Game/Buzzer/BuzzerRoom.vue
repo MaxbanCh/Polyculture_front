@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import fetchThemes from '../themes.ts'
 
 // Connexion WebSocket
-const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/BuzzerRoom`);
+const ws = new WebSocket(`wss://polyculture-back.axithem.fr/BuzzerRoom`);
 
 // Authentification
 const isAuthenticated = ref(false);
@@ -52,10 +52,7 @@ const sortedPlayers = computed(() => {
 
 // Vérification d'authentification
 function checkAuthentication() {
-  // Essayer d'abord le localStorage
   let authToken = localStorage.getItem('auth_token');
-  
-  // Si pas dans localStorage, essayer les cookies
   if (!authToken) {
     const cookies = document.cookie.split(';');
     const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
@@ -72,7 +69,6 @@ function checkAuthentication() {
   token.value = authToken;
   
   try {
-    // Décoder le JWT pour obtenir le username
     const payload = JSON.parse(atob(authToken.split('.')[1]));
     if (payload.userName) {
       username.value = payload.userName;
@@ -87,7 +83,6 @@ function checkAuthentication() {
   return false;
 }
 
-// Redirige vers la page de connexion
 function redirectToLogin() {
   router.push('/connexion');
 }
@@ -163,7 +158,7 @@ function getRandomQuestion() {
   if (isHost.value && !loadingQuestion.value) {
     loadingQuestion.value = true;
     
-    const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestionwithanswer");
+    const url = new URL("https://polyculture-back.axithem.fr/randomquestionwithanswer");
     if (selectedTheme.value) {
       url.searchParams.append("theme", selectedTheme.value);
     }
@@ -259,7 +254,6 @@ onUnmounted(() => {
   }
 });
 
-// Fetch themes and check authentication on mount
 onMounted(() => {
   // Vérifie l'authentification au chargement du composant
   if (!checkAuthentication()) {
@@ -269,7 +263,7 @@ onMounted(() => {
 
   fetchThemes()
         .then((data) => {
-            themes.value = data; // Store the themes in the ref
+            themes.value = data;
         })
         .catch((error) => {
             console.error("Error fetching themes:", error);
@@ -285,7 +279,6 @@ onMounted(() => {
       <button @click="redirectToLogin">Se connecter</button>
     </div>
 
-    <!-- Lobby view when authenticated but not in a room -->
     <div v-else-if="!roomCode">
       <h2>Créer ou rejoindre une salle de buzzer</h2>
       

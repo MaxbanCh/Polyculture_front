@@ -21,7 +21,7 @@
         }
         
         try {
-            const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/admin", {
+            const response = await fetch("https://polyculture-back.axithem.fr/admin", {
                 method: "GET",
                 mode: "cors",
                 credentials: "include",

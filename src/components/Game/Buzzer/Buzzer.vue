@@ -9,10 +9,8 @@ const username = ref('');
 
 // Vérifie si l'utilisateur est authentifié
 function checkAuthentication() {
-  // Essayer d'abord le localStorage
   let authToken = localStorage.getItem('auth_token');
   
-  // Si pas dans localStorage, essayer les cookies
   if (!authToken) {
     const cookies = document.cookie.split(';');
     const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
@@ -27,7 +25,6 @@ function checkAuthentication() {
   }
   
   try {
-    // Décoder le JWT pour obtenir le username
     const payload = JSON.parse(atob(authToken.split('.')[1]));
     if (payload.userName) {
       username.value = payload.userName;
@@ -42,7 +39,6 @@ function checkAuthentication() {
   return false;
 }
 
-// Redirige vers la page de connexion
 function redirectToLogin() {
   router.push('/connexion');
 }
@@ -83,7 +79,6 @@ function priority(event: MessageEvent) {
 }
 
 onMounted(() => {
-  // Vérifie l'authentification au chargement du composant
   if (!checkAuthentication()) {
     alert('Vous devez être connecté pour utiliser le buzzer');
     redirectToLogin();
@@ -115,7 +110,6 @@ ws.onmessage = (event => {
 
 <template>
   <div class="buzzer-container">
-    <!-- Affichage si non authentifié -->
     <div v-if="!isAuthenticated" class="auth-error">
       <h2>Authentification requise</h2>
       <p>Vous devez être connecté pour utiliser le buzzer.</p>
@@ -140,21 +134,6 @@ ws.onmessage = (event => {
   padding: 20px;
   text-align: center;
 }
-
-/* #Buzz {
-  background-color: #e74c3c;
-  color: white;
-  font-size: 24px;
-  padding: 20px 40px;
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
-  border: none;
-  box-shadow: 0 6px #c0392b;
-  cursor: pointer;
-  margin-bottom: 30px;
-  transition: all 0.2s;
-} */
 
 #Buzz:active {
   box-shadow: 0 2px #c0392b;

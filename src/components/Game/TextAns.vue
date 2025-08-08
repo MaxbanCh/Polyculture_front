@@ -8,7 +8,6 @@ const emit = defineEmits(["submit-answer"]);
 const userAnswer = ref("");
 
 function submitAnswer() {
-    // Émettre un événement avec la réponse
     emit("submit-answer", userAnswer.value);
 }
 </script>

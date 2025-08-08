@@ -22,7 +22,6 @@ export default [
       'vue/multi-word-component-names': 'warn',
       'vue/no-unused-components': 'warn',
       'vue/no-unused-vars': 'warn'
-      // Ajoutez uniquement les règles spécifiques dont vous avez besoin
     }
   },
   {

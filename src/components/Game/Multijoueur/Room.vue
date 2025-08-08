@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { fetchThemes } from '../themes';
 
 const router = useRouter();
-const ws = new WebSocket(`wss://polyculture-back.cluster-ig3.igpolytech.fr/Multi`);
+const ws = new WebSocket(`wss://polyculture-back.axithem.fr/Multi`);
 
 // Authentification
 const isAuthenticated = ref(false);
@@ -146,7 +146,7 @@ async function fetchQuestionPools() {
       return;
     }
 
-    const response = await fetch('https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool', {
+    const response = await fetch('https://polyculture-back.axithem.fr/questionpool', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

@@ -48,7 +48,7 @@ const questionKey = ref(0);
 // Charger les pools de questions disponibles
 async function fetchPools() {
     try {
-        const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool", {
+        const response = await fetch("https://polyculture-back.axithem.fr/questionpool", {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -68,7 +68,7 @@ async function fetchPools() {
 // Charger les questions d'un pool spécifique
 async function fetchPoolQuestions(poolId: number) {
     try {
-        const response = await fetch(`https://polyculture-back.cluster-ig3.igpolytech.fr/questionpool/${poolId}/questions`, {
+        const response = await fetch(`https://polyculture-back.axithem.fr/questionpool/${poolId}/questions`, {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -122,7 +122,7 @@ function askQuestion() {
         resetQuestionState();
         
         const theme = selectedTheme.value;
-        const url = new URL("https://polyculture-back.cluster-ig3.igpolytech.fr/randomquestion");
+        const url = new URL("https://polyculture-back.axithem.fr/randomquestion");
         if (theme) {
             url.searchParams.append("theme", theme);
         }
@@ -172,7 +172,7 @@ function submitAnswer(answer: string) {
         questionTimes.value[questionData.value.id] = timeSpent;
     }
 
-    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/answer", {
+    fetch("https://polyculture-back.axithem.fr/answer", {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -238,7 +238,7 @@ function submitAnswer(answer: string) {
 }
 
 function sendScoreToServer() {
-    fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/savescore", {
+    fetch("https://polyculture-back.axithem.fr/savescore", {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -286,13 +286,12 @@ function toggleMode(mode: boolean) {
 onMounted(() => {
     fetchThemes()
         .then((data) => {
-            themes.value = data; // Store the themes in the ref
+            themes.value = data;
         })
         .catch((error) => {
             console.error("Error fetching themes:", error);
         });
     
-    // Charger également les pools de questions
     fetchPools();
 });
 </script>
@@ -301,7 +300,6 @@ onMounted(() => {
     <div class="defi-container">
         <h1>Défi</h1>
         
-        <!-- Score display -->
         <div class="score-display">
             <h2>Score actuel: {{ score }}</h2>
             <div v-if="isPoolMode && poolQuestions.length > 0" class="question-counter">
@@ -309,7 +307,6 @@ onMounted(() => {
             </div>
         </div>
 
-        <!-- Mode selector -->
         <div class="mode-selector">
             <button 
                 @click="toggleMode(false)" 
@@ -323,7 +320,6 @@ onMounted(() => {
             </button>
         </div>
         
-        <!-- Theme selection (non-pool mode) -->
         <div v-if="!isPoolMode" class="theme-selection">
             <label for="theme-select">Choisissez un thème :</label>
             <select id="theme-select" v-model="selectedTheme">
@@ -335,7 +331,6 @@ onMounted(() => {
             <button id="askQuestion" @click="askQuestion()">Nouvelle question</button>
         </div>
         
-        <!-- Pool selection (pool mode) -->
         <div v-if="isPoolMode" class="theme-selection">
             <label for="pool-select">Choisissez un pool de questions :</label>
             <select id="pool-select" v-model="selectedPool">
@@ -357,7 +352,6 @@ onMounted(() => {
             />
         </div>
 
-        <!-- Answer feedback section -->
         <div v-if="showAnswer" class="answer-feedback">
             <div class="user-answer">
                 <h3>Votre réponse :</h3> 
@@ -385,13 +379,11 @@ onMounted(() => {
                 </template>
             </div>
             
-            <!-- Message pour guider l'utilisateur -->
             <div v-if="!isPoolMode && (isCorrect || attemptCount >= MAX_ATTEMPTS)" class="next-step-message">
                 <p>Cliquez sur <strong>"Nouvelle question"</strong> pour continuer</p>
             </div>
         </div>
 
-        <!-- Game over section -->
         <div v-if="gameOver" class="game-over">
             <h2>Partie terminée</h2>
             <p>Votre score final : {{ score }}</p>

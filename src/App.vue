@@ -17,7 +17,7 @@ async function checkAuthStatus() {
   }
 
   try {
-    const response = await fetch("https://polyculture-back.cluster-ig3.igpolytech.fr/check-token", {
+    const response = await fetch("https://polyculture-back.axithem.fr/check-token", {
       method: "GET",
       mode: "cors",
       credentials: "include",
